@@ -1,0 +1,10 @@
+{
+  "artifact_id": "artifact_a667ad4036008c13fd577711ba8cde7c1a90f0222c24a941f73aecbb6248fe7f",
+  "article_id": "ocr-current-corpus-smoke-v1",
+  "chunk_count": 1,
+  "fragment_locations": [
+    "page:1:ocr"
+  ],
+  "corpus_changed": true,
+  "corpus_revision": 1
+}

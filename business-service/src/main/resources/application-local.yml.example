@@ -1,0 +1,24 @@
+# Copy this file to application-local.yml, then replace CHANGE_ME.
+# application-local.yml is intentionally ignored by Git.
+spring:
+  config:
+    activate:
+      on-profile: local
+  rabbitmq:
+    # RabbitMQ runs in the VM. Do not install a broker on the development host.
+    # Use localhost with a VM port-forward, or replace with your own VM address locally.
+    host: 127.0.0.1
+    port: 5672
+    virtual-host: serviceflow
+    username: CHANGE_ME
+    password: CHANGE_ME
+    publisher-confirm-type: correlated
+    template:
+      mandatory: true
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/eduops
+    username: eduops_app
+    password: CHANGE_ME
+  flyway:
+    enabled: true
+    locations: classpath:db/migration

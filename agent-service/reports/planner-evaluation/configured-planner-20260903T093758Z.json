@@ -1,0 +1,63 @@
+{
+  "evaluated_at": "2026-09-03T09:37:58.334285+00:00",
+  "planner_identity": "qwen-openai-compatible:qwen3.8-27b",
+  "dataset_id": "serviceflow-ticket-planner-v1",
+  "dataset_version": 1,
+  "dataset_sha256": "07dc94e043fa5ff53dcfa69e447c97327e557ea4f421971d3b6841aa5e5eb53a",
+  "total_cases": 4,
+  "passed_cases": 4,
+  "decision_accuracy": 1.0,
+  "ticket_id_evaluated_cases": 2,
+  "ticket_id_accuracy": 1.0,
+  "case_accuracy": 1.0,
+  "cases": [
+    {
+      "case_id": "complete-ticket-id",
+      "passed": true,
+      "expected_decision": "lookup_ticket",
+      "expected_ticket_id": "009e3cce-8f4d-448d-a060-6ce2624eac77",
+      "actual_plan": {
+        "decision": "lookup_ticket",
+        "reason": "用户请求中包含一个完整的 UUID 工单 ID。",
+        "ticket_id": "009e3cce-8f4d-448d-a060-6ce2624eac77"
+      },
+      "failure_code": null
+    },
+    {
+      "case_id": "ticket-id-with-context",
+      "passed": true,
+      "expected_decision": "lookup_ticket",
+      "expected_ticket_id": "11111111-2222-3333-4444-555555555555",
+      "actual_plan": {
+        "decision": "lookup_ticket",
+        "reason": "用户查询中包含一个完整 UUID 工单号",
+        "ticket_id": "11111111-2222-3333-4444-555555555555"
+      },
+      "failure_code": null
+    },
+    {
+      "case_id": "missing-ticket-id",
+      "passed": true,
+      "expected_decision": "refuse",
+      "expected_ticket_id": null,
+      "actual_plan": {
+        "decision": "refuse",
+        "reason": "查询中未包含完整的 UUID 工单 ID。",
+        "ticket_id": null
+      },
+      "failure_code": null
+    },
+    {
+      "case_id": "malformed-ticket-id",
+      "passed": true,
+      "expected_decision": "refuse",
+      "expected_ticket_id": null,
+      "actual_plan": {
+        "decision": "refuse",
+        "reason": "The provided ticket ID is not a complete UUID.",
+        "ticket_id": null
+      },
+      "failure_code": null
+    }
+  ]
+}

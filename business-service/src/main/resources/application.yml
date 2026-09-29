@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: serviceflow-business
+  profiles:
+    default: local
+  rabbitmq:
+    host: ${EDUOPS_RABBITMQ_HOST:127.0.0.1}
+    port: ${EDUOPS_RABBITMQ_PORT:5672}
+    username: ${EDUOPS_RABBITMQ_USERNAME:guest}
+    password: ${EDUOPS_RABBITMQ_PASSWORD:guest}
+    publisher-confirm-type: correlated
+    template:
+      mandatory: true
+
+server:
+  port: ${SERVICEFLOW_BUSINESS_PORT:8120}
+
+eduops:
+  messaging:
+    ticket-events:
+      # Enables durable Exchange/Queue/Binding declarations without starting delivery.
+      enabled: ${EDUOPS_TICKET_EVENTS_ENABLED:false}
+      exchange: ${EDUOPS_TICKET_EVENTS_EXCHANGE:eduops.ticket.events}
+      queue: ${EDUOPS_TICKET_EVENTS_QUEUE:eduops.ticket.status-events.v1}
+      routing-key: ${EDUOPS_TICKET_EVENTS_ROUTING_KEY:ticket.status.changed.v1}
+      dead-letter-exchange: ${EDUOPS_TICKET_EVENTS_DLX:eduops.ticket.events.dlx}
+      dead-letter-queue: ${EDUOPS_TICKET_EVENTS_DLQ:eduops.ticket.status-events.dlq.v1}
+      dead-letter-routing-key: ${EDUOPS_TICKET_EVENTS_DLQ_ROUTING_KEY:ticket.status.changed.dlq.v1}
+      consumer:
+        retry:
+          max-attempts: ${EDUOPS_TICKET_EVENTS_RETRY_MAX_ATTEMPTS:3}
+          initial-interval-millis: ${EDUOPS_TICKET_EVENTS_RETRY_INITIAL_INTERVAL_MILLIS:1000}
+          multiplier: ${EDUOPS_TICKET_EVENTS_RETRY_MULTIPLIER:2.0}
+          max-interval-millis: ${EDUOPS_TICKET_EVENTS_RETRY_MAX_INTERVAL_MILLIS:5000}
+  outbox:
+    delivery:
+      # No publisher exists before the Week 7 RabbitMQ integration.
+      enabled: ${EDUOPS_OUTBOX_DELIVERY_ENABLED:false}
+      # Keep automatic triggering off until the end-to-end delivery path is explicitly enabled.
+      scheduler-enabled: ${EDUOPS_OUTBOX_DELIVERY_SCHEDULER_ENABLED:false}
+      fixed-delay-ms: ${EDUOPS_OUTBOX_DELIVERY_FIXED_DELAY_MS:10000}
+      batch-size: ${EDUOPS_OUTBOX_DELIVERY_BATCH_SIZE:20}
+      confirm-timeout-millis: ${EDUOPS_OUTBOX_CONFIRM_TIMEOUT_MILLIS:3000}
+    inbox:
+      # Consumer-side inbox is disabled until PostgreSQL and RabbitMQ are verified together.
+      enabled: ${EDUOPS_OUTBOX_INBOX_ENABLED:false}
+  security:
+    jwt:
+      # Local demo only; deployment must override EDUOPS_JWT_SECRET.
+      secret: ${EDUOPS_JWT_SECRET:eduops-local-development-secret-change-me-2026-please}
+      access-token-ttl-seconds: ${EDUOPS_JWT_ACCESS_TOKEN_TTL_SECONDS:3600}
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-handlers-package: com.serviceflow.business.common.mybatis
+  configuration:
+    map-underscore-to-camel-case: true

@@ -1,0 +1,59 @@
+{
+  "evaluated_at": "2026-09-03T07:14:46.403688+00:00",
+  "planner_identity": "rule-based-ticket-id-v1",
+  "dataset_id": "serviceflow-ticket-planner-v1",
+  "dataset_version": 1,
+  "dataset_sha256": "07dc94e043fa5ff53dcfa69e447c97327e557ea4f421971d3b6841aa5e5eb53a",
+  "total_cases": 4,
+  "passed_cases": 4,
+  "decision_accuracy": 1.0,
+  "ticket_id_evaluated_cases": 2,
+  "ticket_id_accuracy": 1.0,
+  "case_accuracy": 1.0,
+  "cases": [
+    {
+      "case_id": "complete-ticket-id",
+      "passed": true,
+      "expected_decision": "lookup_ticket",
+      "expected_ticket_id": "009e3cce-8f4d-448d-a060-6ce2624eac77",
+      "actual_plan": {
+        "decision": "lookup_ticket",
+        "reason": "a ticket_id was found in the user query",
+        "ticket_id": "009e3cce-8f4d-448d-a060-6ce2624eac77"
+      }
+    },
+    {
+      "case_id": "ticket-id-with-context",
+      "passed": true,
+      "expected_decision": "lookup_ticket",
+      "expected_ticket_id": "11111111-2222-3333-4444-555555555555",
+      "actual_plan": {
+        "decision": "lookup_ticket",
+        "reason": "a ticket_id was found in the user query",
+        "ticket_id": "11111111-2222-3333-4444-555555555555"
+      }
+    },
+    {
+      "case_id": "missing-ticket-id",
+      "passed": true,
+      "expected_decision": "refuse",
+      "expected_ticket_id": null,
+      "actual_plan": {
+        "decision": "refuse",
+        "reason": "ticket_id is required for a deterministic ticket lookup",
+        "ticket_id": null
+      }
+    },
+    {
+      "case_id": "malformed-ticket-id",
+      "passed": true,
+      "expected_decision": "refuse",
+      "expected_ticket_id": null,
+      "actual_plan": {
+        "decision": "refuse",
+        "reason": "ticket_id is required for a deterministic ticket lookup",
+        "ticket_id": null
+      }
+    }
+  ]
+}

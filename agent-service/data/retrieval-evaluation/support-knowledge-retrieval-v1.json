@@ -1,0 +1,36 @@
+{
+  "dataset_id": "serviceflow-support-knowledge-retrieval-v1",
+  "dataset_version": 1,
+  "cases": [
+    {
+      "case_id": "campus-network-access",
+      "query": "校园网无法认证应该怎么处理？",
+      "judgments": [
+        {
+          "chunk_id": "chunk_0683951dd28b2df1bdf1441d114e4ac5c8ac90eb46cc5ee08a72d6a3d18a6145",
+          "relevance_grade": 3
+        }
+      ]
+    },
+    {
+      "case_id": "account-password-reset",
+      "query": "忘记统一身份认证密码怎么办？",
+      "judgments": [
+        {
+          "chunk_id": "chunk_b2620bc8eb4bc354e57bc3694eb982c2d1837089b8ba1cc6108dc0b792f854a0",
+          "relevance_grade": 3
+        }
+      ]
+    },
+    {
+      "case_id": "classroom-equipment-urgent",
+      "query": "上课时投影仪故障需要紧急报修吗？",
+      "judgments": [
+        {
+          "chunk_id": "chunk_ae9c3bea80975eaea8315bc0360c671b91d26a260bd65fae247b8b219b4249d2",
+          "relevance_grade": 3
+        }
+      ]
+    }
+  ]
+}

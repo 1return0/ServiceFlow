@@ -1,0 +1,178 @@
+{
+  "evaluated_at": "2026-09-27T06:59:39.347130+00:00",
+  "dataset_id": "serviceflow-support-knowledge-retrieval-v1",
+  "dataset_version": 1,
+  "dataset_sha256": "adf7a0034796c6c5a0c973d1917a745af3a6fb01945ed84e1f865e8396c503b1",
+  "corpus_revision": 0,
+  "corpus_fingerprint": "0f847e2b81134aa7443beadb229e259c771758221561cd0dd57b8c767371f451",
+  "top_k": 3,
+  "variants": [
+    {
+      "variant": "bm25",
+      "retriever_identity": "app.application.support_knowledge_chunk_retrieval.LexicalSupportKnowledgeChunkRetriever",
+      "recall_at_k": 1.0,
+      "mean_reciprocal_rank": 1.0,
+      "mean_ndcg_at_k": 1.0,
+      "cases": [
+        {
+          "case_id": "campus-network-access",
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "retrieved_chunk_ids": [
+            "chunk_0683951dd28b2df1bdf1441d114e4ac5c8ac90eb46cc5ee08a72d6a3d18a6145",
+            "chunk_ae9c3bea80975eaea8315bc0360c671b91d26a260bd65fae247b8b219b4249d2",
+            "chunk_b2620bc8eb4bc354e57bc3694eb982c2d1837089b8ba1cc6108dc0b792f854a0"
+          ]
+        },
+        {
+          "case_id": "account-password-reset",
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "retrieved_chunk_ids": [
+            "chunk_b2620bc8eb4bc354e57bc3694eb982c2d1837089b8ba1cc6108dc0b792f854a0",
+            "chunk_0683951dd28b2df1bdf1441d114e4ac5c8ac90eb46cc5ee08a72d6a3d18a6145",
+            "chunk_5e566e1e9a682cea3b7aadfd8d1af32471916c5e7dfb790e70bfcfceb6b28af7"
+          ]
+        },
+        {
+          "case_id": "classroom-equipment-urgent",
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "retrieved_chunk_ids": [
+            "chunk_ae9c3bea80975eaea8315bc0360c671b91d26a260bd65fae247b8b219b4249d2",
+            "chunk_5e566e1e9a682cea3b7aadfd8d1af32471916c5e7dfb790e70bfcfceb6b28af7"
+          ]
+        }
+      ]
+    },
+    {
+      "variant": "dense",
+      "retriever_identity": "app.application.support_knowledge_dense_index_runtime.SupportKnowledgeDenseIndexRuntime",
+      "recall_at_k": 1.0,
+      "mean_reciprocal_rank": 1.0,
+      "mean_ndcg_at_k": 1.0,
+      "cases": [
+        {
+          "case_id": "campus-network-access",
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "retrieved_chunk_ids": [
+            "chunk_0683951dd28b2df1bdf1441d114e4ac5c8ac90eb46cc5ee08a72d6a3d18a6145",
+            "chunk_b2620bc8eb4bc354e57bc3694eb982c2d1837089b8ba1cc6108dc0b792f854a0",
+            "chunk_29ec25770ac8c2eca7cd3b2b3aa35cd5e18270c81fe940ad90163c9d2e13e105"
+          ]
+        },
+        {
+          "case_id": "account-password-reset",
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "retrieved_chunk_ids": [
+            "chunk_b2620bc8eb4bc354e57bc3694eb982c2d1837089b8ba1cc6108dc0b792f854a0",
+            "chunk_0683951dd28b2df1bdf1441d114e4ac5c8ac90eb46cc5ee08a72d6a3d18a6145",
+            "chunk_29ec25770ac8c2eca7cd3b2b3aa35cd5e18270c81fe940ad90163c9d2e13e105"
+          ]
+        },
+        {
+          "case_id": "classroom-equipment-urgent",
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "retrieved_chunk_ids": [
+            "chunk_ae9c3bea80975eaea8315bc0360c671b91d26a260bd65fae247b8b219b4249d2",
+            "chunk_29ec25770ac8c2eca7cd3b2b3aa35cd5e18270c81fe940ad90163c9d2e13e105",
+            "chunk_5e566e1e9a682cea3b7aadfd8d1af32471916c5e7dfb790e70bfcfceb6b28af7"
+          ]
+        }
+      ]
+    },
+    {
+      "variant": "hybrid",
+      "retriever_identity": "app.application.hybrid_support_knowledge_chunk_retriever.HybridSupportKnowledgeChunkRetriever",
+      "recall_at_k": 1.0,
+      "mean_reciprocal_rank": 1.0,
+      "mean_ndcg_at_k": 1.0,
+      "cases": [
+        {
+          "case_id": "campus-network-access",
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "retrieved_chunk_ids": [
+            "chunk_0683951dd28b2df1bdf1441d114e4ac5c8ac90eb46cc5ee08a72d6a3d18a6145",
+            "chunk_b2620bc8eb4bc354e57bc3694eb982c2d1837089b8ba1cc6108dc0b792f854a0",
+            "chunk_ae9c3bea80975eaea8315bc0360c671b91d26a260bd65fae247b8b219b4249d2"
+          ]
+        },
+        {
+          "case_id": "account-password-reset",
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "retrieved_chunk_ids": [
+            "chunk_b2620bc8eb4bc354e57bc3694eb982c2d1837089b8ba1cc6108dc0b792f854a0",
+            "chunk_0683951dd28b2df1bdf1441d114e4ac5c8ac90eb46cc5ee08a72d6a3d18a6145",
+            "chunk_5e566e1e9a682cea3b7aadfd8d1af32471916c5e7dfb790e70bfcfceb6b28af7"
+          ]
+        },
+        {
+          "case_id": "classroom-equipment-urgent",
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "retrieved_chunk_ids": [
+            "chunk_ae9c3bea80975eaea8315bc0360c671b91d26a260bd65fae247b8b219b4249d2",
+            "chunk_5e566e1e9a682cea3b7aadfd8d1af32471916c5e7dfb790e70bfcfceb6b28af7",
+            "chunk_29ec25770ac8c2eca7cd3b2b3aa35cd5e18270c81fe940ad90163c9d2e13e105"
+          ]
+        }
+      ]
+    },
+    {
+      "variant": "hybrid_rerank",
+      "retriever_identity": "app.application.reranking_support_knowledge_chunk_retriever.RerankingSupportKnowledgeChunkRetriever",
+      "recall_at_k": 1.0,
+      "mean_reciprocal_rank": 1.0,
+      "mean_ndcg_at_k": 1.0,
+      "cases": [
+        {
+          "case_id": "campus-network-access",
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "retrieved_chunk_ids": [
+            "chunk_0683951dd28b2df1bdf1441d114e4ac5c8ac90eb46cc5ee08a72d6a3d18a6145",
+            "chunk_b2620bc8eb4bc354e57bc3694eb982c2d1837089b8ba1cc6108dc0b792f854a0",
+            "chunk_5e566e1e9a682cea3b7aadfd8d1af32471916c5e7dfb790e70bfcfceb6b28af7"
+          ]
+        },
+        {
+          "case_id": "account-password-reset",
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "retrieved_chunk_ids": [
+            "chunk_b2620bc8eb4bc354e57bc3694eb982c2d1837089b8ba1cc6108dc0b792f854a0",
+            "chunk_0683951dd28b2df1bdf1441d114e4ac5c8ac90eb46cc5ee08a72d6a3d18a6145",
+            "chunk_5e566e1e9a682cea3b7aadfd8d1af32471916c5e7dfb790e70bfcfceb6b28af7"
+          ]
+        },
+        {
+          "case_id": "classroom-equipment-urgent",
+          "recall_at_k": 1.0,
+          "reciprocal_rank": 1.0,
+          "ndcg_at_k": 1.0,
+          "retrieved_chunk_ids": [
+            "chunk_ae9c3bea80975eaea8315bc0360c671b91d26a260bd65fae247b8b219b4249d2",
+            "chunk_5e566e1e9a682cea3b7aadfd8d1af32471916c5e7dfb790e70bfcfceb6b28af7",
+            "chunk_29ec25770ac8c2eca7cd3b2b3aa35cd5e18270c81fe940ad90163c9d2e13e105"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "dataset_id": "campus-support-ocr-v1",
+  "dataset_version": 1,
+  "dataset_sha256": "bf17c730461b732f7cfe765328f275439c5e97c629884da55be7c08c59b0f398",
+  "review_status": "provisional",
+  "recognizer_identity": "openai-compatible-vision-ocr:qwen3.5-ocr:campus-support-ocr-prompt-v1",
+  "elapsed_seconds": 0.6271008999974583,
+  "cases": [
+    {
+      "case_id": "synthetic-clean-en-single-column",
+      "character_error_rate": 0.0,
+      "word_error_rate": 0.0,
+      "field_evaluations": [
+        {
+          "field_name": "service_title",
+          "expected_value": "Campus IT Support",
+          "actual_value": "Campus IT Support",
+          "exact_match": true,
+          "critical": true
+        },
+        {
+          "field_name": "location",
+          "expected_value": "Library 1F",
+          "actual_value": "Library 1F",
+          "exact_match": true,
+          "critical": true
+        }
+      ]
+    }
+  ]
+}

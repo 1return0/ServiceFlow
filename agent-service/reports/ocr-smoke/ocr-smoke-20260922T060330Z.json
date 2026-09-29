@@ -1,0 +1,11 @@
+{
+  "artifact_id": "artifact_a667ad4036008c13fd577711ba8cde7c1a90f0222c24a941f73aecbb6248fe7f",
+  "artifact_sha256": "a667ad4036008c13fd577711ba8cde7c1a90f0222c24a941f73aecbb6248fe7f",
+  "recognizer_identity": "openai-compatible-vision-ocr:qwen3.5-ocr:campus-support-ocr-prompt-v1",
+  "elapsed_seconds": 0.7626357999979518,
+  "page_count": 1,
+  "character_count": 59,
+  "fragment_locations": [
+    "page:1:ocr"
+  ]
+}

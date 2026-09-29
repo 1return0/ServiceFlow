@@ -1,0 +1,12 @@
+spring:
+  config:
+    activate:
+      on-profile: db
+  datasource:
+    url: jdbc:postgresql://${EDUOPS_DB_HOST:127.0.0.1}:${EDUOPS_DB_PORT:5432}/${EDUOPS_DB_NAME:eduops}
+    username: ${EDUOPS_DB_USERNAME:eduops_app}
+    password: ${EDUOPS_DB_PASSWORD}
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+

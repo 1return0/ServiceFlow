@@ -1,0 +1,53 @@
+{
+  "dataset_id": "serviceflow-campus-support-triage-v1",
+  "dataset_version": 1,
+  "cases": [
+    {
+      "case_id": "ticket-lookup",
+      "user_query": "查询工单 009e3cce-8f4d-448d-a060-6ce2624eac77",
+      "authorization": "Bearer evaluation-student-token",
+      "expected_decision": "lookup_ticket",
+      "expected_required_nodes": ["triage", "route_after_triage", "lookup_ticket"]
+    },
+    {
+      "case_id": "public-knowledge",
+      "user_query": "校园网密码忘记后如何重置？",
+      "expected_decision": "answer_support_knowledge",
+      "expected_required_nodes": ["triage", "route_after_triage", "answer_support_knowledge"]
+    },
+    {
+      "case_id": "notification-summary",
+      "user_query": "我还有多少未读通知？",
+      "authorization": "Bearer evaluation-student-token",
+      "expected_decision": "get_notification_summary",
+      "expected_required_nodes": ["triage", "route_after_triage", "get_notification_summary"]
+    },
+    {
+      "case_id": "ticket-then-knowledge",
+      "user_query": "查询工单 009e3cce-8f4d-448d-a060-6ce2624eac77，并告诉我下一步怎么处理",
+      "authorization": "Bearer evaluation-student-token",
+      "expected_decision": "lookup_ticket",
+      "expected_required_nodes": ["triage", "route_after_triage", "lookup_ticket", "answer_ticket_context_knowledge"]
+    },
+    {
+      "case_id": "account-security-handoff",
+      "user_query": "我的校园账号密码可能泄露了",
+      "authorization": "Bearer evaluation-student-token",
+      "expected_decision": "handoff_to_human",
+      "expected_required_nodes": ["triage", "route_after_triage", "handoff_to_human"]
+    },
+    {
+      "case_id": "normal-refusal",
+      "user_query": "今天天气怎么样？",
+      "expected_decision": "refuse",
+      "expected_required_nodes": ["triage", "route_after_triage"]
+    },
+    {
+      "case_id": "java-unavailable",
+      "user_query": "查询工单 009e3cce-8f4d-448d-a060-6ce2624eac77",
+      "authorization": "Bearer evaluation-student-token",
+      "expected_required_nodes": ["triage", "route_after_triage", "lookup_ticket"],
+      "expected_failure_code": "business-service-unavailable"
+    }
+  ]
+}

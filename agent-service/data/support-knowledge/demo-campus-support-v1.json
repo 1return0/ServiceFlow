@@ -1,0 +1,62 @@
+[
+  {
+    "article_id": "network-self-service-v1",
+    "category": "campus_network",
+    "title": "校园网连接与账号自助检查",
+    "content": "连接校园网前，请确认账号状态正常、设备已开启自动获取 IP，并在认证页面使用统一身份认证账号登录。若多个设备均无法认证，请提交网络服务工单并附上发生时间、接入地点和错误截图。",
+    "source_reference": "demo://serviceflow/campus-network/self-service",
+    "source_kind": "demonstration",
+    "source_content_sha256": "71977093dcf882c36f606f809f3a3891f20f8ae0537ce30ec4d95a125a14b25c",
+    "source_review_status": "demonstration",
+    "source_review_reference": "manual://serviceflow/demo-campus-support-v1",
+    "corpus_version": "demo-campus-support-v1"
+  },
+  {
+    "article_id": "account-password-v1",
+    "category": "account",
+    "title": "统一身份认证密码重置",
+    "content": "忘记统一身份认证密码时，优先使用学校身份服务门户的密码重置流程。无法通过身份核验时，应由服务人员转人工核验，不应在聊天中收集身份证号或密码。",
+    "source_reference": "demo://serviceflow/account/password-reset",
+    "source_kind": "demonstration",
+    "source_content_sha256": "db617cef3240fcb3bff7a8ad5aa6164962ee560105b11e8b76f7e6f250ee57c9",
+    "source_review_status": "demonstration",
+    "source_review_reference": "manual://serviceflow/demo-campus-support-v1",
+    "corpus_version": "demo-campus-support-v1"
+  },
+  {
+    "article_id": "course-system-v1",
+    "category": "teaching_system",
+    "title": "选课与教学系统访问异常",
+    "content": "教学系统页面无法打开时，请先确认是否为公告维护时段，再尝试清理浏览器缓存或更换浏览器。若只有某门课程无法访问，工单应包含课程名称、学期、页面地址和错误截图。",
+    "source_reference": "demo://serviceflow/teaching-system/access",
+    "source_kind": "demonstration",
+    "source_content_sha256": "bdd3f0fd485e145b6aad3727e3d3f2ce42a5671dd357d207e86a9cf168544af8",
+    "source_review_status": "demonstration",
+    "source_review_reference": "manual://serviceflow/demo-campus-support-v1",
+    "corpus_version": "demo-campus-support-v1"
+  },
+  {
+    "article_id": "classroom-equipment-v1",
+    "category": "classroom_equipment",
+    "title": "教室投影与电脑设备故障",
+    "content": "上课期间投影、讲台电脑或扩声设备故障，应优先记录教学楼、教室号、设备类型和是否影响授课。影响正在进行的课程时，应标记为紧急并转人工服务人员处理。",
+    "source_reference": "demo://serviceflow/classroom-equipment/incident",
+    "source_kind": "demonstration",
+    "source_content_sha256": "c3192131e5cd14af6902a2b514fcd296cd8c2b65184048cfc8b67ad2a3065c23",
+    "source_review_status": "demonstration",
+    "source_review_reference": "manual://serviceflow/demo-campus-support-v1",
+    "corpus_version": "demo-campus-support-v1"
+  },
+  {
+    "article_id": "ticket-escalation-v1",
+    "category": "service_process",
+    "title": "服务工单补充信息与升级规则",
+    "content": "服务工单应包含问题摘要、发生时间、影响范围和必要截图。涉及账号身份、正在授课的设备故障或连续无法联网等高影响问题，应转人工确认，不由模型自动承诺修复时间。",
+    "source_reference": "demo://serviceflow/service-process/escalation",
+    "source_kind": "demonstration",
+    "source_content_sha256": "542ff13290a980b78f0eeda94ddc335100c58c1061b357a505d69cb2289058cc",
+    "source_review_status": "demonstration",
+    "source_review_reference": "manual://serviceflow/demo-campus-support-v1",
+    "corpus_version": "demo-campus-support-v1"
+  }
+]

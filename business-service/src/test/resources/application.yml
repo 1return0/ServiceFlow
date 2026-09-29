@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    default: test
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+eduops:
+  security:
+    jwt:
+      secret: test-only-jwt-signing-secret-must-never-be-used-in-production-2026
+      access-token-ttl-seconds: 3600

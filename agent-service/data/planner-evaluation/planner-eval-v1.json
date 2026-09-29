@@ -1,0 +1,30 @@
+{
+  "dataset_id": "serviceflow-ticket-planner-v1",
+  "dataset_version": 1,
+  "cases": [
+    {
+      "case_id": "complete-ticket-id",
+      "user_query": "请查询工单 009e3cce-8f4d-448d-a060-6ce2624eac77 的处理进度",
+      "expected_decision": "lookup_ticket",
+      "expected_ticket_id": "009e3cce-8f4d-448d-a060-6ce2624eac77"
+    },
+    {
+      "case_id": "ticket-id-with-context",
+      "user_query": "校园网一直断开，帮我看看 11111111-2222-3333-4444-555555555555 这张工单",
+      "expected_decision": "lookup_ticket",
+      "expected_ticket_id": "11111111-2222-3333-4444-555555555555"
+    },
+    {
+      "case_id": "missing-ticket-id",
+      "user_query": "我的教学平台账号无法登录，帮我查询工单状态",
+      "expected_decision": "refuse",
+      "expected_ticket_id": null
+    },
+    {
+      "case_id": "malformed-ticket-id",
+      "user_query": "请查询 009e3cce-8f4d-448d-a060-6ce2624eac7 这个工单",
+      "expected_decision": "refuse",
+      "expected_ticket_id": null
+    }
+  ]
+}

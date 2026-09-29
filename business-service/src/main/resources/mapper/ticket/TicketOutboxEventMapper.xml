@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.serviceflow.business.ticket.mapper.TicketOutboxEventMapper">
+
+    <select id="claimNextUnpublished"
+            resultType="com.serviceflow.business.ticket.entity.TicketOutboxEventEntity">
+        <![CDATA[
+        WITH candidates AS (
+            SELECT id
+            FROM ticket_outbox_event
+            WHERE published_at IS NULL
+              AND (lease_expires_at IS NULL OR lease_expires_at < #{now})
+            ORDER BY created_at ASC
+            LIMIT #{limit}
+            FOR UPDATE SKIP LOCKED
+        )
+        UPDATE ticket_outbox_event AS event
+        SET lease_token = #{leaseToken},
+            lease_expires_at = #{leaseExpiresAt},
+            publish_attempts = event.publish_attempts + 1,
+            last_error = NULL
+        FROM candidates
+        WHERE event.id = candidates.id
+        RETURNING event.*
+        ]]>
+    </select>
+
+    <select id="claimById"
+            resultType="com.serviceflow.business.ticket.entity.TicketOutboxEventEntity">
+        UPDATE ticket_outbox_event
+        SET lease_token = #{leaseToken},
+            lease_expires_at = #{leaseExpiresAt},
+            publish_attempts = publish_attempts + 1,
+            last_error = NULL
+        WHERE id = #{eventId}
+          AND published_at IS NULL
+          AND (lease_expires_at IS NULL OR lease_expires_at &lt; #{now})
+        RETURNING *
+    </select>
+
+    <update id="markPublished">
+        UPDATE ticket_outbox_event
+        SET published_at = #{publishedAt},
+            lease_token = NULL,
+            lease_expires_at = NULL,
+            last_error = NULL
+        WHERE id = #{eventId}
+          AND published_at IS NULL
+          AND lease_token = #{leaseToken}
+    </update>
+
+    <update id="releaseAfterFailure">
+        UPDATE ticket_outbox_event
+        SET lease_token = NULL,
+            lease_expires_at = NULL,
+            last_error = #{errorCode}
+        WHERE id = #{eventId}
+          AND published_at IS NULL
+          AND lease_token = #{leaseToken}
+    </update>
+
+</mapper>

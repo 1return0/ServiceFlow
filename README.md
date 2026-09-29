@@ -1,0 +1,68 @@
+# ServiceFlow
+
+面向公开演示与合成校园 IT、教学服务场景的双服务 Agent 系统。它不连接学校真实账号、课程、校园卡或设备，也不会自动执行高风险外部操作。
+
+## 当前实现
+
+- `business-service/`：Java Spring Boot 权威业务服务。包含工单创建、查询、状态机、JWT 与角色授权、Outbox、RabbitMQ 投递、Inbox 幂等、通知读模型。
+- `agent-service/`：Python FastAPI 编排服务。包含 LangGraph Coordinator、Ticket / Knowledge / Notification 三个 Specialist、风险拦截、工单查询后的知识跟进、知识导入、BM25 与 OCR fallback。
+- OCR：扫描 PDF 会先经过像素上限保护，再渲染页面并调用视觉 OCR；真实 Smoke、黄金文本、CER/WER 与关键字段 Exact Match 报告均可独立运行。
+- RAG：知识材料经过 Artifact、Parser、ParsedDocument、Article、Fragment-aware Chunk 后进入 Current Corpus，并提供带来源位置的 Citation。
+
+## 当前多 Specialist 协作边界
+
+```text
+用户问题
+  ↓
+Coordinator / Triage
+  ├─ Ticket Specialist → Java 工单读取
+  │                        ↓（可选）
+  │                  Knowledge Specialist 补充处理指引
+  ├─ Knowledge Specialist → 基于 Citation 的知识问答
+  ├─ Notification Specialist → Java 通知摘要
+  ├─ Risk Handoff Guard → 结构化人工处理指引
+  └─ Refuse → 明确拒答
+```
+
+已实现的是一个有界、可测试的多 Specialist 工作流；它并不是已经具备持久化恢复能力的自主 Multi-Agent 平台。
+
+## 能力边界
+
+- 持久化 Checkpoint 与跨进程恢复；
+- 自主创建任务、开放式多 Agent 协商或分布式 Agent Worker 协调；
+- 生产级多 Worker 吞吐、故障恢复与压力测试；
+- 真实校园敏感数据上的质量验证。
+
+持久化人工交接任务、运行 Trace 和 Vue 前端工作台已实现；它们不等于生产级运营平台或完整自主 Multi-Agent 能力。
+
+## 目录与端口
+
+```text
+business-service/  Java Spring Boot 业务服务，默认 8120
+agent-service/     Python FastAPI / LangGraph 服务，默认 8121
+frontend/          Vue 3 工作台
+docs/              计划、复习与交付文档
+```
+
+## 前端覆盖的业务路径
+
+Vue 工作台目前覆盖学生创建、查看和关闭自己的工单，支持人员查看队列、领取并推进状态；也提供 Agent 协同、知识问答与带来源展示、知识导入、通知、持久化人工交接任务和验证边界页面。前端的工单权限只是交互层提示，最终授权仍由 Java 服务执行。
+
+## 本地启动
+
+需要 JDK 17、Maven、Python 3.12、Node.js，以及可访问的 PostgreSQL 和 RabbitMQ。数据库和 Broker 可运行在单独虚拟机中；本仓库不安装或启动它们。
+
+1. 在 `business-service/src/main/resources/` 将 `application-local.yml.example` 复制为 `application-local.yml`，填写你自己的数据库与 RabbitMQ 地址、用户名和密码。这个本地文件已被 Git 忽略。
+2. 在 `business-service/` 执行 `mvn spring-boot:run`。
+3. 在 `agent-service/` 将 `.env.example` 复制为 `.env`，按需配置模型，然后安装项目依赖并运行 `uvicorn app.main:app --host 127.0.0.1 --port 8001`。
+4. 在 `frontend/` 将 `.env.example` 复制为 `.env.local`，执行 `npm install` 和 `npm run dev`。
+
+所有模型开关默认关闭。`.env`、真实密钥、个人本地配置和运行日志不应提交到 GitHub。项目只使用合成校园支持场景演示，不要导入真实学生隐私或生产凭据。
+
+## 验证与限制
+
+- Agent 单测：`python -m unittest discover -s tests -v`（如本地 `.env` 已启用模型，先设置 `PYTHON_DOTENV_DISABLED=true`，避免测试误连真实模型）。
+- JobScope 单测与两个 Vue 前端的构建命令见各自 README。
+- Java `mvn test` 默认运行单元/进程内测试；显式启用的 PostgreSQL/RabbitMQ 集成 Smoke 需要独立环境，不能把跳过的 Smoke 计作通过。
+
+项目使用的是有边界的 Coordinator + Specialist 工作流，不提供自主创建任务、开放式 Agent 协商、持久化 Graph checkpoint 或生产级多 Worker 协调；验证环境也不是生产环境。

@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "review_set_id": "serviceflow-public-campus-support-v1",
+  "reviewed_at": "2026-09-21",
+  "review_scope": "Public university service pages only. No student account, credential, identity document, personal phone number, private QR code, or internal-only address is copied into the project corpus.",
+  "records": [
+    {
+      "source_id": "xhu-unified-authentication-v1",
+      "source_reference": "https://nmc.xhu.edu.cn/urp/",
+      "publisher": "西华大学信息与大数据中心",
+      "source_kind": "official_campus",
+      "source_review_status": "reviewed",
+      "source_review_reference": "local://serviceflow/public-source-review-v1#xhu-unified-authentication-v1",
+      "category": "account",
+      "allowed_derived_topics": [
+        "账号初次激活",
+        "自助找回或修改密码",
+        "自助失败后转人工核验"
+      ],
+      "must_not_import": [
+        "具体服务电话或现场地址",
+        "手机号绑定细节",
+        "账号、密码、证件照片或身份核验材料"
+      ],
+      "material_status": "approved_for_redacted_derived_summary",
+      "reason": "学校官方信息中心公开服务指南；只保留跨学校稳定的账号自助与人工核验原则。"
+    },
+    {
+      "source_id": "jsspu-campus-network-student-guide-v1",
+      "source_reference": "https://xxzx.jsspu.edu.cn/2019/1225/c2780a168220/page.htm",
+      "publisher": "苏州职业技术大学信息中心",
+      "source_kind": "official_campus",
+      "source_review_status": "reviewed",
+      "source_review_reference": "local://serviceflow/public-source-review-v1#jsspu-campus-network-student-guide-v1",
+      "category": "campus_network",
+      "allowed_derived_topics": [
+        "有线和无线接入前的基础检查",
+        "终端自动获取 IP 与 DNS",
+        "认证页面未出现时的通用排查"
+      ],
+      "must_not_import": [
+        "学校专属 SSID、认证地址或运营商套餐",
+        "用户账号、密码和手机号规则",
+        "将特定学校流程表述为所有学校的事实"
+      ],
+      "material_status": "approved_for_redacted_derived_summary",
+      "reason": "公开学生版指南适合提炼通用网络排障步骤，但学校专有参数必须剔除。"
+    },
+    {
+      "source_id": "scau-classroom-repair-v1",
+      "source_reference": "https://inc.scau.edu.cn/wlgzbx/list.psp",
+      "publisher": "华南农业大学信息网络中心",
+      "source_kind": "official_campus",
+      "source_review_status": "reviewed",
+      "source_review_reference": "local://serviceflow/public-source-review-v1#scau-classroom-repair-v1",
+      "category": "classroom_equipment",
+      "allowed_derived_topics": [
+        "报修时记录教室、设备故障和紧急程度",
+        "课堂受影响时优先转人工服务",
+        "多媒体故障的非破坏性初步确认"
+      ],
+      "must_not_import": [
+        "电话号码、二维码和工作人员信息",
+        "统一身份认证登录页面或凭据输入步骤",
+        "承诺具体到达或修复时限"
+      ],
+      "material_status": "approved_for_redacted_derived_summary",
+      "reason": "官方报修流程说明可支撑课堂设备故障的学生场景；联系方式和认证步骤不进入 RAG。"
+    },
+    {
+      "source_id": "shisu-course-selection-guide-2023",
+      "source_reference": "https://info.shisu.edu.cn/_upload/article/files/2f/3e/ab40ba764296a13a06a28ac53e2a/a8d859fd-7aa3-4e79-ac6e-60b3727e39c6.pdf",
+      "publisher": "上海外国语大学信息化办公室",
+      "source_kind": "official_campus",
+      "source_review_status": "reviewed",
+      "source_review_reference": "local://serviceflow/public-source-review-v1#shisu-course-selection-guide-2023",
+      "category": "teaching_system",
+      "allowed_derived_topics": [],
+      "must_not_import": [
+        "2023 版系统菜单、开放时间和选课规则",
+        "任何可能已过期的入口、课程或教务流程"
+      ],
+      "material_status": "reference_only_not_imported",
+      "reason": "页面为学校官方材料，但明确适用于 2023 版系统，时效风险高；用于展示拒绝过期材料，而非导入。"
+    }
+  ]
+}

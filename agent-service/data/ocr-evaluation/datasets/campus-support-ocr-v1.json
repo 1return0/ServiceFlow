@@ -1,0 +1,29 @@
+{
+  "dataset_id": "campus-support-ocr-v1",
+  "dataset_version": 1,
+  "review_status": "provisional",
+  "cases": [
+    {
+      "case_id": "synthetic-clean-en-single-column",
+      "artifact_reference": "data/ocr-smoke/artifacts/a667ad4036008c13fd577711ba8cde7c1a90f0222c24a941f73aecbb6248fe7f.pdf",
+      "artifact_sha256": "a667ad4036008c13fd577711ba8cde7c1a90f0222c24a941f73aecbb6248fe7f",
+      "expected_text_reference": "data/ocr-evaluation/goldens/synthetic-scan.expected.txt",
+      "expected_text_sha256": "728f6691641ebb030ca6bd1ec5bc049d63ff9cc8a87ce9691f943af97d9cbf57",
+      "tags": ["synthetic", "english", "single-column", "clean"],
+      "fields": [
+        {
+          "field_name": "service_title",
+          "expected_value": "Campus IT Support",
+          "selector": {"kind": "line", "value": "1"},
+          "critical": true
+        },
+        {
+          "field_name": "location",
+          "expected_value": "Library 1F",
+          "selector": {"kind": "after_prefix", "value": "Location:"},
+          "critical": true
+        }
+      ]
+    }
+  ]
+}
