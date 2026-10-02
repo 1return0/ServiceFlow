@@ -37,12 +37,18 @@ from app.application.support_knowledge_article_assembler import (
 from app.application.ocr_page_reading_order import OcrPageSequenceError
 from app.application.handoff_guidance import get_handoff_guidance
 from app.application.coordinator_trace import CoordinatorTrace
+from app.application.agent_harness import (
+    AgentHarnessLimitExceededError,
+    AgentHarnessSnapshot,
+)
 from app.application.ticket_lookup_tool import TicketLookupTool
 from app.application.workflows.ticket_assistant_graph import TicketAssistantGraph
 from app.application.workflows.ticket_lookup_graph import TicketLookupGraph
 from app.application.ticket_specialist_agent import (
     TicketAuthorizationRequiredError,
 )
+from app.application.trusted_subject import TrustedSubjectAuthenticationError
+from app.application.long_term_memory import LongTermMemoryEntry
 from app.bootstrap import CampusSupportTriageRuntime
 from app.config import Settings
 from app.domain.ticket_lookup_plan import TicketLookupPlanner
@@ -122,6 +128,38 @@ class SupportKnowledgeAnswerRequest(BaseModel):
         if not value.strip():
             raise ValueError("question must not be blank")
         return value.strip()
+
+
+class PreferenceWriteRequest(BaseModel):
+    preference_key: Literal["preferred_response_language"]
+    preference_value: Literal["zh-CN", "en-US"]
+    user_consented: Literal[True]
+
+
+class PreferenceResponse(BaseModel):
+    preference_key: str
+    preference_value: str
+    consented_at: str
+    created_at: str
+    updated_at: str
+    revision: int
+
+
+class PreferencesResponse(BaseModel):
+    preferences: list[PreferenceResponse]
+
+
+class ForgetAllPreferencesResponse(BaseModel):
+    deleted_count: int
+
+
+class ConversationTurnResponse(BaseModel):
+    role: Literal["user", "assistant"]
+    content: str
+
+
+class ConversationResponse(BaseModel):
+    turns: list[ConversationTurnResponse]
 
 
 class SupportKnowledgeCitationResponse(BaseModel):
@@ -244,6 +282,7 @@ class CampusSupportTriageResponse(BaseModel):
     knowledge_answer: SupportKnowledgeAnswerResponse | None
     notification_summary: BusinessNotificationSummary | None = None
     trace: "CoordinatorTraceResponse"
+    harness: "AgentHarnessResponse"
 
     @model_validator(mode="after")
     def validate_decision_payload(self) -> "CampusSupportTriageResponse":
@@ -339,6 +378,21 @@ class CoordinatorTraceResponse(BaseModel):
     steps: list[CoordinatorTraceStepResponse]
 
 
+class AgentHarnessStepResponse(BaseModel):
+    operation_kind: Literal["model", "tool"]
+    operation_name: str
+    status: Literal["succeeded", "failed", "rejected"]
+    elapsed_seconds: float
+    failure_code: str | None
+
+
+class AgentHarnessResponse(BaseModel):
+    model_call_count: int
+    tool_call_count: int
+    elapsed_seconds: float
+    steps: list[AgentHarnessStepResponse]
+
+
 def _to_support_knowledge_answer_response(
     result: SupportKnowledgeAnswer,
 ) -> SupportKnowledgeAnswerResponse:
@@ -394,6 +448,28 @@ def _to_coordinator_trace_response(
                 failure_code=step.failure_code,
             )
             for step in trace.steps
+        ],
+    )
+
+
+def _to_agent_harness_response(
+    snapshot: AgentHarnessSnapshot,
+) -> AgentHarnessResponse:
+    """Expose only operational metadata; never prompts, credentials, or payloads."""
+
+    return AgentHarnessResponse(
+        model_call_count=snapshot.model_call_count,
+        tool_call_count=snapshot.tool_call_count,
+        elapsed_seconds=snapshot.elapsed_seconds,
+        steps=[
+            AgentHarnessStepResponse(
+                operation_kind=step.operation_kind,
+                operation_name=step.operation_name,
+                status=step.status,
+                elapsed_seconds=step.elapsed_seconds,
+                failure_code=step.failure_code,
+            )
+            for step in snapshot.steps
         ],
     )
 
@@ -488,6 +564,11 @@ def create_router(settings: Settings) -> APIRouter:
                 status_code=503,
                 detail="business service is unavailable",
             ) from error
+        except AgentHarnessLimitExceededError as error:
+            raise HTTPException(
+                status_code=503,
+                detail=error.failure_code,
+            ) from error
         return BusinessDependencyResponse(
             dependency="business-service",
             health=health_result,
@@ -519,6 +600,142 @@ def create_router(settings: Settings) -> APIRouter:
                 detail="support knowledge retrieval is temporarily unavailable",
             ) from error
         return _to_support_knowledge_answer_response(result)
+
+    @router.get(
+        "/api/v1/memory/preferences",
+        response_model=PreferencesResponse,
+        tags=["memory"],
+    )
+    def list_preferences(
+        http_request: Request,
+        authorization: Annotated[str | None, Header()] = None,
+    ) -> PreferencesResponse:
+        runtime: CampusSupportTriageRuntime = (
+            http_request.app.state.campus_support_triage_runtime
+        )
+        try:
+            entries = runtime.list_authenticated_preferences(
+                authorization=authorization
+            )
+        except TrustedSubjectAuthenticationError as error:
+            raise HTTPException(401, "a valid Bearer token is required") from error
+        return PreferencesResponse(
+            preferences=[_to_preference_response(entry) for entry in entries]
+        )
+
+    @router.put(
+        "/api/v1/memory/preferences",
+        response_model=PreferenceResponse,
+        tags=["memory"],
+    )
+    def remember_preference(
+        payload: PreferenceWriteRequest,
+        http_request: Request,
+        authorization: Annotated[str | None, Header()] = None,
+    ) -> PreferenceResponse:
+        runtime: CampusSupportTriageRuntime = (
+            http_request.app.state.campus_support_triage_runtime
+        )
+        try:
+            entry = runtime.remember_preference(
+                authorization=authorization,
+                preference_key=payload.preference_key,
+                preference_value=payload.preference_value,
+                user_consented=payload.user_consented,
+            )
+        except TrustedSubjectAuthenticationError as error:
+            raise HTTPException(401, "a valid Bearer token is required") from error
+        except RuntimeError as error:
+            raise HTTPException(503, "long-term memory is unavailable") from error
+        return _to_preference_response(entry)
+
+    @router.delete(
+        "/api/v1/memory/preferences/{preference_key}",
+        status_code=204,
+        tags=["memory"],
+    )
+    def forget_preference(
+        preference_key: Literal["preferred_response_language"],
+        http_request: Request,
+        authorization: Annotated[str | None, Header()] = None,
+    ) -> None:
+        runtime: CampusSupportTriageRuntime = (
+            http_request.app.state.campus_support_triage_runtime
+        )
+        try:
+            runtime.forget_preference(
+                authorization=authorization,
+                preference_key=preference_key,
+            )
+        except TrustedSubjectAuthenticationError as error:
+            raise HTTPException(401, "a valid Bearer token is required") from error
+        except RuntimeError as error:
+            raise HTTPException(503, "long-term memory is unavailable") from error
+
+    @router.delete(
+        "/api/v1/memory/preferences",
+        response_model=ForgetAllPreferencesResponse,
+        tags=["memory"],
+    )
+    def forget_all_preferences(
+        http_request: Request,
+        authorization: Annotated[str | None, Header()] = None,
+    ) -> ForgetAllPreferencesResponse:
+        runtime: CampusSupportTriageRuntime = (
+            http_request.app.state.campus_support_triage_runtime
+        )
+        try:
+            deleted_count = runtime.forget_all_preferences(
+                authorization=authorization
+            )
+        except TrustedSubjectAuthenticationError as error:
+            raise HTTPException(401, "a valid Bearer token is required") from error
+        except RuntimeError as error:
+            raise HTTPException(503, "long-term memory is unavailable") from error
+        return ForgetAllPreferencesResponse(deleted_count=deleted_count)
+
+    @router.get(
+        "/api/v1/memory/conversation",
+        response_model=ConversationResponse,
+        tags=["memory"],
+    )
+    def get_conversation(
+        http_request: Request,
+        authorization: Annotated[str | None, Header()] = None,
+    ) -> ConversationResponse:
+        runtime: CampusSupportTriageRuntime = (
+            http_request.app.state.campus_support_triage_runtime
+        )
+        try:
+            turns = runtime.get_authenticated_conversation_turns(
+                authorization=authorization
+            )
+        except TrustedSubjectAuthenticationError as error:
+            raise HTTPException(401, "a valid Bearer token is required") from error
+        except RuntimeError as error:
+            raise HTTPException(503, "triage conversation memory is unavailable") from error
+        return ConversationResponse(
+            turns=[ConversationTurnResponse(**turn) for turn in turns]
+        )
+
+    @router.delete(
+        "/api/v1/memory/conversation",
+        status_code=204,
+        tags=["memory"],
+    )
+    def clear_conversation(
+        http_request: Request,
+        authorization: Annotated[str | None, Header()] = None,
+    ) -> None:
+        runtime: CampusSupportTriageRuntime = (
+            http_request.app.state.campus_support_triage_runtime
+        )
+        try:
+            runtime.clear_authenticated_conversation(authorization=authorization)
+        except TrustedSubjectAuthenticationError as error:
+            raise HTTPException(401, "a valid Bearer token is required") from error
+        except RuntimeError as error:
+            raise HTTPException(503, "triage conversation memory is unavailable") from error
 
     @router.post(
         "/api/v1/knowledge/imports",
@@ -602,10 +819,15 @@ def create_router(settings: Settings) -> APIRouter:
             http_request.app.state.campus_support_triage_runtime
         )
         try:
-            result = runtime.graph.invoke(
+            result = runtime.invoke(
                 user_query=request.user_query,
                 authorization=authorization,
             )
+        except TrustedSubjectAuthenticationError as error:
+            raise HTTPException(
+                status_code=401,
+                detail="a valid Bearer token is required",
+            ) from error
         except TicketAuthorizationRequiredError as error:
             raise HTTPException(status_code=401, detail="Bearer token is required") from error
         except BusinessServiceResponseError as error:
@@ -647,6 +869,7 @@ def create_router(settings: Settings) -> APIRouter:
             ),
             notification_summary=result["notification_summary"],
             trace=_to_coordinator_trace_response(result["trace"]),
+            harness=_to_agent_harness_response(result["harness_snapshot"]),
         )
 
     @router.post("/api/v1/tools/tickets/lookup", tags=["tools"])
@@ -717,6 +940,16 @@ def create_router(settings: Settings) -> APIRouter:
             ) from error
 
     return router
+
+def _to_preference_response(entry: LongTermMemoryEntry) -> PreferenceResponse:
+    return PreferenceResponse(
+        preference_key=entry.preference_key,
+        preference_value=entry.preference_value,
+        consented_at=entry.consented_at.isoformat(),
+        created_at=entry.created_at.isoformat(),
+        updated_at=entry.updated_at.isoformat(),
+        revision=entry.revision,
+    )
 
 
 def _to_support_knowledge_import_http_exception(error: Exception) -> HTTPException:

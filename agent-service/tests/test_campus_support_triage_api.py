@@ -39,6 +39,20 @@ class CampusSupportTriageApiTest(TestCase):
             [step["node"] for step in payload["trace"]["steps"]],
         )
         self.assertNotIn("user_query", str(payload["trace"]))
+        self.assertEqual(0, payload["harness"]["model_call_count"])
+        self.assertEqual(1, payload["harness"]["tool_call_count"])
+        self.assertEqual(
+            [{
+                "operation_kind": "tool",
+                "operation_name": "support_knowledge_answer",
+                "status": "succeeded",
+                "failure_code": None,
+            }],
+            [{key: step[key] for key in (
+                "operation_kind", "operation_name", "status", "failure_code"
+            )} for step in payload["harness"]["steps"]],
+        )
+        self.assertNotIn("user_query", str(payload["harness"]))
 
     def test_rejects_a_ticket_branch_without_a_bearer_token(self) -> None:
         response = self.client.post(
@@ -77,6 +91,11 @@ class CampusSupportTriageApiTest(TestCase):
         self.assertIn("停止使用", payload["handoff_guidance"]["title"])
         self.assertIsNone(payload["ticket"])
         self.assertIsNone(payload["knowledge_answer"])
+        # The deterministic guard takes priority over planning and every tool.
+        # A high-risk request must not consume model or tool budget before handoff.
+        self.assertEqual(0, payload["harness"]["model_call_count"])
+        self.assertEqual(0, payload["harness"]["tool_call_count"])
+        self.assertEqual([], payload["harness"]["steps"])
 
     def test_returns_account_specific_handoff_guidance(self) -> None:
         response = self.client.post(

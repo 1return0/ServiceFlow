@@ -8,7 +8,15 @@ from dotenv import load_dotenv
 
 
 _ENV_FILE = Path(__file__).resolve().parent.parent / ".env"
-load_dotenv(_ENV_FILE, override=True)
+# Tests and deterministic local tooling must not accidentally consume a
+# developer's real model configuration. Production/local startup simply omits
+# this switch and continues to load .env as before.
+if os.getenv("PYTHON_DOTENV_DISABLED", "false").strip().casefold() not in {
+    "1",
+    "true",
+    "yes",
+}:
+    load_dotenv(_ENV_FILE, override=True)
 
 
 @dataclass(frozen=True, slots=True)
@@ -20,6 +28,7 @@ class Settings:
     business_service_timeout_seconds: float = 3.0
     business_service_read_max_attempts: int = 2
     business_service_read_initial_backoff_seconds: float = 0.1
+    memory_postgres_dsn: str | None = None
     planner_model_enabled: bool = False
     triage_model_enabled: bool = False
     knowledge_answer_generation_enabled: bool = False
@@ -101,6 +110,9 @@ def load_settings() -> Settings:
                 "SERVICEFLOW_BUSINESS_READ_INITIAL_BACKOFF_SECONDS",
                 "0.1",
             )
+        ),
+        memory_postgres_dsn=_read_optional(
+            os.getenv("SERVICEFLOW_MEMORY_POSTGRES_DSN")
         ),
         planner_model_enabled=_read_bool(
             os.getenv("SERVICEFLOW_PLANNER_MODEL_ENABLED", "false")

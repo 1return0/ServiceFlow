@@ -39,6 +39,10 @@ async function triage() {
         </template>
       </article>
       <TracePanel :trace="result.trace" />
+      <article class="result-card"><p class="eyebrow">Execution Harness</p>
+        <p>Model calls: {{ result.harness.model_call_count }} · Tool calls: {{ result.harness.tool_call_count }} · {{ result.harness.elapsed_seconds.toFixed(3) }}s</p>
+        <ul><li v-for="(step, index) in result.harness.steps" :key="`${index}-${step.operation_name}`">{{ step.operation_kind }} · {{ step.operation_name }} · {{ step.status }}<template v-if="step.failure_code"> · {{ step.failure_code }}</template></li></ul>
+      </article>
     </template>
   </section>
 </template>

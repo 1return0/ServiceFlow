@@ -3,6 +3,7 @@ package com.serviceflow.business.auth.security;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -99,6 +100,13 @@ class JwtLoginToTicketFlowTest {
                 loginResult.getResponse().getContentAsString()
         );
         String accessToken = responseBody.path("data").path("accessToken").asText();
+
+        mockMvc.perform(get("/api/v1/auth/me")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(0))
+                .andExpect(jsonPath("$.data.subject").value("support"))
+                .andExpect(jsonPath("$.data.roles[0]").value("SUPPORT_AGENT"));
 
         mockMvc.perform(patch("/api/v1/tickets/{ticketId}/status", TICKET_ID)
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)

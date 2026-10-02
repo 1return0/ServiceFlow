@@ -4,6 +4,7 @@ from uuid import UUID
 from pydantic import ValidationError
 
 from app.api.routes import (
+    AgentHarnessResponse,
     CampusSupportTriageResponse,
     CoordinatorTraceResponse,
     CoordinatorTraceStepResponse,
@@ -64,6 +65,12 @@ class CampusSupportTriageResponseContractTest(TestCase):
             ),
             knowledge_answer=None,
             trace=_trace(),
+            harness=AgentHarnessResponse(
+                model_call_count=0,
+                tool_call_count=1,
+                elapsed_seconds=0.0,
+                steps=[],
+            ),
         )
 
         self.assertEqual("lookup_ticket", response.decision)

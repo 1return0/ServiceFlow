@@ -42,6 +42,13 @@ class BusinessNotificationSummary(BaseModel):
     unread_count: int = Field(validation_alias="unreadCount", ge=0)
 
 
+class BusinessAuthenticatedSubject(BaseModel):
+    """Trusted identity returned by Java after it verifies the forwarded JWT."""
+
+    subject: str = Field(min_length=1)
+    roles: tuple[str, ...] = Field(min_length=1)
+
+
 class BusinessHumanHandoffTask(BaseModel):
     id: UUID
     request_id: UUID = Field(validation_alias="requestId")
@@ -108,6 +115,24 @@ class BusinessServiceClient:
                 "business notification summary contract is invalid"
             ) from error
 
+    def get_authenticated_subject(
+        self,
+        *,
+        authorization: str,
+    ) -> BusinessAuthenticatedSubject:
+        response = self._read_authenticated_subject_with_retry(
+            authorization=authorization,
+        )
+        try:
+            payload = response.json()
+            if payload.get("code") != 0:
+                raise ValueError("business response code must be zero")
+            return BusinessAuthenticatedSubject.model_validate(payload["data"])
+        except (KeyError, TypeError, ValidationError, ValueError) as error:
+            raise BusinessServiceUnavailableError(
+                "business identity contract is invalid"
+            ) from error
+
     def create_handoff_task(
         self,
         *,
@@ -149,6 +174,34 @@ class BusinessServiceClient:
                 if attempt_number == self._retry_policy.max_attempts:
                     raise BusinessServiceUnavailableError(
                         "business notification API is unavailable"
+                    ) from error
+                self._wait_before_retry(attempt_number)
+                continue
+            if self._is_retryable_status(response.status_code):
+                if attempt_number == self._retry_policy.max_attempts:
+                    raise BusinessServiceResponseError(response.status_code)
+                self._wait_before_retry(attempt_number)
+                continue
+            if response.status_code >= 400:
+                raise BusinessServiceResponseError(response.status_code)
+            return response
+        raise AssertionError("retry loop must return or raise")
+
+    def _read_authenticated_subject_with_retry(
+        self,
+        *,
+        authorization: str,
+    ) -> httpx.Response:
+        for attempt_number in range(1, self._retry_policy.max_attempts + 1):
+            try:
+                response = self._http_client.get(
+                    f"{self._base_url}/api/v1/auth/me",
+                    headers={"Authorization": authorization},
+                )
+            except (httpx.TimeoutException, httpx.NetworkError) as error:
+                if attempt_number == self._retry_policy.max_attempts:
+                    raise BusinessServiceUnavailableError(
+                        "business identity API is unavailable"
                     ) from error
                 self._wait_before_retry(attempt_number)
                 continue

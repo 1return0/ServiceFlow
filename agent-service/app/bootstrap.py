@@ -5,7 +5,7 @@ an application protocol.  HTTP routes and graphs stay unaware of whether the
 planner is rule-based or model-backed.
 """
 
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, ExitStack
 from dataclasses import dataclass
 from pathlib import Path
 from typing import AsyncIterator
@@ -14,6 +14,7 @@ import httpx
 from fastapi import FastAPI
 
 from app.application.model_ticket_lookup_planner import ModelTicketLookupPlanner
+from app.application.agent_harness import HarnessedCompletionModel
 from app.application.model_triage_planner import ModelTriagePlanner
 from app.application.handoff_guard import CampusRiskHandoffGuard
 from app.application.fallback_triage_planner import FallbackTriagePlanner
@@ -67,6 +68,14 @@ from app.application.ticket_specialist_agent import TicketSpecialistAgent
 from app.application.notification_specialist_agent import NotificationSpecialistAgent
 from app.application.notification_summary_tool import NotificationSummaryTool
 from app.application.human_handoff_task_tool import HumanHandoffTaskTool
+from app.application.trusted_subject import (
+    JavaTrustedSubjectResolver,
+    build_serviceflow_thread_id,
+)
+from app.application.long_term_memory import (
+    LongTermMemoryEntry,
+    LongTermMemoryService,
+)
 from app.application.workflows.campus_support_triage_graph import (
     CampusSupportTriageGraph,
 )
@@ -78,6 +87,10 @@ from app.domain.ticket_lookup_plan import (
 from app.domain.triage_plan import RuleBasedTriagePlanner
 from app.domain.triage_plan import TriagePlanner
 from app.infrastructure.business_client import BusinessServiceClient
+from app.infrastructure.postgres_checkpointer import open_postgres_checkpointer
+from app.infrastructure.postgres_long_term_memory_store import (
+    open_postgres_long_term_memory_store,
+)
 from app.infrastructure.retry_policy import BoundedRetryPolicy
 from app.infrastructure.qwen_openai_planner_model import (
     QwenOpenAICompatiblePlannerModel,
@@ -160,6 +173,111 @@ class CampusSupportTriageRuntime:
     graph: CampusSupportTriageGraph
     planner: TriagePlanner
     http_client: httpx.Client
+    trusted_subject_resolver: JavaTrustedSubjectResolver
+    memory_service: LongTermMemoryService | None = None
+
+    def invoke(
+        self,
+        *,
+        user_query: str,
+        authorization: str | None,
+    ) -> dict[str, object]:
+        owner_id = None
+        preferences: dict[str, str] = {}
+        if authorization is not None:
+            owner_id = self.trusted_subject_resolver.resolve(
+                authorization
+            ).owner_id
+            preferences = {
+                entry.preference_key: entry.preference_value
+                for entry in self.list_preferences(owner_id=owner_id)
+            }
+        return self.graph.invoke(
+            user_query=user_query,
+            authorization=authorization,
+            owner_id=owner_id,
+            thread_id=(
+                build_serviceflow_thread_id(owner_id)
+                if owner_id is not None
+                else None
+            ),
+            preferences=preferences,
+        )
+
+    def resolve_owner_id(self, authorization: str | None) -> str:
+        return self.trusted_subject_resolver.resolve(authorization).owner_id
+
+    def get_authenticated_conversation_turns(
+        self,
+        *,
+        authorization: str | None,
+    ) -> tuple[str, ...]:
+        owner_id = self.resolve_owner_id(authorization)
+        return self.graph.get_conversation_turns(
+            thread_id=build_serviceflow_thread_id(owner_id)
+        )
+
+    def clear_authenticated_conversation(
+        self,
+        *,
+        authorization: str | None,
+    ) -> bool:
+        owner_id = self.resolve_owner_id(authorization)
+        return self.graph.clear_conversation_thread(
+            thread_id=build_serviceflow_thread_id(owner_id)
+        )
+
+    def remember_preference(
+        self,
+        *,
+        authorization: str | None,
+        preference_key: str,
+        preference_value: str,
+        user_consented: bool,
+    ) -> LongTermMemoryEntry:
+        return self._require_memory_service().remember_preference(
+            owner_id=self.resolve_owner_id(authorization),
+            preference_key=preference_key,
+            preference_value=preference_value,
+            user_consented=user_consented,
+        )
+
+    def list_preferences(
+        self,
+        *,
+        owner_id: str,
+    ) -> tuple[LongTermMemoryEntry, ...]:
+        if self.memory_service is None:
+            return ()
+        return self.memory_service.list_preferences(owner_id=owner_id)
+
+    def list_authenticated_preferences(
+        self,
+        *,
+        authorization: str | None,
+    ) -> tuple[LongTermMemoryEntry, ...]:
+        return self.list_preferences(owner_id=self.resolve_owner_id(authorization))
+
+    def forget_preference(
+        self,
+        *,
+        authorization: str | None,
+        preference_key: str,
+    ) -> bool:
+        return self._require_memory_service().forget_preference(
+            owner_id=self.resolve_owner_id(authorization),
+            preference_key=preference_key,
+        )
+
+    def forget_all_preferences(self, *, authorization: str | None) -> int:
+        return self._require_memory_service().forget_all_preferences(
+            owner_id=self.resolve_owner_id(authorization)
+        )
+
+    def _require_memory_service(self) -> LongTermMemoryService:
+        if self.memory_service is None:
+            raise RuntimeError("long-term memory is not prepared")
+        return self.memory_service
 
     def close(self) -> None:
         self.http_client.close()
@@ -180,7 +298,12 @@ def build_triage_planner(settings: Settings) -> TriagePlanner:
     if not settings.triage_model_enabled:
         return RuleBasedTriagePlanner()
     return FallbackTriagePlanner(
-        ModelTriagePlanner(_build_qwen_completion_model(settings)),
+        ModelTriagePlanner(
+            HarnessedCompletionModel(
+                _build_qwen_completion_model(settings),
+                operation_name="triage_planner_model",
+            )
+        ),
         RuleBasedTriagePlanner(),
     )
 
@@ -221,13 +344,21 @@ def build_support_knowledge_answer_service(
             minimum_evidence_count=settings.secondary_search_minimum_evidence_count,
             secondary_top_k=settings.secondary_search_top_k,
             query_rewriter=(
-                ModelSupportKnowledgeQueryRewriter(_build_qwen_completion_model(settings))
+                ModelSupportKnowledgeQueryRewriter(
+                    HarnessedCompletionModel(
+                        _build_qwen_completion_model(settings),
+                        operation_name="support_knowledge_query_rewriter_model",
+                    )
+                )
                 if settings.query_rewrite_enabled
                 else None
             ),
         )
     if settings.knowledge_answer_generation_enabled:
-        completion_model = _build_qwen_completion_model(settings)
+        completion_model = HarnessedCompletionModel(
+            _build_qwen_completion_model(settings),
+            operation_name="support_knowledge_answer_model",
+        )
         return ModelGroundedSupportKnowledgeAnswerService(
             retriever,
             QwenSupportKnowledgeAnswerGenerator(completion_model),
@@ -301,6 +432,9 @@ def build_support_knowledge_ingestion_service(
 def build_campus_support_triage_runtime(
     settings: Settings,
     support_knowledge_answer_service: SupportKnowledgeAnswerProvider,
+    *,
+    checkpointer: object | None = None,
+    memory_service: LongTermMemoryService | None = None,
 ) -> CampusSupportTriageRuntime:
     http_client = httpx.Client(timeout=settings.business_service_timeout_seconds)
     business_service_client = build_business_service_client(settings, http_client)
@@ -315,11 +449,16 @@ def build_campus_support_triage_runtime(
         CampusRiskHandoffGuard(),
         NotificationSpecialistAgent(NotificationSummaryTool(business_service_client)),
         HumanHandoffTaskTool(business_service_client),
+        checkpointer=checkpointer,
     )
     return CampusSupportTriageRuntime(
         graph=graph,
         planner=planner,
         http_client=http_client,
+        trusted_subject_resolver=JavaTrustedSubjectResolver(
+            business_service_client
+        ),
+        memory_service=memory_service,
     )
 
 
@@ -411,6 +550,7 @@ def _build_pdf_ocr_fallback_parser(
 def build_application_lifespan(settings: Settings):
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+        resources = ExitStack()
         # Validate the write-side import boundary before assembling any runtime.
         app.state.knowledge_import_access_policy = (
             KnowledgeImportAccessPolicy.from_settings(settings)
@@ -449,10 +589,32 @@ def build_application_lifespan(settings: Settings):
                 settings,
             )
         )
+        checkpointer = (
+            resources.enter_context(
+                open_postgres_checkpointer(settings.memory_postgres_dsn)
+            )
+            if settings.memory_postgres_dsn is not None
+            else None
+        )
+        memory_service = (
+            LongTermMemoryService(
+                resources.enter_context(
+                    open_postgres_long_term_memory_store(
+                        settings.memory_postgres_dsn,
+                        application_namespace="serviceflow",
+                    )
+                ),
+                allowed_preference_keys=frozenset({"preferred_response_language"}),
+            )
+            if settings.memory_postgres_dsn is not None
+            else None
+        )
         app.state.campus_support_triage_runtime = (
             build_campus_support_triage_runtime(
                 settings,
                 app.state.support_knowledge_answer_service,
+                checkpointer=checkpointer,
+                memory_service=memory_service,
             )
         )
         try:
@@ -472,6 +634,7 @@ def build_application_lifespan(settings: Settings):
             del app.state.knowledge_import_access_policy
             runtime.close()
             triage_runtime.close()
+            resources.close()
             close = getattr(knowledge_service, "close", None)
             if callable(close):
                 close()

@@ -30,7 +30,7 @@ import com.serviceflow.business.ticket.mapper.TicketOutboxEventMapper;
         classes = ServiceFlowBusinessApplication.class,
         properties = "spring.autoconfigure.exclude="
 )
-@ActiveProfiles("local")
+@ActiveProfiles("db")
 @Transactional
 @EnabledIfEnvironmentVariable(
         named = "RUN_POSTGRES_INTEGRATION_TESTS",
@@ -77,19 +77,30 @@ class TicketOutboxPostgresIntegrationTest {
                 ServiceRequestCategory.CAMPUS_NETWORK,
                 "Verify atomic ticket and outbox persistence"
         ));
+        ticketService.claimTicket(
+                created.id(),
+                "support",
+                OperatorRole.SUPPORT_AGENT
+        );
         var updated = ticketService.updateTicketStatus(
                 created.id(),
                 new UpdateTicketStatusRequest(TicketStatus.IN_PROGRESS),
+                "support",
                 OperatorRole.SUPPORT_AGENT
         );
 
-        TicketOutboxEventEntity event = ticketOutboxEventMapper.selectOne(
+        var events = ticketOutboxEventMapper.selectList(
                 new LambdaQueryWrapper<TicketOutboxEventEntity>()
                         .eq(TicketOutboxEventEntity::getAggregateId, created.id())
         );
+        TicketOutboxEventEntity event = events.stream()
+                .filter(candidate -> candidate.getEventType().equals("ticket.status_changed.v1"))
+                .findFirst()
+                .orElseThrow();
 
         assertThat(updated.status()).isEqualTo(TicketStatus.IN_PROGRESS);
         assertThat(updated.version()).isEqualTo(1L);
+        assertThat(events).hasSize(2);
         assertThat(event).isNotNull();
         assertThat(event.getEventType()).isEqualTo("ticket.status_changed.v1");
         assertThat(objectMapper.readTree(event.getPayload())

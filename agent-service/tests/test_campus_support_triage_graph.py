@@ -1,6 +1,7 @@
 import unittest
 from uuid import UUID
 
+from langgraph.checkpoint.memory import MemorySaver
 from app.application.support_knowledge_answering import (
     SupportKnowledgeAnswer,
     SupportKnowledgeCitation,
@@ -19,8 +20,10 @@ TICKET_ID = UUID("009e3cce-8f4d-448d-a060-6ce2624eac77")
 class FixedPlanner:
     def __init__(self, plan: TriagePlan) -> None:
         self._plan = plan
+        self.queries: list[str] = []
 
     def plan(self, *, user_query: str) -> TriagePlan:
+        self.queries.append(user_query)
         return self._plan
 
 
@@ -117,6 +120,56 @@ class CampusSupportTriageGraphTest(unittest.TestCase):
             self.handoff_guard,
         )
 
+    def test_preference_is_passed_to_planner_in_context_not_state(self) -> None:
+        planner = FixedPlanner(
+            TriagePlan(
+                decision="answer_support_knowledge",
+                reason="public knowledge is appropriate",
+            )
+        )
+        graph = CampusSupportTriageGraph(
+            planner,
+            RecordingTicketSpecialist(),
+            RecordingKnowledgeSpecialist(),
+            RecordingHandoffGuard(),
+        )
+
+        result = graph.invoke(
+            user_query="How do I reset campus network access?",
+            preferences={"preferred_response_language": "en-US"},
+        )
+
+        self.assertEqual("answer_support_knowledge", result["decision"])
+        self.assertIn(
+            "preferred_response_language: en-US", planner.queries[0]
+        )
+
+    def test_history_read_rejects_graph_without_checkpointer(self) -> None:
+        graph = self._build_graph(
+            TriagePlan(
+                decision="answer_support_knowledge",
+                reason="public knowledge is appropriate",
+            )
+        )
+
+        with self.assertRaisesRegex(RuntimeError, "conversation memory"):
+            graph.get_conversation_turns(thread_id="trusted-thread")
+
+    def test_public_request_is_stateless_when_checkpointer_is_configured(self) -> None:
+        graph = CampusSupportTriageGraph(
+            FixedPlanner(
+                TriagePlan(decision="refuse", reason="not supported")
+            ),
+            RecordingTicketSpecialist(),
+            RecordingKnowledgeSpecialist(),
+            RecordingHandoffGuard(),
+            checkpointer=MemorySaver(),
+        )
+
+        result = graph.invoke(user_query="public knowledge question")
+
+        self.assertEqual("refuse", result["decision"])
+
     def test_routes_ticket_lookup_to_ticket_tool_only(self) -> None:
         graph = self._build_graph(
             TriagePlan(
@@ -135,6 +188,12 @@ class CampusSupportTriageGraphTest(unittest.TestCase):
         self.assertIsNotNone(result["ticket"])
         self.assertIsNone(result["knowledge_answer"])
         self.assertEqual([(TICKET_ID, "Bearer student-token")], self.ticket_tool.calls)
+        self.assertEqual(0, result["harness_snapshot"].model_call_count)
+        self.assertEqual(1, result["harness_snapshot"].tool_call_count)
+        self.assertEqual(
+            ("ticket_lookup",),
+            tuple(step.operation_name for step in result["harness_snapshot"].steps),
+        )
         self.assertEqual([], self.knowledge_tool.questions)
         self.assertEqual(
             ("triage", "route_after_triage", "lookup_ticket"),
@@ -156,6 +215,7 @@ class CampusSupportTriageGraphTest(unittest.TestCase):
         self.assertIsNone(result["ticket"])
         self.assertEqual("answered", result["knowledge_answer"].status)
         self.assertEqual([], self.ticket_tool.calls)
+        self.assertEqual(1, result["harness_snapshot"].tool_call_count)
         self.assertEqual(["校园网连接失败怎么办？"], self.knowledge_tool.questions)
 
     def test_refuse_ends_without_calling_any_tool(self) -> None:
@@ -267,6 +327,42 @@ class CampusSupportTriageGraphTest(unittest.TestCase):
             ),
             tuple(step.node for step in result["trace"].steps),
         )
+
+    def test_checkpoint_summary_describes_final_knowledge_branch_safely(self) -> None:
+        """The transcript records branch outcome, never ticket or answer payloads."""
+        graph = CampusSupportTriageGraph(
+            FixedPlanner(
+                TriagePlan(
+                    decision="lookup_ticket",
+                    reason="ticket plus next-step question",
+                    ticket_id=TICKET_ID,
+                    follow_up_knowledge=True,
+                )
+            ),
+            RecordingTicketSpecialist(),
+            RecordingKnowledgeSpecialist(),
+            RecordingHandoffGuard(),
+            checkpointer=MemorySaver(),
+        )
+
+        graph.invoke(
+            user_query="Look up the ticket and give the next network step.",
+            authorization="Bearer student-token",
+            thread_id="trusted-thread",
+        )
+
+        turns = graph.get_conversation_turns(thread_id="trusted-thread")
+
+        self.assertEqual("user", turns[0]["role"])
+        self.assertEqual("assistant", turns[-1]["role"])
+        self.assertEqual(
+            "answered: campus support knowledge guidance was completed",
+            turns[-1]["content"],
+        )
+        transcript = repr(turns)
+        self.assertNotIn("campus network issue", transcript)
+        self.assertNotIn("Please reset", transcript)
+        self.assertNotIn("student-token", transcript)
 
 
 if __name__ == "__main__":

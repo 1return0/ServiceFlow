@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.serviceflow.business.ticket.dto.CreateTicketRequest;
 import com.serviceflow.business.ticket.dto.UpdateTicketStatusRequest;
+import com.serviceflow.business.ServiceFlowBusinessApplication;
 import com.serviceflow.business.ticket.entity.TicketOutboxEventEntity;
 import com.serviceflow.business.ticket.enums.OperatorRole;
 import com.serviceflow.business.ticket.enums.ServiceRequestCategory;
@@ -26,8 +27,11 @@ import com.serviceflow.business.ticket.service.TicketService;
  * Opt-in real-database smoke. It is skipped unless the operator explicitly enables it.
  * The surrounding test transaction is rolled back, so it leaves no demo ticket or event.
  */
-@SpringBootTest(properties = "spring.autoconfigure.exclude=")
-@ActiveProfiles("local")
+@SpringBootTest(
+        classes = ServiceFlowBusinessApplication.class,
+        properties = "spring.autoconfigure.exclude="
+)
+@ActiveProfiles("db")
 @Transactional
 @EnabledIfEnvironmentVariable(
         named = "RUN_POSTGRES_INTEGRATION_TESTS",
@@ -48,9 +52,15 @@ class TicketOutboxPostgresIntegrationTest {
                 "Outbox PostgreSQL smoke ticket"
         ));
 
+        ticketService.claimTicket(
+                created.id(),
+                "outbox-smoke-support",
+                OperatorRole.SUPPORT_AGENT
+        );
         var updated = ticketService.updateTicketStatus(
                 created.id(),
                 new UpdateTicketStatusRequest(TicketStatus.IN_PROGRESS),
+                "outbox-smoke-support",
                 OperatorRole.SUPPORT_AGENT
         );
 
@@ -61,13 +71,17 @@ class TicketOutboxPostgresIntegrationTest {
 
         assertThat(updated.status()).isEqualTo(TicketStatus.IN_PROGRESS);
         assertThat(updated.version()).isEqualTo(1L);
-        assertThat(events).hasSize(1);
-        assertThat(events.get(0).getEventType())
+        assertThat(events).hasSize(2);
+        TicketOutboxEventEntity statusChanged = events.stream()
+                .filter(event -> event.getEventType().equals("ticket.status_changed.v1"))
+                .findFirst()
+                .orElseThrow();
+        assertThat(statusChanged.getEventType())
                 .isEqualTo("ticket.status_changed.v1");
-        var payload = new ObjectMapper().readTree(events.get(0).getPayload());
+        var payload = new ObjectMapper().readTree(statusChanged.getPayload());
         assertThat(payload.path("status").asText()).isEqualTo("IN_PROGRESS");
         assertThat(payload.path("version").asLong()).isEqualTo(1L);
-        assertThat(events.get(0).getPublishedAt()).isNull();
-        assertThat(events.get(0).getPublishAttempts()).isZero();
+        assertThat(statusChanged.getPublishedAt()).isNull();
+        assertThat(statusChanged.getPublishAttempts()).isZero();
     }
 }

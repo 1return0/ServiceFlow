@@ -102,7 +102,7 @@ class TicketStatusOutboxToInboxIntegrationTest {
         ticketService.updateTicketStatus(
                 ticketId,
                 new UpdateTicketStatusRequest(TicketStatus.IN_PROGRESS),
-                OperatorRole.SUPPORT_AGENT
+                OperatorRole.ADMIN
         );
 
         TicketOutboxEventEntity event = outboxMapper.selectOne(

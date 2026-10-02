@@ -4,6 +4,7 @@ from uuid import UUID
 import httpx
 
 from app.infrastructure.business_client import (
+    BusinessAuthenticatedSubject,
     BusinessServiceClient,
     BusinessServiceResponseError,
     BusinessServiceUnavailableError,
@@ -28,6 +29,42 @@ def _ticket_payload(ticket_id: UUID) -> dict[str, object]:
 
 
 class BusinessServiceClientTest(unittest.TestCase):
+    def test_reads_trusted_subject_only_from_java_identity_contract(self) -> None:
+        def handler(request: httpx.Request) -> httpx.Response:
+            self.assertEqual("/api/v1/auth/me", request.url.path)
+            self.assertEqual(
+                "Bearer verified-by-java",
+                request.headers["Authorization"],
+            )
+            return httpx.Response(
+                200,
+                json={
+                    "code": 0,
+                    "message": "success",
+                    "data": {
+                        "subject": "student-001",
+                        "roles": ["STUDENT"],
+                    },
+                },
+                request=request,
+            )
+
+        with httpx.Client(transport=httpx.MockTransport(handler)) as http_client:
+            subject = BusinessServiceClient(
+                "http://business.internal",
+                http_client,
+            ).get_authenticated_subject(
+                authorization="Bearer verified-by-java"
+            )
+
+        self.assertEqual(
+            BusinessAuthenticatedSubject(
+                subject="student-001",
+                roles=("STUDENT",),
+            ),
+            subject,
+        )
+
     def test_reads_the_java_health_contract_over_http(self) -> None:
         transport = httpx.MockTransport(
             lambda request: httpx.Response(

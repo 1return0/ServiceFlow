@@ -1,5 +1,9 @@
 # ServiceFlow
 
+See [`docs/final-delivery.md`](docs/final-delivery.md) for the current
+architecture, demo sequence, verification commands, and explicit capability
+boundaries.
+
 面向公开演示与合成校园 IT、教学服务场景的双服务 Agent 系统。它不连接学校真实账号、课程、校园卡或设备，也不会自动执行高风险外部操作。
 
 ## 当前实现

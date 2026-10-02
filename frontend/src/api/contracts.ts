@@ -86,6 +86,21 @@ export interface CoordinatorTrace {
   steps: CoordinatorTraceStep[];
 }
 
+export interface AgentHarnessStep {
+  operation_kind: "model" | "tool";
+  operation_name: string;
+  status: "succeeded" | "failed" | "rejected";
+  elapsed_seconds: number;
+  failure_code: string | null;
+}
+
+export interface AgentHarness {
+  model_call_count: number;
+  tool_call_count: number;
+  elapsed_seconds: number;
+  steps: AgentHarnessStep[];
+}
+
 export interface HandoffGuidance {
   reason: string;
   title: string;
@@ -102,6 +117,7 @@ export interface TriageResponse {
   knowledge_answer: KnowledgeAnswer | null;
   notification_summary: NotificationSummary | null;
   trace: CoordinatorTrace;
+  harness: AgentHarness;
 }
 
 export interface KnowledgeImportResponse {
