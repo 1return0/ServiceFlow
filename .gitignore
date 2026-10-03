@@ -8,6 +8,7 @@ __pycache__/
 target/
 dist/
 node_modules/
+*.egg-info/
 .env
 **/.env
 **/.env.*

@@ -1,5 +1,45 @@
 # ServiceFlow
 
+## Project identity and runnable delivery
+
+ServiceFlow is an **enterprise Agent + backend integration** project for
+synthetic campus IT and teaching-support tickets. A bounded LangGraph
+Coordinator routes only to fixed Specialists: ticket lookup against the Java
+authority, evidence-grounded support knowledge, notification summary, or a
+high-risk human handoff. It is deliberately not presented as an autonomous
+multi-worker or free-negotiation Agent platform.
+
+The Java service owns authentication, RBAC, ticket state changes, PostgreSQL
+persistence, Outbox/Inbox idempotency, RabbitMQ publishing and notification
+read models. The Python service owns bounded orchestration, risk policy,
+specialist isolation, safe memory/checkpoint boundaries, request Harness and
+safe Trace. This keeps authorization and writes in Java rather than allowing
+the Agent to bypass business ownership.
+
+GitHub Actions now build/test all three deliverables: Java, Python Agent and
+Vue. A no-secret local Compose demonstration is included:
+
+```powershell
+docker compose up --build
+```
+
+It starts PostgreSQL, RabbitMQ, the Java business service, Python Agent and
+Vue at `http://localhost:8081` (RabbitMQ management at `http://localhost:15672`).
+The Compose profile uses synthetic/local credentials, turns model calls off,
+and keeps the Outbox scheduler off to avoid unexpected delivery side effects.
+It proves a reproducible local topology only; it does not prove production
+throughput, multi-instance recovery or all optional model integrations.
+
+## Security and observability boundary
+
+The Agent exposes request-scoped Harness counts/limits and a redacted
+Coordinator Trace; retrieval traces identify strategy stages without exposing
+credentials or raw protected ticket content. They are complementary to, not a
+replacement for, production OpenTelemetry/Langfuse backends. Existing security
+tests cover JWT/RBAC ownership, Risk Guard to human handoff and tool boundary
+failures. Document-layout RAG robustness is intentionally concentrated in
+JobScope so the two repositories retain distinct interview value.
+
 See [`docs/final-delivery.md`](docs/final-delivery.md) for the current
 architecture, demo sequence, verification commands, and explicit capability
 boundaries.

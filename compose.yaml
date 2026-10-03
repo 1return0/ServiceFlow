@@ -1,0 +1,89 @@
+name: serviceflow
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: eduops
+      POSTGRES_USER: eduops_app
+      POSTGRES_PASSWORD: ${EDUOPS_DB_PASSWORD:-eduops-local-only}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U eduops_app -d eduops"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - serviceflow-postgres:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: ${EDUOPS_RABBITMQ_USERNAME:-serviceflow_local}
+      RABBITMQ_DEFAULT_PASS: ${EDUOPS_RABBITMQ_PASSWORD:-serviceflow-local-only}
+      RABBITMQ_DEFAULT_VHOST: serviceflow
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    ports:
+      - "15672:15672"
+    volumes:
+      - serviceflow-rabbitmq:/var/lib/rabbitmq
+
+  business:
+    build: ./business-service
+    environment:
+      SPRING_PROFILES_ACTIVE: db
+      SERVICEFLOW_BUSINESS_PORT: 8120
+      EDUOPS_DB_HOST: postgres
+      EDUOPS_DB_PORT: 5432
+      EDUOPS_DB_NAME: eduops
+      EDUOPS_DB_USERNAME: eduops_app
+      EDUOPS_DB_PASSWORD: ${EDUOPS_DB_PASSWORD:-eduops-local-only}
+      EDUOPS_RABBITMQ_HOST: rabbitmq
+      EDUOPS_RABBITMQ_PORT: 5672
+      EDUOPS_RABBITMQ_USERNAME: ${EDUOPS_RABBITMQ_USERNAME:-serviceflow_local}
+      EDUOPS_RABBITMQ_PASSWORD: ${EDUOPS_RABBITMQ_PASSWORD:-serviceflow-local-only}
+      EDUOPS_JWT_SECRET: ${EDUOPS_JWT_SECRET:-local-demo-only-change-before-shared-use-2026}
+      EDUOPS_TICKET_EVENTS_ENABLED: "true"
+      EDUOPS_OUTBOX_DELIVERY_ENABLED: "false"
+      EDUOPS_OUTBOX_DELIVERY_SCHEDULER_ENABLED: "false"
+      EDUOPS_OUTBOX_INBOX_ENABLED: "true"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  agent:
+    build: ./agent-service
+    environment:
+      PYTHON_DOTENV_DISABLED: "true"
+      SERVICEFLOW_ENV: compose
+      SERVICEFLOW_BUSINESS_BASE_URL: http://business:8120
+      SERVICEFLOW_MEMORY_POSTGRES_DSN: "postgresql://eduops_app:${EDUOPS_DB_PASSWORD:-eduops-local-only}@postgres:5432/eduops"
+      SERVICEFLOW_PLANNER_MODEL_ENABLED: "false"
+      SERVICEFLOW_TRIAGE_MODEL_ENABLED: "false"
+      SERVICEFLOW_KNOWLEDGE_ANSWER_GENERATION_ENABLED: "false"
+      SERVICEFLOW_DENSE_RETRIEVAL_ENABLED: "false"
+      SERVICEFLOW_HYBRID_RETRIEVAL_ENABLED: "false"
+      SERVICEFLOW_RERANKER_ENABLED: "false"
+      SERVICEFLOW_OCR_ENABLED: "false"
+    depends_on:
+      business:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8081:80"
+    depends_on:
+      - business
+      - agent
+
+volumes:
+  serviceflow-postgres:
+  serviceflow-rabbitmq:
