@@ -32,3 +32,4 @@ docs/render_week*.ps1
 tools/*review*.py
 tools/grade_week*.py
 **/*user-answer-backup*
+agent-service/data/retrieval-evaluation/.cache/

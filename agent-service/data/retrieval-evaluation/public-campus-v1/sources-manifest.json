@@ -1,0 +1,291 @@
+{
+  "dataset_sha256": "00a9b3ddac6ffe9fa21e77832bcce69d47d1cb1f71a409b939c13dfed35a41d6",
+  "fetched_at": "2026-10-12T04:51:29.866762+00:00",
+  "sources": [
+    {
+      "source_id": "vpn",
+      "url": "https://vpn.bnu.edu.cn/in.php?tp=faq",
+      "artifact_sha256": "324d2569f462fb19f394b9fd63ce5244e98f1e58d3ad5559bd0071ae18509fb8",
+      "normalized_text_sha256": "74e073dbf3d8dab439f7bb05e3c49b37050d99a6eb2cda167d0920543204d16b",
+      "checked_record_ids": [
+        "vpn-login",
+        "vpn-timeout",
+        "vpn-download",
+        "vpn-1319",
+        "vpn-1308",
+        "vpn-campus",
+        "vpn-browser",
+        "vpn-mac",
+        "vpn-win"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "wifi",
+      "url": "https://info.bnu.edu.cn/cjwd/xywcjwtjd/83804.html",
+      "artifact_sha256": "62703f7e3219d180491c29681473274ba3ed31cfaa8c3f66cab1b0dd9901c846",
+      "normalized_text_sha256": "0ab4b8186d610c2acf2bfecd27f16308702d64899ffd3bd1a96dfecc57b89656",
+      "checked_record_ids": [
+        "wifi-portal",
+        "wifi-driver",
+        "wifi-signal",
+        "wifi-dorm-role",
+        "wifi-no-ip"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "network_reset",
+      "url": "https://info.bnu.edu.cn/cjwd/xywcjwtjd/fed0dd878e284e7c84e0284be50cde59.html",
+      "artifact_sha256": "4af288e40274dad4ac56b4226fa83fdc9df86bfdde1799960121878266865238",
+      "normalized_text_sha256": "9fca3f91e087ebbc2a0cc112221b38b62f7bb91658dcef41105ec9ef60189310",
+      "checked_record_ids": [
+        "reset-network"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "portal_reset",
+      "url": "https://info.bnu.edu.cn/cjwd/xxxtcjwtjd/8a0f06ceebd74ac5b8f17844956ab65e.html",
+      "artifact_sha256": "d5e4049c5b9171426dd3f0110f90939bdc3e1b47c163195fa4e4fe17e130564b",
+      "normalized_text_sha256": "a18f35417287bb3f48ad2c9caa6887bbaf183eca490e3b7380e01749e1e9ff91",
+      "checked_record_ids": [
+        "reset-portal"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "mail_reset",
+      "url": "https://info.bnu.edu.cn/cjwd/xxxtcjwtjd/6631623ac1b24f3eb4700c4866349908.html",
+      "artifact_sha256": "2039d5701364f884c5771ca15c8fb2f77d2d58872f721d92f677dc793a27c5a8",
+      "normalized_text_sha256": "b4bfed2af58ca2864cecf18f2fdb62e506eb6417b5079c894a5193335c312fcb",
+      "checked_record_ids": [
+        "reset-mail"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "portal",
+      "url": "https://info.bnu.edu.cn/cjwd/xxxtcjwtjd/6ed524231f914465b8e8dbc6570a58d7.html",
+      "artifact_sha256": "f1fb59c916a34b3383cb240624f4befe02d5e5c47e90a3af0f4b9c57f7da9690",
+      "normalized_text_sha256": "3fe9bf5b31e255cace6763a25ec5a9eeff25c0a6c630c0564dddb7098fe245b9",
+      "checked_record_ids": [
+        "portal-follow"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "face_failure",
+      "url": "https://info.bnu.edu.cn/cjwd/xxxtcjwtjd/b0918de860894230863d2ceb7b1923ce.html",
+      "artifact_sha256": "ee785106f2bb908cd4b5708df5660f107aa180fc0be67333183d996f1b964721",
+      "normalized_text_sha256": "4b7566ae5efbe2c9cb340cbd9c81b886054ef0328dbc2dac183ca020cba9096c",
+      "checked_record_ids": [
+        "face-manual"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "face_upload",
+      "url": "https://info.bnu.edu.cn/cjwd/xxxtcjwtjd/c71e043ba7224c66b8c5e0507a110f8f.html",
+      "artifact_sha256": "3faa07a8a67c5d57b3b1578eaf3f8ecc17df7f3551c38dee07c9481e6e4e0225",
+      "normalized_text_sha256": "223c88c6605240c451ee9fcbb9d376119637812e063e3b09f03baa55a96b2e39",
+      "checked_record_ids": [
+        "face-upload"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "student_mail",
+      "url": "https://info.bnu.edu.cn/cjwd/xxxtcjwtjd/1d91b6b6f667402aba551bce3c559ead.html",
+      "artifact_sha256": "0823324acbafed8161cc8da0e2e3b87dc7e50b58d457ab0fa0df1243f7823e82",
+      "normalized_text_sha256": "afba4023908357cffed293b27fd7ab6746aaee0cca4d10f9d2fb7525cc3c6a44",
+      "checked_record_ids": [
+        "mail-student-imap",
+        "mail-student-smtp",
+        "mail-student-app"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "teacher_mail",
+      "url": "https://info.bnu.edu.cn/cjwd/xxxtcjwtjd/807769b4b33a484e91fc1fe9273b426b.html",
+      "artifact_sha256": "b1445bbc884130c75687ccee17558a3c3e7e49efd14a1de4ae3cce2c8b198584",
+      "normalized_text_sha256": "f79deb73d1ab5f0ac8077c23040fee589703e87cc1c43cdc4644dc2481ab1ada",
+      "checked_record_ids": [
+        "mail-teacher-imap",
+        "mail-teacher-smtp"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "student_alias",
+      "url": "https://info.bnu.edu.cn/cjwd/xxxtcjwtjd/40879d0b3b2a4b9b8c2abfcb1b8cd41d.html",
+      "artifact_sha256": "829d1c7ccab52c195fcf3b63dae79d7ee18d7877c05b97488ff23be17a401cb7",
+      "normalized_text_sha256": "526a65302ec91c6f7add8d98d07328f2ed4f505f7214195c7860ac94fc8ba9b9",
+      "checked_record_ids": [
+        "mail-student-alias",
+        "mail-student-phone"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "teacher_alias",
+      "url": "https://info.bnu.edu.cn/cjwd/xxxtcjwtjd/2a4449b4d32342468d46e1105405969e.html",
+      "artifact_sha256": "6310ca2b6a2e390be08dbae6351c1c237c7017628e466b7f507e768f6342cb67",
+      "normalized_text_sha256": "511b646f818eab41fddadca873285e0dbd7c859c8f7ded690c7b415fdd8ce106",
+      "checked_record_ids": [
+        "mail-teacher-alias"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "card_faq",
+      "url": "https://info.bnu.edu.cn/cjwd/xyqcjwtjd/83781.html",
+      "artifact_sha256": "2b15ed372b77e2adc0d26802db1770172eee45403db104bd052ae3e14d548a1c",
+      "normalized_text_sha256": "0dac19a2ee3ac57feb9c04afd095a200c082ca2753efdfcb78d224f8fc309933",
+      "checked_record_ids": [
+        "card-limit",
+        "card-nonmagnetic",
+        "card-water-display",
+        "card-old-reactivate",
+        "card-balance-difference"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "nfc",
+      "url": "https://info.bnu.edu.cn/cjwd/xyqcjwtjd/7cffd330fabe4916a94a2ff870296a4c.html",
+      "artifact_sha256": "767c11930e23373a96599160b53c2561f32a41280f0b4592a754b47b7ae74dba",
+      "normalized_text_sha256": "6537fb112e2f1933b416abef9f425dc0abc25c1b71c8dbf9b5dfd568caaafbcd",
+      "checked_record_ids": [
+        "card-nfc"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "card_auto",
+      "url": "https://info.bnu.edu.cn/cjwd/xyqcjwtjd/cb9083afeab0402a9a309529e95b3635.html",
+      "artifact_sha256": "b2910481dfabb85f89143c9ecc51691e8d9eb359e533ee24be50d8cf2367cb5e",
+      "normalized_text_sha256": "45b8739f8f251c7d97b2ffdca4b6b016ae5935c02caa2822cc2cb1c3f0ccf3a4",
+      "checked_record_ids": [
+        "card-auto"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "card_bank",
+      "url": "https://info.bnu.edu.cn/cjwd/xyqcjwtjd/092f876482f34001ab1a388c36d095f2.html",
+      "artifact_sha256": "9d00bad6bfcaa72111d754473363511d0e4f7e94fe90a2a9ea119224d2c0ef49",
+      "normalized_text_sha256": "ab93943049f01c6eed4c38e7c98c2243e032720b6125e1f6c7075da4cbbae875",
+      "checked_record_ids": [
+        "card-bank"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "card_freeze",
+      "url": "https://info.bnu.edu.cn/cjwd/xyqcjwtjd/319c3b2d84924fe3b6e8046bd02c5cf8.html",
+      "artifact_sha256": "a4bf222f263d7ea90b53e3f807d4c7dcf8105e0c1da5790e6eefb9528c335058",
+      "normalized_text_sha256": "30797eee77af724136c71e6efb17ef567dd6e95307c138108062398d1289521a",
+      "checked_record_ids": [
+        "card-auto-freeze",
+        "card-manual-freeze"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "card_lost",
+      "url": "https://info.bnu.edu.cn/cjwd/xyqcjwtjd/987131d06da64b4194a783a0a6b77cdf.html",
+      "artifact_sha256": "335da8746394ce1db6a7f71907d054e7f3408d21864963b657d55200e9004664",
+      "normalized_text_sha256": "0e99c1fcd63fadc04b49ebc751ddbbd36f484c6013502bb3c2fe0aacb5922d1e",
+      "checked_record_ids": [
+        "card-lost"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "card_recharge",
+      "url": "https://info.bnu.edu.cn/cjwd/xyqcjwtjd/5ee9321a2d5f475a95f477d4f82a5169.html",
+      "artifact_sha256": "e428e8fe99285a6f8315426e92948d6c55b527eca3f55f53c256ff1eaa48aac4",
+      "normalized_text_sha256": "ff4c9fa6b87615a59e2c1567869e97c779340586a2ef7062e30ae87a4998e142",
+      "checked_record_ids": [
+        "card-scan-recharge",
+        "card-bank-recharge",
+        "card-recharge-writeback"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "card_password",
+      "url": "https://info.bnu.edu.cn/cjwd/xyqcjwtjd/373fbb3995a84600b78429d71e0d83f8.html",
+      "artifact_sha256": "e357eee9de7c7a367a3d0ecd333eb788e635cc15a2c27fa60a949ab462c2782a",
+      "normalized_text_sha256": "add424cdf317ed12959d0627efb229886b0d504e4311e7642a183f565ec06f56",
+      "checked_record_ids": [
+        "card-query-password",
+        "card-consume-password"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "card_replace",
+      "url": "https://info.bnu.edu.cn/cjwd/xyqcjwtjd/d7a95b7aff1046d7a7dbf153507c4709.html",
+      "artifact_sha256": "2391bd22b19acaa3cf1a13d3419688a927774c6a9a314903f08301b1a8fd21cd",
+      "normalized_text_sha256": "440aefb0ffb23b17af611b491f1b4a7d25ca58029b06aef322f835633e8231a3",
+      "checked_record_ids": [
+        "card-replace",
+        "card-sync"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "temporary_card",
+      "url": "https://info.bnu.edu.cn/cjwd/xyqcjwtjd/af4fb9e3a02540059053c50807771a91.html",
+      "artifact_sha256": "72ca76ea4a669a7bcd7f27c9e0533f4a328e79c550b90a65c7224df3af8c90cc",
+      "normalized_text_sha256": "60d79cdaa2ba544206a5abafd4c0f9d5ff1fd41c3b2eeb53f9049e3a7878e553",
+      "checked_record_ids": [
+        "temporary-recharge"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "kiosk",
+      "url": "https://info.bnu.edu.cn/cjwd/xyqcjwtjd/83829.html",
+      "artifact_sha256": "bef1f9e5f77557724d2019f28811fb28a6f26c50a8f18c2197b5a9e6de358748",
+      "normalized_text_sha256": "ca82ffdec0728982e41c435941e73c5ed715507b36d3e910433c47b465e625e0",
+      "checked_record_ids": [
+        "kiosk"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "mobile_wifi",
+      "url": "https://info.bnu.edu.cn/cjwd/xywcjwtjd/3f653aadb6ac4966a232cfc4be5acd3d.html",
+      "artifact_sha256": "e02800dd70847d0aa48e2f7bd3e433baf1bf539acff44b57abe8fafa05949eb0",
+      "normalized_text_sha256": "79035069bd8cabcdc947a9ff03dfab84e805c15443d14c59fc2f6d5e63d8c135",
+      "checked_record_ids": [
+        "mobile-wifi"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "guest",
+      "url": "https://info.bnu.edu.cn/cjwd/xywcjwtjd/113524.html",
+      "artifact_sha256": "1fab8a34075cb1077096b1f6e2c69458a96c0e59f091964dd9beac67ec28b3df",
+      "normalized_text_sha256": "1762f62c8dfa2e80045f237e9eec1d9a82ecf7cbe42b51a885a7bf4d0597f6c1",
+      "checked_record_ids": [
+        "guest-network"
+      ],
+      "support_anchor_check": "passed"
+    },
+    {
+      "source_id": "eduroam",
+      "url": "https://info.bnu.edu.cn/cjwd/xywcjwtjd/83802.html",
+      "artifact_sha256": "8efe2eff0c442026b213085db16d66530d577b4f34838a6a2711a1eeb759d71f",
+      "normalized_text_sha256": "770dbca2e26f1cec16e6880b229fe71906d3342dd7231532895a4dcb6ce5c5c6",
+      "checked_record_ids": [
+        "eduroam"
+      ],
+      "support_anchor_check": "passed"
+    }
+  ]
+}
