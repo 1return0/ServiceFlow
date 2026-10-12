@@ -105,6 +105,17 @@ Vue 工作台目前覆盖学生创建、查看和关闭自己的工单，支持�
 
 ## 验证与限制
 
+新增公开校园 FAQ 离线检索对照：从26个高校官网页面整理51个答案证据单元，冻结153题（直接、口语、约束三种问法），调用真实 Embedding 与 Reranker。
+
+| 策略 | Recall@5 | MRR@5 | nDCG@5 |
+| --- | ---: | ---: | ---: |
+| BM25 | 0.9085 | 0.7795 | 0.8122 |
+| Dense | 0.9739 | 0.8749 | 0.9004 |
+| Hybrid/RRF | 0.9739 | 0.8419 | 0.8756 |
+| Hybrid+Rerank | 1.0000 | 0.9223 | 0.9421 |
+
+Hybrid+Rerank 相对 BM25 的 MRR@5 提升18.3%。这是由Agent依据公开原文编写并核验来源的自建评测集，尚未经过独立人工标注审核；其结果描述该固定集的检索表现。数据、配置、配对置信区间和完整退化记录见 [评测说明](docs/public-campus-retrieval-benchmark-v1.md)及 [逐题报告](agent-service/reports/public-campus-retrieval-v1-real-20261012.json)。原始HTML和模型缓存不入库，也不改变在线知识库。
+
 - Agent 单测：`python -m unittest discover -s tests -v`（如本地 `.env` 已启用模型，先设置 `PYTHON_DOTENV_DISABLED=true`，避免测试误连真实模型）。
 - JobScope 单测与两个 Vue 前端的构建命令见各自 README。
 - Java `mvn test` 默认运行单元/进程内测试；显式启用的 PostgreSQL/RabbitMQ 集成 Smoke 需要独立环境，不能把跳过的 Smoke 计作通过。
