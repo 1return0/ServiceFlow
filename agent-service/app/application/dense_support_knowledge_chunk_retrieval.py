@@ -27,10 +27,13 @@ class DenseSupportKnowledgeChunkRetriever:
         corpus: CurrentSupportKnowledgeCorpus,
         index: DenseSupportKnowledgeIndexSnapshot,
         embedder: SupportKnowledgeTextEmbedder,
+        *,
+        vector_store=None,
     ) -> None:
         self._corpus = corpus
         self._index = index
         self._embedder = embedder
+        self._vector_store = vector_store
 
     def search(
         self,
@@ -45,6 +48,15 @@ class DenseSupportKnowledgeChunkRetriever:
         chunks = self._verified_current_chunks()
         query_vector = self._embedder.embed_query(query)
         _validate_query_vector(query_vector, self._index.embedding_identity.dimension)
+        if self._vector_store is not None:
+            ranked = self._vector_store.search(
+                query_vector, snapshot=self._index, top_k=top_k
+            )
+            chunks_by_id = {chunk.chunk_id: chunk for chunk in chunks}
+            if any(key not in chunks_by_id for key, _ in ranked):
+                raise DenseSupportKnowledgeIndexUnavailableError("pgvector returned an unknown chunk")
+            return tuple(SupportKnowledgeChunkSearchHit(chunk=chunks_by_id[key], score=score)
+                         for key, score in ranked)
         vectors_by_chunk_id = {
             vector.chunk_id: vector.values for vector in self._index.vectors
         }

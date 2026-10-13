@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import HomeView from "@/views/HomeView.vue";
 import EvidenceView from "@/views/EvidenceView.vue";
+import ReportsView from "@/views/ReportsView.vue";
 import HandoffView from "@/views/HandoffView.vue";
 import KnowledgeImportView from "@/views/KnowledgeImportView.vue";
 import LoginView from "@/views/LoginView.vue";
@@ -21,6 +22,7 @@ const router = createRouter({
     { path: "/knowledge/imports", name: "knowledge-imports", component: KnowledgeImportView },
     { path: "/handoffs", name: "handoffs", component: HandoffView, meta: { requiresAuth: true } },
     { path: "/evidence", name: "evidence", component: EvidenceView },
+    { path: "/reports", name: "reports", component: ReportsView, meta: { requiresAuth: true } },
     { path: "/:pathMatch(.*)*", redirect: "/" },
   ],
 });

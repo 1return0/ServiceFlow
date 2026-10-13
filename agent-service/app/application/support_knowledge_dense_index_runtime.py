@@ -67,6 +67,7 @@ class SupportKnowledgeDenseIndexRuntime:
             self._corpus,
             self.snapshot,
             self._embedder,
+            vector_store=self._store if callable(getattr(self._store, "search", None)) else None,
         ).search(query, top_k=top_k)
 
     @property

@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "checks": [
+    "real-java-login-jwt",
+    "invalid-jwt-rejected",
+    "real-public-graph-model-pgvector-report",
+    "postgres-version-confirmation",
+    "ssh-docker-docx"
+  ],
+  "docx_bytes": 37252,
+  "export_backend": "ssh_docker",
+  "public_generation": [
+    {
+      "jwt_passed_to_generator": false,
+      "answer_model_called": true
+    }
+  ],
+  "boundary": "Real Java HTTP authentication and JWT verification, Python in-process HTTP, model/pgvector/PG report/SSH Docker. No RabbitMQ, browser, load or production SLA claim.",
+  "cleanup": "own temporary account, report, revisions and proposals removed"
+}

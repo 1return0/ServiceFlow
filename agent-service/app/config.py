@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -26,6 +26,7 @@ class Settings:
     environment: str = "development"
     business_service_base_url: str = "http://127.0.0.1:8120"
     business_service_timeout_seconds: float = 3.0
+    http_trust_env: bool = False
     business_service_read_max_attempts: int = 2
     business_service_read_initial_backoff_seconds: float = 0.1
     memory_postgres_dsn: str | None = None
@@ -56,6 +57,12 @@ class Settings:
     embedding_model_dimension: int = 1024
     embedding_model_batch_size: int = 20
     dense_retrieval_enabled: bool = False
+    dense_index_backend: str = "json"
+    dense_postgres_dsn: str | None = field(default=None, repr=False)
+    document_reports_enabled: bool = False
+    document_reports_dsn: str | None = field(default=None, repr=False)
+    document_export_backend: str = "disabled"
+    document_export_ssh_config_file: str | None = None
     hybrid_retrieval_enabled: bool = False
     hybrid_candidate_k: int = 20
     hybrid_rank_constant: int = 60
@@ -91,6 +98,13 @@ def load_settings() -> Settings:
         "DASHSCOPE_API_KEY",
     ).strip()
     return Settings(
+        http_trust_env=_read_bool(os.getenv("SERVICEFLOW_HTTP_TRUST_ENV", "false")),
+        document_reports_enabled=_read_bool(os.getenv("SERVICEFLOW_DOCUMENT_REPORTS_ENABLED", "false")),
+        document_reports_dsn=_read_optional(os.getenv("SERVICEFLOW_DOCUMENT_REPORTS_DSN")),
+        document_export_backend=os.getenv("SERVICEFLOW_DOCUMENT_EXPORT_BACKEND", "disabled"),
+        document_export_ssh_config_file=_read_optional(os.getenv("SERVICEFLOW_DOCUMENT_EXPORT_SSH_CONFIG_FILE")),
+        dense_index_backend=os.getenv("SERVICEFLOW_DENSE_INDEX_BACKEND", "json").strip(),
+        dense_postgres_dsn=_read_optional(os.getenv("SERVICEFLOW_DENSE_POSTGRES_DSN")),
         environment=os.getenv(
             "SERVICEFLOW_ENV",
             "development",

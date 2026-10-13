@@ -120,4 +120,21 @@ Hybrid+Rerank 相对 BM25 的 MRR@5 提升18.3%。这是由Agent依据公开原�
 - JobScope 单测与两个 Vue 前端的构建命令见各自 README。
 - Java `mvn test` 默认运行单元/进程内测试；显式启用的 PostgreSQL/RabbitMQ 集成 Smoke 需要独立环境，不能把跳过的 Smoke 计作通过。
 
-项目使用的是有边界的 Coordinator + Specialist 工作流，不提供自主创建任务、开放式 Agent 协商、持久化 Graph checkpoint 或生产级多 Worker 协调；验证环境也不是生产环境。
+项目使用的是有边界的 Coordinator + Specialist 工作流，支持 PostgreSQL Checkpoint 与按主体隔离的长期偏好；不提供开放式 Agent 协商、自主任意创建任务或生产级多 Worker 协调。验证环境不是生产环境。
+
+## pgvector 与证据文档工作台
+
+新增可选 pgvector 后端：离线向量快照原子保存，在线余弦排序由 PostgreSQL 执行；模型身份、维度与 Corpus 不匹配时拒绝旧索引，不静默回退。原 JSON 后端保留。
+
+公共知识报告支持生成、结构化章节编辑/批注、修改预览、明确确认、版本历史、删除及 Word 导出。报告 owner 来自 Java 验证的主体；JWT 不传入公共知识生成器，工单正文不进入报告。当前在线演示 Corpus 为演示资料，报告会明确标注，不能冒充校园官方指南。
+
+配置见 `agent-service/.env.example`。报告和向量库需要明确配置 PostgreSQL DSN；选择 pgvector 前先启用 `vector` 扩展。在 VM 中从 `agent-service` 目录构建固定导出 worker：
+
+```bash
+docker build -f deploy/report-export/Dockerfile -t agent-report-export:local .
+bash deploy/report-export/verify-isolation.sh
+```
+
+`local` 是开发子进程，不是 OS 沙箱；`docker` 使用本机 daemon，`ssh_docker` 经 SSH 调用 VM 的相同固定隔离 worker。凭据必须放在 Git 外的本地配置，不能提交 SSH 密码、模型 Key 或真实 DSN。worker 不执行模型生成的代码或任意 Shell。
+
+选定真实 Java 登录/JWT、模型、pgvector、报告版本与 SSH-Docker 链路已验证。分项测试、浏览器 Stub 与完整应用验证的边界见[最终验收矩阵](docs/agent-role-enhancement/Agent-岗位补强-最终验收矩阵.md)。同目录归档三天速通计划、教学规则和游标；不宣称生产负载、逃逸安全认证或全部校园问题准确。

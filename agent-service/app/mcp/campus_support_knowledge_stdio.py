@@ -35,16 +35,13 @@ def _run_production_server() -> None:
         build_current_support_knowledge_corpus,
         build_support_knowledge_answer_service,
         build_support_knowledge_text_embedder,
+        build_dense_index_store,
     )
     from app.config import load_settings
     from app.application.support_knowledge_dense_index_runtime import (
         SupportKnowledgeDenseIndexRuntime,
     )
-    from app.infrastructure.json_file_dense_support_knowledge_index_store import (
-        JsonFileDenseSupportKnowledgeIndexStore,
-    )
     import httpx
-    from app.bootstrap import _SUPPORT_KNOWLEDGE_DENSE_INDEX_PATH
 
     settings = load_settings()
     corpus = build_current_support_knowledge_corpus()
@@ -56,11 +53,9 @@ def _run_production_server() -> None:
                 corpus,
                 build_support_knowledge_text_embedder(
                     settings,
-                    httpx.Client(timeout=settings.embedding_model_timeout_seconds),
+                    httpx.Client(timeout=settings.embedding_model_timeout_seconds, trust_env=settings.http_trust_env),
                 ),
-                JsonFileDenseSupportKnowledgeIndexStore(
-                    _SUPPORT_KNOWLEDGE_DENSE_INDEX_PATH
-                ),
+                build_dense_index_store(settings),
             )
             dense_runtime.prepare()
         provider = build_support_knowledge_answer_service(

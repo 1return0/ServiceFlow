@@ -380,7 +380,7 @@ def build_support_knowledge_reranker(
         api_key=settings.reranker_model_api_key,
         model=settings.reranker_model_name,
         revision=settings.reranker_model_revision,
-        http_client=httpx.Client(timeout=settings.reranker_model_timeout_seconds),
+        http_client=httpx.Client(timeout=settings.reranker_model_timeout_seconds, trust_env=settings.http_trust_env),
     )
 
 
@@ -436,7 +436,7 @@ def build_campus_support_triage_runtime(
     checkpointer: object | None = None,
     memory_service: LongTermMemoryService | None = None,
 ) -> CampusSupportTriageRuntime:
-    http_client = httpx.Client(timeout=settings.business_service_timeout_seconds)
+    http_client = httpx.Client(timeout=settings.business_service_timeout_seconds, trust_env=settings.http_trust_env)
     business_service_client = build_business_service_client(settings, http_client)
     ticket_specialist = TicketSpecialistAgent(TicketLookupTool(business_service_client))
     planner = build_triage_planner(settings)
@@ -491,7 +491,7 @@ def _build_qwen_completion_model(
         base_url=settings.planner_model_base_url,
         api_key=settings.planner_model_api_key,
         model=settings.planner_model_name,
-        http_client=httpx.Client(timeout=settings.planner_model_timeout_seconds),
+        http_client=httpx.Client(timeout=settings.planner_model_timeout_seconds, trust_env=settings.http_trust_env),
     )
 
 
@@ -539,12 +539,24 @@ def _build_pdf_ocr_fallback_parser(
         api_key=settings.ocr_model_api_key,
         model=settings.ocr_model_name,
         page_renderer=renderer,
-        http_client=httpx.Client(timeout=settings.ocr_model_timeout_seconds),
+        http_client=httpx.Client(timeout=settings.ocr_model_timeout_seconds, trust_env=settings.http_trust_env),
     )
     return PdfOcrFallbackSupportKnowledgeArtifactParser(
         PdfSupportKnowledgeArtifactParser(artifact_root),
         extractor,
     )
+
+
+def build_dense_index_store(settings: Settings):
+    if settings.dense_index_backend == "json":
+        return JsonFileDenseSupportKnowledgeIndexStore(_SUPPORT_KNOWLEDGE_DENSE_INDEX_PATH)
+    if settings.dense_index_backend == "pgvector":
+        if not settings.dense_postgres_dsn:
+            raise ValueError("SERVICEFLOW_DENSE_POSTGRES_DSN is required for pgvector")
+        from app.infrastructure.pgvector_support_knowledge_index_store import PgvectorSupportKnowledgeIndexStore
+
+        return PgvectorSupportKnowledgeIndexStore(settings.dense_postgres_dsn)
+    raise ValueError("unsupported SERVICEFLOW_DENSE_INDEX_BACKEND")
 
 
 def build_application_lifespan(settings: Settings):
@@ -568,11 +580,9 @@ def build_application_lifespan(settings: Settings):
                 app.state.current_support_knowledge_corpus,
                 build_support_knowledge_text_embedder(
                     settings,
-                    httpx.Client(timeout=settings.embedding_model_timeout_seconds),
+                    httpx.Client(timeout=settings.embedding_model_timeout_seconds, trust_env=settings.http_trust_env),
                 ),
-                JsonFileDenseSupportKnowledgeIndexStore(
-                    _SUPPORT_KNOWLEDGE_DENSE_INDEX_PATH
-                ),
+                build_dense_index_store(settings),
             )
             dense_index_runtime.prepare()
             app.state.support_knowledge_dense_index_runtime = dense_index_runtime
