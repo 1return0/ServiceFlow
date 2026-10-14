@@ -1,4 +1,5 @@
 import unittest
+import json
 
 from app.application.model_triage_planner import (
     ModelTriagePlanner,
@@ -25,8 +26,8 @@ class FakeCompletionModel:
 class ModelTriagePlannerTest(unittest.TestCase):
     def test_decodes_a_public_knowledge_decision(self) -> None:
         model = FakeCompletionModel(
-            '{"decision":"answer_support_knowledge",'
-            '"reason":"public network question","ticket_id":null}'
+            '{"decision":"call_tool","tool_name":"answer_support_knowledge",'
+            '"reason":"public network question","arguments":{"question":"校园网连接失败怎么办？"}}'
         )
         planner = ModelTriagePlanner(model)
 
@@ -35,15 +36,19 @@ class ModelTriagePlannerTest(unittest.TestCase):
         self.assertEqual("answer_support_knowledge", plan.decision)
         self.assertIsNone(plan.ticket_id)
         self.assertEqual("fake-triage-model-v1", planner.identity)
-        self.assertEqual("campus-support-triage-prompt-v5", planner.prompt_version)
+        self.assertEqual("campus-support-triage-prompt-v6", planner.prompt_version)
         self.assertIn("JSON only", model.last_system_prompt or "")
         self.assertIn("physical-safety", model.last_system_prompt or "")
+        payload = json.loads(model.last_user_query)
+        self.assertEqual("校园网连接失败怎么办？", payload["user_query"])
+        self.assertEqual(4, len(payload["available_tools"]))
+        self.assertEqual("校园网连接失败怎么办？", plan.knowledge_question)
 
     def test_decodes_a_handoff_decision(self) -> None:
         planner = ModelTriagePlanner(
             FakeCompletionModel(
-                '{"decision":"handoff_to_human","reason":"smoke",'
-                '"ticket_id":null,"handoff_reason":"physical_safety_risk"}'
+                '{"decision":"call_tool","tool_name":"create_human_handoff_task","reason":"smoke",'
+                '"arguments":{"handoff_reason":"physical_safety_risk"}}'
             )
         )
 
@@ -55,8 +60,8 @@ class ModelTriagePlannerTest(unittest.TestCase):
     def test_decodes_a_ticket_decision(self) -> None:
         planner = ModelTriagePlanner(
             FakeCompletionModel(
-                '{"decision":"lookup_ticket","reason":"UUID found",'
-                '"ticket_id":"009e3cce-8f4d-448d-a060-6ce2624eac77"}'
+                '{"decision":"call_tool","tool_name":"lookup_ticket","reason":"UUID found",'
+                '"arguments":{"ticket_id":"009e3cce-8f4d-448d-a060-6ce2624eac77"}}'
             )
         )
 
@@ -68,8 +73,8 @@ class ModelTriagePlannerTest(unittest.TestCase):
     def test_rejects_a_schema_valid_but_business_invalid_plan(self) -> None:
         planner = ModelTriagePlanner(
             FakeCompletionModel(
-                '{"decision":"answer_support_knowledge","reason":"bad",'
-                '"ticket_id":"009e3cce-8f4d-448d-a060-6ce2624eac77"}'
+                '{"decision":"call_tool","tool_name":"answer_support_knowledge","reason":"bad",'
+                '"arguments":{"ticket_id":"009e3cce-8f4d-448d-a060-6ce2624eac77"}}'
             )
         )
 

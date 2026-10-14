@@ -4,7 +4,7 @@ import re
 from typing import Literal, Protocol
 from uuid import UUID
 
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel, Field, model_validator
 
 
 HandoffReason = Literal["account_security_risk", "physical_safety_risk"]
@@ -24,9 +24,12 @@ class TriagePlan(BaseModel):
     ticket_id: UUID | None = None
     handoff_reason: HandoffReason | None = None
     follow_up_knowledge: bool = False
+    knowledge_question: str | None = Field(default=None, min_length=1, max_length=2000)
 
     @model_validator(mode="after")
     def validate_arguments(self) -> "TriagePlan":
+        if self.knowledge_question is not None and self.decision != "answer_support_knowledge":
+            raise ValueError("only answer_support_knowledge may contain knowledge_question")
         if self.decision == "lookup_ticket" and self.ticket_id is None:
             raise ValueError("lookup_ticket decision requires ticket_id")
         if self.decision != "lookup_ticket" and self.ticket_id is not None:

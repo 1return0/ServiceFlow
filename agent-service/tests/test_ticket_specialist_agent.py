@@ -37,7 +37,8 @@ class _RecordingTicketLookupTool:
     def __init__(self) -> None:
         self.calls: list[tuple[UUID, str]] = []
 
-    def execute(self, *, ticket_id: UUID, authorization: str) -> BusinessTicket:
+    def invoke(self, arguments: dict, *, authorization: str) -> BusinessTicket:
+        ticket_id = arguments["ticket_id"]
         self.calls.append((ticket_id, authorization))
         return BusinessTicket(
             id=ticket_id,

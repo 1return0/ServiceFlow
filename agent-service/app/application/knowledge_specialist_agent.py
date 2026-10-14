@@ -56,4 +56,4 @@ class KnowledgeSpecialistAgent:
                 f"category={ticket_context.category}; "
                 f"status={ticket_context.status}"
             )
-        return self._knowledge_answer_tool.execute(question=question)
+        return self._knowledge_answer_tool.invoke({"question": question})

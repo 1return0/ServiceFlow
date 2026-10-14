@@ -26,8 +26,8 @@ class ModelTicketLookupPlannerTest(unittest.TestCase):
     def test_decodes_a_valid_model_plan(self) -> None:
         model = FakePlannerModel(
             """
-            {"decision":"lookup_ticket","reason":"ticket ID found",
-             "ticket_id":"009e3cce-8f4d-448d-a060-6ce2624eac77"}
+            {"decision":"call_tool","tool_name":"lookup_ticket","reason":"ticket ID found",
+             "arguments":{"ticket_id":"009e3cce-8f4d-448d-a060-6ce2624eac77"}}
             """
         )
         planner = ModelTicketLookupPlanner(model)
@@ -38,7 +38,7 @@ class ModelTicketLookupPlannerTest(unittest.TestCase):
 
         self.assertEqual("lookup_ticket", plan.decision)
         self.assertEqual("fake-planner-v1", planner.identity)
-        self.assertEqual("ticket-lookup-planner-prompt-v1", planner.prompt_version)
+        self.assertEqual("ticket-lookup-planner-prompt-v2", planner.prompt_version)
         self.assertIn("JSON only", model.last_system_prompt or "")
 
     def test_rejects_non_json_model_output(self) -> None:

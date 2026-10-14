@@ -340,7 +340,7 @@ class CampusSupportTriageGraph:
                 lambda: _invoke_with_bound_harness(
                     runtime,
                     lambda: self._knowledge_specialist.answer(
-                        user_query=state["user_query"],
+                        user_query=state["plan"].knowledge_question or state["user_query"],
                     ),
                 ),
             ),
@@ -391,9 +391,9 @@ class CampusSupportTriageGraph:
                 tool_name=self._handoff_task_tool.name,
                 operation=lambda: _harness(runtime).invoke_tool(
                     "create_human_handoff_task",
-                    lambda: self._handoff_task_tool.execute(
+                    lambda: self._handoff_task_tool.invoke(
+                        {"handoff_reason": state["plan"].handoff_reason or ""},
                         request_id=UUID(recorder.request_id),
-                        handoff_reason=state["plan"].handoff_reason or "",
                         authorization=runtime.context["authorization"] or "",
                     ),
                 ),

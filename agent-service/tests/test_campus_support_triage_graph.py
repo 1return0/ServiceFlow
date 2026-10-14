@@ -98,14 +98,14 @@ class RecordingHandoffTaskTool:
     def __init__(self) -> None:
         self.calls: list[tuple[UUID, str, str]] = []
 
-    def execute(
+    def invoke(
         self,
+        arguments: dict,
         *,
         request_id: UUID,
-        handoff_reason: str,
         authorization: str,
     ) -> None:
-        self.calls.append((request_id, handoff_reason, authorization))
+        self.calls.append((request_id, arguments["handoff_reason"], authorization))
 
 
 class CampusSupportTriageGraphTest(unittest.TestCase):

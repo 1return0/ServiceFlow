@@ -45,7 +45,7 @@ class TicketSpecialistAgent:
             raise TicketAuthorizationRequiredError(
                 "ticket lookup requires an authorization header"
             )
-        return self._ticket_lookup_tool.execute(
-            ticket_id=ticket_id,
+        return self._ticket_lookup_tool.invoke(
+            {"ticket_id": ticket_id},
             authorization=authorization,
         )

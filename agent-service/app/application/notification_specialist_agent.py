@@ -25,4 +25,4 @@ class NotificationSpecialistAgent:
             raise TicketAuthorizationRequiredError(
                 "notification summary requires an authorization header"
             )
-        return self._notification_summary_tool.execute(authorization=authorization)
+        return self._notification_summary_tool.invoke({}, authorization=authorization)

@@ -16,6 +16,7 @@ from fastapi import FastAPI
 from app.application.model_ticket_lookup_planner import ModelTicketLookupPlanner
 from app.application.agent_harness import HarnessedCompletionModel
 from app.application.model_triage_planner import ModelTriagePlanner
+from app.application.agent_tool_planning import AgentToolDefinition
 from app.application.handoff_guard import CampusRiskHandoffGuard
 from app.application.fallback_triage_planner import FallbackTriagePlanner
 from app.application.model_grounded_support_knowledge_answering import (
@@ -294,7 +295,9 @@ def build_ticket_lookup_planner(settings: Settings) -> TicketLookupPlanner:
     return ModelTicketLookupPlanner(_build_qwen_completion_model(settings))
 
 
-def build_triage_planner(settings: Settings) -> TriagePlanner:
+def build_triage_planner(
+    settings: Settings, *, tools: tuple[AgentToolDefinition, ...] | None = None,
+) -> TriagePlanner:
     if not settings.triage_model_enabled:
         return RuleBasedTriagePlanner()
     return FallbackTriagePlanner(
@@ -302,7 +305,8 @@ def build_triage_planner(settings: Settings) -> TriagePlanner:
             HarnessedCompletionModel(
                 _build_qwen_completion_model(settings),
                 operation_name="triage_planner_model",
-            )
+            ),
+            tools=tools,
         ),
         RuleBasedTriagePlanner(),
     )
@@ -438,17 +442,22 @@ def build_campus_support_triage_runtime(
 ) -> CampusSupportTriageRuntime:
     http_client = httpx.Client(timeout=settings.business_service_timeout_seconds, trust_env=settings.http_trust_env)
     business_service_client = build_business_service_client(settings, http_client)
-    ticket_specialist = TicketSpecialistAgent(TicketLookupTool(business_service_client))
-    planner = build_triage_planner(settings)
+    ticket_tool = TicketLookupTool(business_service_client)
+    knowledge_tool = SupportKnowledgeAnswerTool(support_knowledge_answer_service)
+    notification_tool = NotificationSummaryTool(business_service_client)
+    handoff_tool = HumanHandoffTaskTool(business_service_client)
+    ticket_specialist = TicketSpecialistAgent(ticket_tool)
+    planner = build_triage_planner(settings, tools=tuple(
+        AgentToolDefinition.from_tool(tool)
+        for tool in (ticket_tool, knowledge_tool, notification_tool, handoff_tool)
+    ))
     graph = CampusSupportTriageGraph(
         planner,
         ticket_specialist,
-        KnowledgeSpecialistAgent(
-            SupportKnowledgeAnswerTool(support_knowledge_answer_service)
-        ),
+        KnowledgeSpecialistAgent(knowledge_tool),
         CampusRiskHandoffGuard(),
-        NotificationSpecialistAgent(NotificationSummaryTool(business_service_client)),
-        HumanHandoffTaskTool(business_service_client),
+        NotificationSpecialistAgent(notification_tool),
+        handoff_tool,
         checkpointer=checkpointer,
     )
     return CampusSupportTriageRuntime(

@@ -54,7 +54,8 @@ class _RecordingKnowledgeTool:
     def __init__(self) -> None:
         self.questions: list[str] = []
 
-    def execute(self, *, question: str, top_k: int = 3) -> SupportKnowledgeAnswer:
+    def invoke(self, arguments: dict) -> SupportKnowledgeAnswer:
+        question = arguments["question"]
         self.questions.append(question)
         return SupportKnowledgeAnswer(
             status="answered",

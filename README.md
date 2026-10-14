@@ -32,6 +32,12 @@ throughput, multi-instance recovery or all optional model integrations.
 
 ## Security and observability boundary
 
+Tool contracts now follow the same pattern as JobScope: tool-owned names,
+descriptions and Pydantic argument schemas are registered into the Planner
+prompt, then validated locally before bounded Graph execution. Trusted identity
+and credentials remain runtime-only. This is schema-guided JSON planning, not
+native API function calling. See [the unified tool contract](docs/agent-tool-definitions.md).
+
 The Agent exposes request-scoped Harness counts/limits and a redacted
 Coordinator Trace; retrieval traces identify strategy stages without exposing
 credentials or raw protected ticket content. They are complementary to, not a
