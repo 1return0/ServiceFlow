@@ -13,16 +13,12 @@ public class TicketStatusTransitionPolicy {
 
     public boolean isAllowed(TicketStatus from, TicketStatus to) {
         return switch (from) {
-            case OPEN -> to == TicketStatus.IN_PROGRESS || to == TicketStatus.ESCALATED;
-            case IN_PROGRESS -> to == TicketStatus.WAITING_FOR_REQUESTER
-                    || to == TicketStatus.RESOLVED
-                    || to == TicketStatus.ESCALATED;
-            case WAITING_FOR_REQUESTER -> to == TicketStatus.IN_PROGRESS
-                    || to == TicketStatus.CLOSED
-                    || to == TicketStatus.ESCALATED;
+            case OPEN -> to == TicketStatus.IN_PROGRESS;
+            case IN_PROGRESS -> to == TicketStatus.RESOLVED;
             case RESOLVED -> to == TicketStatus.CLOSED || to == TicketStatus.IN_PROGRESS;
-            case ESCALATED -> to == TicketStatus.IN_PROGRESS || to == TicketStatus.CLOSED;
             case CLOSED -> false;
+            // Retired enum values remain readable for historical rows, but cannot transition.
+            default -> false;
         };
     }
 }

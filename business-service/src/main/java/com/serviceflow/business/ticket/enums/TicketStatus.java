@@ -1,11 +1,15 @@
 package com.serviceflow.business.ticket.enums;
 
-/** The allowed values of a ticket's current state. Transition rules come later. */
+/** Four active workflow states; retired values are read-only compatibility for historical data. */
 public enum TicketStatus {
     OPEN,
     IN_PROGRESS,
-    WAITING_FOR_REQUESTER,
     RESOLVED,
     CLOSED,
+    /** Compatibility only: no active waiting-for-requester workflow. */
+    @Deprecated
+    WAITING_FOR_REQUESTER,
+    /** Compatibility only: human handoff tasks are separate from ticket escalation. */
+    @Deprecated
     ESCALATED
 }

@@ -5,7 +5,7 @@ import { ApiRequestError } from "@/api/http";
 import type { Ticket } from "@/api/contracts";
 import { businessApi } from "@/api/business";
 
-type TicketStatus = "OPEN" | "IN_PROGRESS" | "WAITING_FOR_REQUESTER" | "RESOLVED" | "CLOSED" | "ESCALATED";
+type TicketStatus = "OPEN" | "IN_PROGRESS" | "RESOLVED" | "CLOSED";
 type TicketViewMode = "mine" | "queue";
 
 const categories = [
@@ -16,21 +16,17 @@ const categories = [
 ];
 
 const allowedTransitions: Record<TicketStatus, TicketStatus[]> = {
-  OPEN: ["IN_PROGRESS", "ESCALATED"],
-  IN_PROGRESS: ["WAITING_FOR_REQUESTER", "RESOLVED", "ESCALATED"],
-  WAITING_FOR_REQUESTER: ["IN_PROGRESS", "CLOSED", "ESCALATED"],
+  OPEN: ["IN_PROGRESS"],
+  IN_PROGRESS: ["RESOLVED"],
   RESOLVED: ["CLOSED", "IN_PROGRESS"],
   CLOSED: [],
-  ESCALATED: ["IN_PROGRESS", "CLOSED"],
 };
 
 const statusLabels: Record<TicketStatus, string> = {
   OPEN: "待领取",
   IN_PROGRESS: "处理中",
-  WAITING_FOR_REQUESTER: "等待提交人",
   RESOLVED: "已解决",
   CLOSED: "已关闭",
-  ESCALATED: "已升级",
 };
 
 const category = ref("CAMPUS_NETWORK");

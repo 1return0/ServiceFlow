@@ -24,4 +24,24 @@ class TicketStatusTransitionPolicyTest {
     void rejects_skipping_directly_from_open_to_closed() {
         assertThat(policy.isAllowed(TicketStatus.OPEN, TicketStatus.CLOSED)).isFalse();
     }
+
+    @Test
+    void supports_resolving_closing_and_reworking_the_active_workflow() {
+        assertThat(policy.isAllowed(TicketStatus.IN_PROGRESS, TicketStatus.RESOLVED)).isTrue();
+        assertThat(policy.isAllowed(TicketStatus.RESOLVED, TicketStatus.CLOSED)).isTrue();
+        assertThat(policy.isAllowed(TicketStatus.RESOLVED, TicketStatus.IN_PROGRESS)).isTrue();
+        assertThat(policy.isAllowed(TicketStatus.OPEN, TicketStatus.RESOLVED)).isFalse();
+        assertThat(policy.isAllowed(TicketStatus.IN_PROGRESS, TicketStatus.CLOSED)).isFalse();
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
+    void retired_statuses_cannot_be_entered_or_transitioned() {
+        for (TicketStatus status : TicketStatus.values()) {
+            assertThat(policy.isAllowed(status, TicketStatus.WAITING_FOR_REQUESTER)).isFalse();
+            assertThat(policy.isAllowed(status, TicketStatus.ESCALATED)).isFalse();
+            assertThat(policy.isAllowed(TicketStatus.WAITING_FOR_REQUESTER, status)).isFalse();
+            assertThat(policy.isAllowed(TicketStatus.ESCALATED, status)).isFalse();
+        }
+    }
 }
