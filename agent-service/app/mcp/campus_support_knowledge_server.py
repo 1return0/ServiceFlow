@@ -9,7 +9,7 @@ from mcp.server.fastmcp.exceptions import ToolError
 from mcp.server.fastmcp import FastMCP
 from pydantic import BaseModel, Field
 
-from app.application.support_knowledge_answering import (
+from app.application.retrieval.support_knowledge_answering import (
     SupportKnowledgeAnswer,
     SupportKnowledgeAnswerProvider,
 )

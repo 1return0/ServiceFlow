@@ -3,13 +3,13 @@ from __future__ import annotations
 from pathlib import Path
 from unittest import TestCase
 
-from app.application.model_grounded_support_knowledge_answering import (
+from app.application.retrieval.model_grounded_support_knowledge_answering import (
     ModelGroundedSupportKnowledgeAnswerService,
 )
-from app.application.support_knowledge_retrieval import (
+from app.application.retrieval.support_knowledge_retrieval import (
     LexicalSupportKnowledgeRetriever,
 )
-from app.infrastructure.json_support_knowledge_catalog import (
+from app.infrastructure.persistence.json_support_knowledge_catalog import (
     JsonSupportKnowledgeCatalog,
 )
 

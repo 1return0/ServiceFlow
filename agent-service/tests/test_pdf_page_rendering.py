@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from unittest import TestCase
 
-from app.infrastructure.pdf_page_rendering import (
+from app.infrastructure.parsers.pdf_page_rendering import (
     PdfPagePixelLimitExceededError,
     PdfPageRasterizationPlanner,
     PdfPageRasterizationSettings,

@@ -5,7 +5,7 @@ from unittest import TestCase
 
 import httpx
 
-from app.infrastructure.qwen_openai_compatible_support_knowledge_reranker import (
+from app.infrastructure.models.qwen_openai_compatible_support_knowledge_reranker import (
     QwenOpenAICompatibleSupportKnowledgeReranker,
     SupportKnowledgeRerankerUnavailableError,
 )

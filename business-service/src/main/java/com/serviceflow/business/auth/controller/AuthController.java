@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.serviceflow.business.auth.dto.LoginRequest;
+import com.serviceflow.business.auth.dto.req.LoginRequest;
 import com.serviceflow.business.auth.service.AuthService;
-import com.serviceflow.business.auth.vo.LoginResponse;
-import com.serviceflow.business.auth.vo.AuthenticatedSubjectResponse;
+import com.serviceflow.business.auth.dto.resp.LoginResponse;
+import com.serviceflow.business.auth.dto.resp.AuthenticatedSubjectResponse;
 import com.serviceflow.business.common.Result;
 
 @RestController

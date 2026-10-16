@@ -4,7 +4,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
 
-from app.application.ocr_evaluation_dataset import (
+from app.application.evaluation.ocr_evaluation_dataset import (
     OcrEvaluationDatasetError,
     load_ocr_evaluation_dataset,
 )

@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.serviceflow.business.ticket.outbox.RabbitMqTicketOutboxEventPublisher;
-import com.serviceflow.business.ticket.outbox.TicketOutboxEventPublisher;
+import com.serviceflow.business.ticket.manager.mq.outbox.RabbitMqTicketOutboxEventPublisher;
+import com.serviceflow.business.ticket.manager.mq.outbox.TicketOutboxEventPublisher;
 
 /** Creates the Outbox publisher; topology is owned by TicketEventRabbitMqTopologyConfiguration. */
 @Configuration

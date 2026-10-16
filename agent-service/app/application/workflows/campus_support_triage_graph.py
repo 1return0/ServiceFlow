@@ -7,27 +7,27 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.runtime import Runtime
 from typing_extensions import NotRequired, TypedDict
 
-from app.application.support_knowledge_answering import SupportKnowledgeAnswer
-from app.application.coordinator_trace import CoordinatorTrace, CoordinatorTraceRecorder
-from app.application.agent_harness import (
+from app.application.retrieval.support_knowledge_answering import SupportKnowledgeAnswer
+from app.application.agent.coordinator_trace import CoordinatorTrace, CoordinatorTraceRecorder
+from app.application.agent.agent_harness import (
     AgentHarness,
     AgentHarnessSnapshot,
     bind_agent_harness,
 )
-from app.application.human_handoff_task_tool import HumanHandoffTaskTool
-from app.application.handoff_guard import CampusRiskHandoffGuard, HandoffGuard
-from app.application.knowledge_specialist_agent import (
+from app.application.tools.human_handoff_task_tool import HumanHandoffTaskTool
+from app.application.agent.handoff_guard import CampusRiskHandoffGuard, HandoffGuard
+from app.application.agent.knowledge_specialist_agent import (
     KnowledgeSpecialist,
     TicketKnowledgeContext,
 )
-from app.application.ticket_specialist_agent import (
+from app.application.agent.ticket_specialist_agent import (
     TicketAuthorizationRequiredError,
     TicketSpecialist,
 )
-from app.application.notification_specialist_agent import NotificationSpecialist
+from app.application.agent.notification_specialist_agent import NotificationSpecialist
 from app.domain.triage_plan import HandoffReason, TriagePlan, TriagePlanner
-from app.infrastructure.business_client import BusinessNotificationSummary, BusinessTicket
-from app.application.safe_conversation import (
+from app.infrastructure.clients.business_client import BusinessNotificationSummary, BusinessTicket
+from app.application.memory.safe_conversation import (
     merge_safe_conversation_turns,
     safe_agent_summary,
     safe_conversation_turn,

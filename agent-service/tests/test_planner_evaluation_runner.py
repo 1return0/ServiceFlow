@@ -6,7 +6,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
 
-from app.application.planner_evaluation_runner import (
+from app.application.evaluation.planner_evaluation_runner import (
     run_planner_evaluation,
     write_planner_evaluation_report,
 )

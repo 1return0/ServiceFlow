@@ -7,13 +7,13 @@ from unittest import TestCase
 from pypdf import PdfWriter
 
 from app.domain.ocr_text_extraction import OcrPageText
-from app.application.ocr_page_reading_order import OcrPageSequenceError
+from app.application.knowledge.ocr_page_reading_order import OcrPageSequenceError
 from app.domain.support_knowledge_artifact import SupportKnowledgeArtifact
-from app.infrastructure.pdf_ocr_fallback_support_knowledge_artifact_parser import (
+from app.infrastructure.parsers.pdf_ocr_fallback_support_knowledge_artifact_parser import (
     OcrTextExtractionEmptyError,
     PdfOcrFallbackSupportKnowledgeArtifactParser,
 )
-from app.infrastructure.pdf_support_knowledge_artifact_parser import (
+from app.infrastructure.parsers.pdf_support_knowledge_artifact_parser import (
     PdfSupportKnowledgeArtifactParser,
 )
 

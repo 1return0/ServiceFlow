@@ -2,12 +2,12 @@ from __future__ import annotations
 
 from unittest import TestCase
 
-from app.application.retrieval_evaluation import (
+from app.application.evaluation.retrieval_evaluation import (
     RetrievalEvaluationCase,
     RetrievalEvaluator,
     RetrievalRelevanceJudgment,
 )
-from app.application.support_knowledge_chunk_retrieval import SupportKnowledgeChunkSearchHit
+from app.application.retrieval.support_knowledge_chunk_retrieval import SupportKnowledgeChunkSearchHit
 from app.domain.support_knowledge_chunk import SupportKnowledgeChunk
 
 

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from unittest import TestCase
 
-from app.application.fragment_aware_support_knowledge_chunker import (
+from app.application.knowledge.fragment_aware_support_knowledge_chunker import (
     FragmentAwareSupportKnowledgeChunker,
     SupportKnowledgeChunkingError,
 )

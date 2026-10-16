@@ -8,20 +8,20 @@ from unittest import TestCase
 from fastapi.testclient import TestClient
 
 from app.main import app
-from app.application.fragment_aware_support_knowledge_chunker import (
+from app.application.knowledge.fragment_aware_support_knowledge_chunker import (
     FragmentAwareSupportKnowledgeChunker,
 )
-from app.application.knowledge_import_access_policy import KnowledgeImportAccessPolicy
-from app.application.support_knowledge_article_assembler import (
+from app.application.knowledge.knowledge_import_access_policy import KnowledgeImportAccessPolicy
+from app.application.knowledge.support_knowledge_article_assembler import (
     SupportKnowledgeArticleAssembler,
 )
-from app.application.support_knowledge_document_parsing_service import (
+from app.application.knowledge.support_knowledge_document_parsing_service import (
     SupportKnowledgeDocumentParsingService,
 )
-from app.application.support_knowledge_ingestion_service import (
+from app.application.knowledge.support_knowledge_ingestion_service import (
     SupportKnowledgeIngestionService,
 )
-from app.application.support_knowledge_parser_registry import (
+from app.application.knowledge.support_knowledge_parser_registry import (
     SupportKnowledgeParserRegistry,
 )
 from app.domain.parsed_support_knowledge_document import (
@@ -29,19 +29,19 @@ from app.domain.parsed_support_knowledge_document import (
     ParsedSupportKnowledgeFragment,
 )
 from app.domain.support_knowledge_artifact import SupportKnowledgeArtifact
-from app.infrastructure.file_system_support_knowledge_artifact_store import (
+from app.infrastructure.persistence.file_system_support_knowledge_artifact_store import (
     FileSystemSupportKnowledgeArtifactStore,
 )
-from app.infrastructure.in_memory_support_knowledge_corpus import (
+from app.infrastructure.persistence.in_memory_support_knowledge_corpus import (
     InMemoryCurrentSupportKnowledgeCorpus,
 )
-from app.infrastructure.openai_compatible_vision_ocr_text_extractor import (
+from app.infrastructure.models.openai_compatible_vision_ocr_text_extractor import (
     OcrTextExtractorUnavailableError,
 )
-from app.infrastructure.pdf_ocr_fallback_support_knowledge_artifact_parser import (
+from app.infrastructure.parsers.pdf_ocr_fallback_support_knowledge_artifact_parser import (
     OcrTextExtractionEmptyError,
 )
-from app.infrastructure.pdf_page_rendering import PdfPagePixelLimitExceededError
+from app.infrastructure.parsers.pdf_page_rendering import PdfPagePixelLimitExceededError
 
 
 class SupportKnowledgeOcrImportEndToEndTest(TestCase):

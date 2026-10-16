@@ -12,10 +12,10 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from app.application.ocr_smoke import run_ocr_smoke
+from app.application.evaluation.ocr_smoke import run_ocr_smoke
 from app.bootstrap import build_support_knowledge_document_parsing_service
 from app.config import load_settings
-from app.infrastructure.file_system_support_knowledge_artifact_store import (
+from app.infrastructure.persistence.file_system_support_knowledge_artifact_store import (
     FileSystemSupportKnowledgeArtifactStore,
 )
 

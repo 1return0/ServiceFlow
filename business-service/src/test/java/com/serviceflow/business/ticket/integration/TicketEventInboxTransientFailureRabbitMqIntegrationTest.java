@@ -29,9 +29,9 @@ import org.springframework.test.context.ActiveProfiles;
 
 import com.serviceflow.business.ticket.config.TicketEventRabbitMqTopologyConfiguration;
 import com.serviceflow.business.ticket.config.TicketEventConsumerReliabilityConfiguration;
-import com.serviceflow.business.ticket.inbox.TicketEventInboxMessage;
-import com.serviceflow.business.ticket.inbox.TicketStatusChangedEventProcessingService;
-import com.serviceflow.business.ticket.inbox.TicketStatusChangedInboxConsumer;
+import com.serviceflow.business.ticket.manager.mq.inbox.TicketEventInboxMessage;
+import com.serviceflow.business.ticket.manager.mq.inbox.TicketStatusChangedEventProcessingService;
+import com.serviceflow.business.ticket.manager.mq.inbox.TicketStatusChangedInboxConsumer;
 
 /**
  * Opt-in real-broker verification: a temporary Consumer failure is retried three

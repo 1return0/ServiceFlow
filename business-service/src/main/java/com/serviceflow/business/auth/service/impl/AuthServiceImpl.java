@@ -6,12 +6,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
-import com.serviceflow.business.auth.dto.LoginRequest;
+import com.serviceflow.business.auth.dto.req.LoginRequest;
 import com.serviceflow.business.auth.exception.InvalidLoginCredentialsException;
 import com.serviceflow.business.auth.service.AuthService;
 import com.serviceflow.business.auth.service.IssuedJwt;
 import com.serviceflow.business.auth.service.JwtTokenService;
-import com.serviceflow.business.auth.vo.LoginResponse;
+import com.serviceflow.business.auth.dto.resp.LoginResponse;
 
 @Service
 public class AuthServiceImpl implements AuthService {

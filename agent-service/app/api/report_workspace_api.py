@@ -6,11 +6,11 @@ from fastapi import APIRouter, HTTPException, Request, Response
 from pydantic import Field
 from typing import Literal
 
-from app.application.document_workspace import (
+from app.application.reports.document_workspace import (
     StrictModel, ReportEdit, ReportConflictError, ReportNotFoundError, ReportUnavailableError,
 )
-from app.infrastructure.postgres_report_store import PostgresReportStore
-from app.infrastructure.report_exporter import ReportExporter
+from app.infrastructure.persistence.postgres_report_store import PostgresReportStore
+from app.infrastructure.reports.report_exporter import ReportExporter
 
 
 class GenerateReportRequest(StrictModel):

@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serviceflow.business.auth.entity.AccountUserEntity;
-import com.serviceflow.business.auth.mapper.AccountUserMapper;
+import com.serviceflow.business.auth.dao.entity.AccountUserEntity;
+import com.serviceflow.business.auth.dao.mapper.AccountUserMapper;
 
 /** Loads an enabled application account from PostgreSQL for Spring Security authentication. */
 @Service

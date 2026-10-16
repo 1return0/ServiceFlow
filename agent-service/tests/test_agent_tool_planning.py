@@ -7,16 +7,16 @@ from uuid import UUID
 import pytest
 from pydantic import ValidationError
 
-from app.application.agent_tool_planning import AgentToolRegistry, default_tool_definitions
-from app.application.human_handoff_task_tool import HumanHandoffTaskTool
-from app.application.model_triage_planner import ModelTriagePlanner, TriagePlannerOutputError
-from app.application.notification_summary_tool import NotificationSummaryTool
-from app.application.support_knowledge_tool import SupportKnowledgeAnswerTool
-from app.application.ticket_lookup_tool import TicketLookupTool
-from app.application.ticket_specialist_agent import TicketSpecialistAgent
-from app.application.knowledge_specialist_agent import KnowledgeSpecialistAgent
+from app.application.agent.agent_tool_planning import AgentToolRegistry, default_tool_definitions
+from app.application.tools.human_handoff_task_tool import HumanHandoffTaskTool
+from app.application.agent.model_triage_planner import ModelTriagePlanner, TriagePlannerOutputError
+from app.application.tools.notification_summary_tool import NotificationSummaryTool
+from app.application.tools.support_knowledge_tool import SupportKnowledgeAnswerTool
+from app.application.tools.ticket_lookup_tool import TicketLookupTool
+from app.application.agent.ticket_specialist_agent import TicketSpecialistAgent
+from app.application.agent.knowledge_specialist_agent import KnowledgeSpecialistAgent
 from app.application.workflows.campus_support_triage_graph import CampusSupportTriageGraph
-from app.application.support_knowledge_answering import SupportKnowledgeAnswer
+from app.application.retrieval.support_knowledge_answering import SupportKnowledgeAnswer
 
 
 def call(name, arguments, **options):

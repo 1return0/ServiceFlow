@@ -4,29 +4,29 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
 
-from app.application.support_knowledge_article_assembler import (
+from app.application.knowledge.support_knowledge_article_assembler import (
     SupportKnowledgeArticleAssembler,
 )
-from app.application.support_knowledge_document_parsing_service import (
+from app.application.knowledge.support_knowledge_document_parsing_service import (
     SupportKnowledgeDocumentParsingService,
 )
-from app.application.support_knowledge_ingestion_service import (
+from app.application.knowledge.support_knowledge_ingestion_service import (
     SupportKnowledgeIngestionService,
 )
-from app.application.support_knowledge_parser_registry import (
+from app.application.knowledge.support_knowledge_parser_registry import (
     SupportKnowledgeParserRegistry,
 )
-from app.application.fragment_aware_support_knowledge_chunker import (
+from app.application.knowledge.fragment_aware_support_knowledge_chunker import (
     FragmentAwareSupportKnowledgeChunker,
 )
 from app.domain.support_knowledge import SupportKnowledgeArticleMetadata
-from app.infrastructure.in_memory_support_knowledge_corpus import (
+from app.infrastructure.persistence.in_memory_support_knowledge_corpus import (
     InMemoryCurrentSupportKnowledgeCorpus,
 )
-from app.infrastructure.file_system_support_knowledge_artifact_store import (
+from app.infrastructure.persistence.file_system_support_knowledge_artifact_store import (
     FileSystemSupportKnowledgeArtifactStore,
 )
-from app.infrastructure.html_support_knowledge_artifact_parser import (
+from app.infrastructure.parsers.html_support_knowledge_artifact_parser import (
     HtmlSupportKnowledgeArtifactParser,
 )
 

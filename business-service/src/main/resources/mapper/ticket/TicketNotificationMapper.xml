@@ -2,10 +2,10 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.serviceflow.business.ticket.mapper.TicketNotificationMapper">
+<mapper namespace="com.serviceflow.business.ticket.dao.mapper.TicketNotificationMapper">
 
     <select id="selectRecentByRecipient"
-            resultType="com.serviceflow.business.ticket.entity.TicketNotificationEntity">
+            resultType="com.serviceflow.business.ticket.dao.entity.TicketNotificationEntity">
         SELECT
             id,
             event_id,
@@ -22,7 +22,7 @@
     </select>
 
     <select id="selectByIdAndRecipient"
-            resultType="com.serviceflow.business.ticket.entity.TicketNotificationEntity">
+            resultType="com.serviceflow.business.ticket.dao.entity.TicketNotificationEntity">
         SELECT
             id, event_id, recipient_reference, ticket_id, notification_type,
             message, created_at, read_at

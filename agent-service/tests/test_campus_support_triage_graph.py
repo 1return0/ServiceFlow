@@ -2,16 +2,16 @@ import unittest
 from uuid import UUID
 
 from langgraph.checkpoint.memory import MemorySaver
-from app.application.support_knowledge_answering import (
+from app.application.retrieval.support_knowledge_answering import (
     SupportKnowledgeAnswer,
     SupportKnowledgeCitation,
 )
-from app.application.knowledge_specialist_agent import TicketKnowledgeContext
+from app.application.agent.knowledge_specialist_agent import TicketKnowledgeContext
 from app.application.workflows.campus_support_triage_graph import (
     CampusSupportTriageGraph,
 )
 from app.domain.triage_plan import TriagePlan
-from app.infrastructure.business_client import BusinessTicket
+from app.infrastructure.clients.business_client import BusinessTicket
 
 
 TICKET_ID = UUID("009e3cce-8f4d-448d-a060-6ce2624eac77")

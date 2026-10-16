@@ -8,9 +8,9 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.serviceflow.business.ticket.entity.TicketEntity;
-import com.serviceflow.business.ticket.enums.ServiceRequestCategory;
-import com.serviceflow.business.ticket.enums.TicketStatus;
+import com.serviceflow.business.ticket.dao.entity.TicketEntity;
+import com.serviceflow.business.ticket.domain.ServiceRequestCategory;
+import com.serviceflow.business.ticket.domain.TicketStatus;
 
 class TicketOutboxEventFactoryTest {
 

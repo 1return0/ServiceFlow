@@ -7,8 +7,8 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 from app.api.routes import create_router
-from app.application.long_term_memory import LongTermMemoryEntry
-from app.application.trusted_subject import TrustedSubjectAuthenticationError
+from app.application.memory.long_term_memory import LongTermMemoryEntry
+from app.application.agent.trusted_subject import TrustedSubjectAuthenticationError
 from app.config import Settings
 
 

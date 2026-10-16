@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.serviceflow.business.ticket.entity.TicketEntity;
-import com.serviceflow.business.ticket.entity.TicketOutboxEventEntity;
-import com.serviceflow.business.ticket.event.TicketStatusChangedEventPayload;
+import com.serviceflow.business.ticket.dao.entity.TicketEntity;
+import com.serviceflow.business.ticket.dao.entity.TicketOutboxEventEntity;
+import com.serviceflow.business.ticket.manager.mq.event.TicketStatusChangedEventPayload;
 
 /** Creates append-only integration events; publishing is deliberately a later concern. */
 @Component

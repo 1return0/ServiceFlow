@@ -15,11 +15,11 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.serviceflow.business.ServiceFlowBusinessApplication;
-import com.serviceflow.business.ticket.inbox.TicketEventInboxMessage;
-import com.serviceflow.business.ticket.inbox.TicketEventInboxService;
-import com.serviceflow.business.ticket.inbox.TicketStatusChangedEventProcessingService;
-import com.serviceflow.business.ticket.inbox.TicketStatusNotificationService;
-import com.serviceflow.business.ticket.mapper.TicketEventInboxMapper;
+import com.serviceflow.business.ticket.manager.mq.inbox.TicketEventInboxMessage;
+import com.serviceflow.business.ticket.manager.mq.inbox.TicketEventInboxService;
+import com.serviceflow.business.ticket.manager.mq.inbox.TicketStatusChangedEventProcessingService;
+import com.serviceflow.business.ticket.manager.mq.inbox.TicketStatusNotificationService;
+import com.serviceflow.business.ticket.dao.mapper.TicketEventInboxMapper;
 
 /**
  * Opt-in PostgreSQL verification of the Consumer's all-or-nothing business

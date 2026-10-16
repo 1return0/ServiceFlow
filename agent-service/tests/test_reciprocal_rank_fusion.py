@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from unittest import TestCase
 
-from app.application.reciprocal_rank_fusion import reciprocal_rank_fuse
-from app.application.support_knowledge_chunk_retrieval import SupportKnowledgeChunkSearchHit
+from app.application.retrieval.reciprocal_rank_fusion import reciprocal_rank_fuse
+from app.application.retrieval.support_knowledge_chunk_retrieval import SupportKnowledgeChunkSearchHit
 from app.domain.support_knowledge_chunk import SupportKnowledgeChunk
 
 

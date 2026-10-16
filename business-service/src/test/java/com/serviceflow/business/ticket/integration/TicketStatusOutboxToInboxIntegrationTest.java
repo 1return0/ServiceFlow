@@ -16,19 +16,19 @@ import org.springframework.test.context.ActiveProfiles;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.serviceflow.business.ServiceFlowBusinessApplication;
-import com.serviceflow.business.ticket.dto.CreateTicketRequest;
-import com.serviceflow.business.ticket.dto.UpdateTicketStatusRequest;
-import com.serviceflow.business.ticket.entity.TicketEventInboxEntity;
-import com.serviceflow.business.ticket.entity.TicketOutboxEventEntity;
-import com.serviceflow.business.ticket.entity.TicketNotificationEntity;
-import com.serviceflow.business.ticket.enums.OperatorRole;
-import com.serviceflow.business.ticket.enums.ServiceRequestCategory;
-import com.serviceflow.business.ticket.enums.TicketStatus;
-import com.serviceflow.business.ticket.mapper.TicketEventInboxMapper;
-import com.serviceflow.business.ticket.mapper.TicketMapper;
-import com.serviceflow.business.ticket.mapper.TicketOutboxEventMapper;
-import com.serviceflow.business.ticket.mapper.TicketNotificationMapper;
-import com.serviceflow.business.ticket.outbox.TicketOutboxDeliveryService;
+import com.serviceflow.business.ticket.dto.req.CreateTicketRequest;
+import com.serviceflow.business.ticket.dto.req.UpdateTicketStatusRequest;
+import com.serviceflow.business.ticket.dao.entity.TicketEventInboxEntity;
+import com.serviceflow.business.ticket.dao.entity.TicketOutboxEventEntity;
+import com.serviceflow.business.ticket.dao.entity.TicketNotificationEntity;
+import com.serviceflow.business.ticket.domain.OperatorRole;
+import com.serviceflow.business.ticket.domain.ServiceRequestCategory;
+import com.serviceflow.business.ticket.domain.TicketStatus;
+import com.serviceflow.business.ticket.dao.mapper.TicketEventInboxMapper;
+import com.serviceflow.business.ticket.dao.mapper.TicketMapper;
+import com.serviceflow.business.ticket.dao.mapper.TicketOutboxEventMapper;
+import com.serviceflow.business.ticket.dao.mapper.TicketNotificationMapper;
+import com.serviceflow.business.ticket.manager.mq.outbox.TicketOutboxDeliveryService;
 import com.serviceflow.business.ticket.service.TicketService;
 
 /**

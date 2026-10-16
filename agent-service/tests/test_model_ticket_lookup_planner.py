@@ -1,6 +1,6 @@
 import unittest
 
-from app.application.model_ticket_lookup_planner import (
+from app.application.agent.model_ticket_lookup_planner import (
     ModelTicketLookupPlanner,
     PlannerOutputError,
 )

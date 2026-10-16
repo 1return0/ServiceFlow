@@ -87,6 +87,8 @@ Coordinator / Triage
 
 ## 目录与端口
 
+源码按职责整理后的目录树、Controller / Service / Mapper / Graph 定位与旧新路径映射，见 [项目目录导航](docs/architecture/project-layout.md)。
+
 ```text
 business-service/  Java Spring Boot 业务服务，默认 8120
 agent-service/     Python FastAPI / LangGraph 服务，默认 8121

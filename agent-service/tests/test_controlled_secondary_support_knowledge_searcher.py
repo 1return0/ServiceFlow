@@ -2,16 +2,16 @@ from __future__ import annotations
 
 from unittest import TestCase
 
-from app.application.controlled_secondary_support_knowledge_searcher import (
+from app.application.retrieval.controlled_secondary_support_knowledge_searcher import (
     ControlledSecondarySupportKnowledgeSearcher,
 )
-from app.application.support_knowledge_answering import (
+from app.application.retrieval.support_knowledge_answering import (
     SupportKnowledgeRetrievalMetadata,
     SupportKnowledgeSearchResult,
     SupportKnowledgeRetrievalTraceStep,
 )
-from app.application.support_knowledge_retrieval import SupportKnowledgeSearchHit
-from app.application.model_support_knowledge_query_rewriter import (
+from app.application.retrieval.support_knowledge_retrieval import SupportKnowledgeSearchHit
+from app.application.retrieval.model_support_knowledge_query_rewriter import (
     SupportKnowledgeQueryRewriteUnavailableError,
 )
 from app.domain.support_knowledge import SupportKnowledgeArticle

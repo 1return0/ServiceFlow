@@ -3,11 +3,11 @@ from __future__ import annotations
 from unittest import TestCase
 from uuid import UUID
 
-from app.application.ticket_specialist_agent import (
+from app.application.agent.ticket_specialist_agent import (
     TicketAuthorizationRequiredError,
     TicketSpecialistAgent,
 )
-from app.infrastructure.business_client import BusinessTicket
+from app.infrastructure.clients.business_client import BusinessTicket
 
 
 TICKET_ID = UUID("009e3cce-8f4d-448d-a060-6ce2624eac77")

@@ -6,8 +6,8 @@ from unittest import TestCase
 
 import httpx
 
-from app.application.model_ticket_lookup_planner import ModelTicketLookupPlanner
-from app.application.fallback_triage_planner import FallbackTriagePlanner
+from app.application.agent.model_ticket_lookup_planner import ModelTicketLookupPlanner
+from app.application.agent.fallback_triage_planner import FallbackTriagePlanner
 from app.bootstrap import (
     build_business_service_client,
     build_support_knowledge_document_parsing_service,

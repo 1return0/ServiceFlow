@@ -5,7 +5,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
 
-from app.application.planner_evaluation_aggregation import (
+from app.application.evaluation.planner_evaluation_aggregation import (
     PlannerEvaluationAggregationError,
     aggregate_planner_evaluation_reports,
 )

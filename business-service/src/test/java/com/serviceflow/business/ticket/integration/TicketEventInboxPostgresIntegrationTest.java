@@ -13,10 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.serviceflow.business.ServiceFlowBusinessApplication;
-import com.serviceflow.business.ticket.entity.TicketEventInboxEntity;
-import com.serviceflow.business.ticket.inbox.TicketEventInboxMessage;
-import com.serviceflow.business.ticket.inbox.TicketEventInboxService;
-import com.serviceflow.business.ticket.mapper.TicketEventInboxMapper;
+import com.serviceflow.business.ticket.dao.entity.TicketEventInboxEntity;
+import com.serviceflow.business.ticket.manager.mq.inbox.TicketEventInboxMessage;
+import com.serviceflow.business.ticket.manager.mq.inbox.TicketEventInboxService;
+import com.serviceflow.business.ticket.dao.mapper.TicketEventInboxMapper;
 
 /** Opt-in real PostgreSQL test for V8 and ON CONFLICT idempotency. */
 @SpringBootTest(

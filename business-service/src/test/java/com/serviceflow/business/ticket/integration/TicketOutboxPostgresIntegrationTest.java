@@ -13,14 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.serviceflow.business.ticket.dto.CreateTicketRequest;
-import com.serviceflow.business.ticket.dto.UpdateTicketStatusRequest;
+import com.serviceflow.business.ticket.dto.req.CreateTicketRequest;
+import com.serviceflow.business.ticket.dto.req.UpdateTicketStatusRequest;
 import com.serviceflow.business.ServiceFlowBusinessApplication;
-import com.serviceflow.business.ticket.entity.TicketOutboxEventEntity;
-import com.serviceflow.business.ticket.enums.OperatorRole;
-import com.serviceflow.business.ticket.enums.ServiceRequestCategory;
-import com.serviceflow.business.ticket.enums.TicketStatus;
-import com.serviceflow.business.ticket.mapper.TicketOutboxEventMapper;
+import com.serviceflow.business.ticket.dao.entity.TicketOutboxEventEntity;
+import com.serviceflow.business.ticket.domain.OperatorRole;
+import com.serviceflow.business.ticket.domain.ServiceRequestCategory;
+import com.serviceflow.business.ticket.domain.TicketStatus;
+import com.serviceflow.business.ticket.dao.mapper.TicketOutboxEventMapper;
 import com.serviceflow.business.ticket.service.TicketService;
 
 /**

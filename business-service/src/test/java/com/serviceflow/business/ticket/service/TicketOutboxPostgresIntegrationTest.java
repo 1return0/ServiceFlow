@@ -13,17 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.serviceflow.business.ServiceFlowBusinessApplication;
-import com.serviceflow.business.auth.entity.AccountUserEntity;
-import com.serviceflow.business.auth.dto.LoginRequest;
-import com.serviceflow.business.auth.mapper.AccountUserMapper;
+import com.serviceflow.business.auth.dao.entity.AccountUserEntity;
+import com.serviceflow.business.auth.dto.req.LoginRequest;
+import com.serviceflow.business.auth.dao.mapper.AccountUserMapper;
 import com.serviceflow.business.auth.service.AuthService;
-import com.serviceflow.business.ticket.dto.CreateTicketRequest;
-import com.serviceflow.business.ticket.dto.UpdateTicketStatusRequest;
-import com.serviceflow.business.ticket.entity.TicketOutboxEventEntity;
-import com.serviceflow.business.ticket.enums.OperatorRole;
-import com.serviceflow.business.ticket.enums.ServiceRequestCategory;
-import com.serviceflow.business.ticket.enums.TicketStatus;
-import com.serviceflow.business.ticket.mapper.TicketOutboxEventMapper;
+import com.serviceflow.business.ticket.dto.req.CreateTicketRequest;
+import com.serviceflow.business.ticket.dto.req.UpdateTicketStatusRequest;
+import com.serviceflow.business.ticket.dao.entity.TicketOutboxEventEntity;
+import com.serviceflow.business.ticket.domain.OperatorRole;
+import com.serviceflow.business.ticket.domain.ServiceRequestCategory;
+import com.serviceflow.business.ticket.domain.TicketStatus;
+import com.serviceflow.business.ticket.dao.mapper.TicketOutboxEventMapper;
 
 /** Requires the student's local PostgreSQL profile; each test transaction is rolled back. */
 @SpringBootTest(

@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from unittest import TestCase
 
-from app.application.support_knowledge_answering import (
+from app.application.retrieval.support_knowledge_answering import (
     SupportKnowledgeAnswer,
 )
-from app.application.support_knowledge_tool import SupportKnowledgeAnswerTool
+from app.application.tools.support_knowledge_tool import SupportKnowledgeAnswerTool
 
 
 class _RecordingKnowledgeAnswerProvider:

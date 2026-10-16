@@ -2,7 +2,7 @@ package com.serviceflow.business.ticket.service;
 
 import org.springframework.stereotype.Component;
 
-import com.serviceflow.business.ticket.enums.TicketStatus;
+import com.serviceflow.business.ticket.domain.TicketStatus;
 
 /**
  * Authoritative state-transition policy for a ticket. The Agent may recommend an action,

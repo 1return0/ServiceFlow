@@ -7,7 +7,7 @@ from unittest import TestCase
 from mcp.server.fastmcp.exceptions import ToolError
 from pydantic import ValidationError
 
-from app.application.support_knowledge_answering import (
+from app.application.retrieval.support_knowledge_answering import (
     SupportKnowledgeAnswer,
     SupportKnowledgeCitation,
 )

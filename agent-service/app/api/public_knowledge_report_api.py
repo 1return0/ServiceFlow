@@ -1,9 +1,9 @@
 from app.api.report_workspace_api import build_report_router
-from app.application.document_workspace import (
+from app.application.reports.document_workspace import (
     ReportContent, ReportSection, ReportCitation, ReportUnavailableError, ReportConflictError,
 )
-from app.application.trusted_subject import TrustedSubjectAuthenticationError
-from app.infrastructure.business_client import BusinessServiceResponseError
+from app.application.agent.trusted_subject import TrustedSubjectAuthenticationError
+from app.infrastructure.clients.business_client import BusinessServiceResponseError
 from fastapi import HTTPException
 
 

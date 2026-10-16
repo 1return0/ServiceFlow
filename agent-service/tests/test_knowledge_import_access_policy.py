@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from unittest import TestCase
 
-from app.application.knowledge_import_access_policy import (
+from app.application.knowledge.knowledge_import_access_policy import (
     KnowledgeImportAccessPolicy,
     KnowledgeImportAuthorizationError,
     KnowledgeImportDisabledError,

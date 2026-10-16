@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from unittest import TestCase
 
-from app.application.support_knowledge_chunk_retrieval import (
+from app.application.retrieval.support_knowledge_chunk_retrieval import (
     LexicalSupportKnowledgeChunkRetriever,
 )
 from app.domain.support_knowledge_chunk import SupportKnowledgeChunk

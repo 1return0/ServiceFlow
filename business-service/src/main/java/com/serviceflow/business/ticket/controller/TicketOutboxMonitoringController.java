@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.serviceflow.business.common.Result;
-import com.serviceflow.business.ticket.outbox.TicketOutboxDeliverySummary;
-import com.serviceflow.business.ticket.outbox.TicketOutboxMonitoringService;
+import com.serviceflow.business.ticket.manager.mq.outbox.TicketOutboxDeliverySummary;
+import com.serviceflow.business.ticket.manager.mq.outbox.TicketOutboxMonitoringService;
 import lombok.RequiredArgsConstructor;
 
 /** Administrator-only delivery health view; event payloads remain internal. */

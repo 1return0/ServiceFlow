@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.serviceflow.business.common.Result;
-import com.serviceflow.business.ticket.dto.CreateHumanHandoffTaskRequest;
-import com.serviceflow.business.ticket.handoff.HumanHandoffTaskService;
-import com.serviceflow.business.ticket.vo.HumanHandoffTaskResponse;
+import com.serviceflow.business.ticket.dto.req.CreateHumanHandoffTaskRequest;
+import com.serviceflow.business.ticket.service.handoff.HumanHandoffTaskService;
+import com.serviceflow.business.ticket.dto.resp.HumanHandoffTaskResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 

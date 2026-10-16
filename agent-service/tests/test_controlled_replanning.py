@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from app.application.controlled_replanning import ControlledReplanPolicy
+from app.application.agent.controlled_replanning import ControlledReplanPolicy
 
 
 class ControlledReplanPolicyTest(TestCase):

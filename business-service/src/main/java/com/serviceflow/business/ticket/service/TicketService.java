@@ -2,10 +2,10 @@ package com.serviceflow.business.ticket.service;
 
 import java.util.UUID;
 
-import com.serviceflow.business.ticket.dto.CreateTicketRequest;
-import com.serviceflow.business.ticket.dto.UpdateTicketStatusRequest;
-import com.serviceflow.business.ticket.enums.OperatorRole;
-import com.serviceflow.business.ticket.vo.TicketResponse;
+import com.serviceflow.business.ticket.dto.req.CreateTicketRequest;
+import com.serviceflow.business.ticket.dto.req.UpdateTicketStatusRequest;
+import com.serviceflow.business.ticket.domain.OperatorRole;
+import com.serviceflow.business.ticket.dto.resp.TicketResponse;
 import com.serviceflow.business.common.PageResponse;
 
 public interface TicketService {
@@ -22,7 +22,7 @@ public interface TicketService {
 
     PageResponse<TicketResponse> listWorkQueue(
             OperatorRole operatorRole,
-            com.serviceflow.business.ticket.enums.TicketStatus status,
+            com.serviceflow.business.ticket.domain.TicketStatus status,
             long page,
             long size
     );

@@ -22,13 +22,13 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.serviceflow.business.ticket.entity.TicketNotificationEntity;
-import com.serviceflow.business.ticket.mapper.HumanHandoffTaskMapper;
-import com.serviceflow.business.ticket.mapper.TicketEventInboxMapper;
-import com.serviceflow.business.ticket.mapper.TicketMapper;
-import com.serviceflow.business.ticket.mapper.TicketNotificationMapper;
-import com.serviceflow.business.ticket.mapper.TicketOutboxEventMapper;
-import com.serviceflow.business.auth.mapper.AccountUserMapper;
+import com.serviceflow.business.ticket.dao.entity.TicketNotificationEntity;
+import com.serviceflow.business.ticket.dao.mapper.HumanHandoffTaskMapper;
+import com.serviceflow.business.ticket.dao.mapper.TicketEventInboxMapper;
+import com.serviceflow.business.ticket.dao.mapper.TicketMapper;
+import com.serviceflow.business.ticket.dao.mapper.TicketNotificationMapper;
+import com.serviceflow.business.ticket.dao.mapper.TicketOutboxEventMapper;
+import com.serviceflow.business.auth.dao.mapper.AccountUserMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc

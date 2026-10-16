@@ -5,7 +5,7 @@ from tempfile import TemporaryDirectory
 from unittest import TestCase
 
 from app.domain.support_knowledge_artifact import SupportKnowledgeArtifact
-from app.infrastructure.html_support_knowledge_artifact_parser import (
+from app.infrastructure.parsers.html_support_knowledge_artifact_parser import (
     HtmlSupportKnowledgeArtifactParser,
     SupportKnowledgeArtifactParseError,
 )

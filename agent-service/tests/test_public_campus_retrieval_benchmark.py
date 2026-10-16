@@ -3,7 +3,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
 
-from app.application.support_knowledge_chunk_retrieval import SupportKnowledgeChunkSearchHit
+from app.application.retrieval.support_knowledge_chunk_retrieval import SupportKnowledgeChunkSearchHit
 from scripts.run_public_campus_retrieval_benchmark import (
     ROOT, CachedSearcher, build_fixture_corpus, clustered_intervals, read_fixture,
 )

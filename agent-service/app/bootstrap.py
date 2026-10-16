@@ -13,67 +13,67 @@ from typing import AsyncIterator
 import httpx
 from fastapi import FastAPI
 
-from app.application.model_ticket_lookup_planner import ModelTicketLookupPlanner
-from app.application.agent_harness import HarnessedCompletionModel
-from app.application.model_triage_planner import ModelTriagePlanner
-from app.application.agent_tool_planning import AgentToolDefinition
-from app.application.handoff_guard import CampusRiskHandoffGuard
-from app.application.fallback_triage_planner import FallbackTriagePlanner
-from app.application.model_grounded_support_knowledge_answering import (
+from app.application.agent.model_ticket_lookup_planner import ModelTicketLookupPlanner
+from app.application.agent.agent_harness import HarnessedCompletionModel
+from app.application.agent.model_triage_planner import ModelTriagePlanner
+from app.application.agent.agent_tool_planning import AgentToolDefinition
+from app.application.agent.handoff_guard import CampusRiskHandoffGuard
+from app.application.agent.fallback_triage_planner import FallbackTriagePlanner
+from app.application.retrieval.model_grounded_support_knowledge_answering import (
     ModelGroundedSupportKnowledgeAnswerService,
 )
-from app.application.support_knowledge_answering import (
+from app.application.retrieval.support_knowledge_answering import (
     ExtractiveSupportKnowledgeAnswerService,
     SupportKnowledgeAnswerProvider,
 )
-from app.application.refreshable_support_knowledge_chunk_retriever import (
+from app.application.retrieval.refreshable_support_knowledge_chunk_retriever import (
     RefreshableSupportKnowledgeChunkRetriever,
 )
-from app.application.refreshable_hybrid_support_knowledge_searcher import (
+from app.application.retrieval.refreshable_hybrid_support_knowledge_searcher import (
     RefreshableHybridSupportKnowledgeSearcher,
 )
-from app.application.reranking_support_knowledge_searcher import (
+from app.application.retrieval.reranking_support_knowledge_searcher import (
     RerankingSupportKnowledgeSearcher,
 )
-from app.application.controlled_secondary_support_knowledge_searcher import (
+from app.application.retrieval.controlled_secondary_support_knowledge_searcher import (
     ControlledSecondarySupportKnowledgeSearcher,
 )
-from app.application.model_support_knowledge_query_rewriter import (
+from app.application.retrieval.model_support_knowledge_query_rewriter import (
     ModelSupportKnowledgeQueryRewriter,
 )
-from app.application.support_knowledge_dense_index_runtime import (
+from app.application.retrieval.support_knowledge_dense_index_runtime import (
     SupportKnowledgeDenseIndexRuntime,
 )
-from app.application.support_knowledge_tool import SupportKnowledgeAnswerTool
-from app.application.knowledge_specialist_agent import KnowledgeSpecialistAgent
-from app.application.support_knowledge_document_parsing_service import (
+from app.application.tools.support_knowledge_tool import SupportKnowledgeAnswerTool
+from app.application.agent.knowledge_specialist_agent import KnowledgeSpecialistAgent
+from app.application.knowledge.support_knowledge_document_parsing_service import (
     SupportKnowledgeDocumentParsingService,
 )
-from app.application.support_knowledge_ingestion_service import (
+from app.application.knowledge.support_knowledge_ingestion_service import (
     SupportKnowledgeIngestionService,
 )
-from app.application.knowledge_import_access_policy import (
+from app.application.knowledge.knowledge_import_access_policy import (
     KnowledgeImportAccessPolicy,
 )
-from app.application.support_knowledge_article_assembler import (
+from app.application.knowledge.support_knowledge_article_assembler import (
     SupportKnowledgeArticleAssembler,
 )
-from app.application.fragment_aware_support_knowledge_chunker import (
+from app.application.knowledge.fragment_aware_support_knowledge_chunker import (
     FragmentAwareSupportKnowledgeChunker,
 )
-from app.application.support_knowledge_parser_registry import (
+from app.application.knowledge.support_knowledge_parser_registry import (
     SupportKnowledgeParserRegistry,
 )
-from app.application.ticket_lookup_tool import TicketLookupTool
-from app.application.ticket_specialist_agent import TicketSpecialistAgent
-from app.application.notification_specialist_agent import NotificationSpecialistAgent
-from app.application.notification_summary_tool import NotificationSummaryTool
-from app.application.human_handoff_task_tool import HumanHandoffTaskTool
-from app.application.trusted_subject import (
+from app.application.tools.ticket_lookup_tool import TicketLookupTool
+from app.application.agent.ticket_specialist_agent import TicketSpecialistAgent
+from app.application.agent.notification_specialist_agent import NotificationSpecialistAgent
+from app.application.tools.notification_summary_tool import NotificationSummaryTool
+from app.application.tools.human_handoff_task_tool import HumanHandoffTaskTool
+from app.application.agent.trusted_subject import (
     JavaTrustedSubjectResolver,
     build_serviceflow_thread_id,
 )
-from app.application.long_term_memory import (
+from app.application.memory.long_term_memory import (
     LongTermMemoryEntry,
     LongTermMemoryService,
 )
@@ -87,60 +87,60 @@ from app.domain.ticket_lookup_plan import (
 )
 from app.domain.triage_plan import RuleBasedTriagePlanner
 from app.domain.triage_plan import TriagePlanner
-from app.infrastructure.business_client import BusinessServiceClient
-from app.infrastructure.postgres_checkpointer import open_postgres_checkpointer
-from app.infrastructure.postgres_long_term_memory_store import (
+from app.infrastructure.clients.business_client import BusinessServiceClient
+from app.infrastructure.persistence.postgres_checkpointer import open_postgres_checkpointer
+from app.infrastructure.persistence.postgres_long_term_memory_store import (
     open_postgres_long_term_memory_store,
 )
-from app.infrastructure.retry_policy import BoundedRetryPolicy
-from app.infrastructure.qwen_openai_planner_model import (
+from app.infrastructure.models.retry_policy import BoundedRetryPolicy
+from app.infrastructure.models.qwen_openai_planner_model import (
     QwenOpenAICompatiblePlannerModel,
 )
-from app.infrastructure.qwen_support_knowledge_answer_generator import (
+from app.infrastructure.models.qwen_support_knowledge_answer_generator import (
     QwenSupportKnowledgeAnswerGenerator,
 )
-from app.infrastructure.qwen_openai_compatible_text_embedder import (
+from app.infrastructure.models.qwen_openai_compatible_text_embedder import (
     QwenOpenAICompatibleTextEmbedder,
 )
-from app.infrastructure.qwen_openai_compatible_support_knowledge_reranker import (
+from app.infrastructure.models.qwen_openai_compatible_support_knowledge_reranker import (
     QwenOpenAICompatibleSupportKnowledgeReranker,
 )
-from app.infrastructure.json_support_knowledge_catalog import (
+from app.infrastructure.persistence.json_support_knowledge_catalog import (
     JsonSupportKnowledgeCatalog,
 )
-from app.infrastructure.html_support_knowledge_artifact_parser import (
+from app.infrastructure.parsers.html_support_knowledge_artifact_parser import (
     HtmlSupportKnowledgeArtifactParser,
 )
-from app.infrastructure.pdf_support_knowledge_artifact_parser import (
+from app.infrastructure.parsers.pdf_support_knowledge_artifact_parser import (
     PdfSupportKnowledgeArtifactParser,
 )
-from app.infrastructure.pdf_ocr_fallback_support_knowledge_artifact_parser import (
+from app.infrastructure.parsers.pdf_ocr_fallback_support_knowledge_artifact_parser import (
     PdfOcrFallbackSupportKnowledgeArtifactParser,
 )
-from app.infrastructure.pdf_page_rendering import (
+from app.infrastructure.parsers.pdf_page_rendering import (
     PdfPageRasterizationPlanner,
     PdfPageRasterizationSettings,
 )
-from app.infrastructure.pdfium_pdf_page_renderer import PdfiumPdfPageRenderer
-from app.infrastructure.openai_compatible_vision_ocr_text_extractor import (
+from app.infrastructure.parsers.pdfium_pdf_page_renderer import PdfiumPdfPageRenderer
+from app.infrastructure.models.openai_compatible_vision_ocr_text_extractor import (
     OpenAiCompatibleVisionOcrTextExtractor,
 )
-from app.infrastructure.docx_support_knowledge_artifact_parser import (
+from app.infrastructure.parsers.docx_support_knowledge_artifact_parser import (
     DocxSupportKnowledgeArtifactParser,
 )
-from app.infrastructure.pptx_support_knowledge_artifact_parser import (
+from app.infrastructure.parsers.pptx_support_knowledge_artifact_parser import (
     PptxSupportKnowledgeArtifactParser,
 )
-from app.infrastructure.xlsx_support_knowledge_artifact_parser import (
+from app.infrastructure.parsers.xlsx_support_knowledge_artifact_parser import (
     XlsxSupportKnowledgeArtifactParser,
 )
-from app.infrastructure.file_system_support_knowledge_artifact_store import (
+from app.infrastructure.persistence.file_system_support_knowledge_artifact_store import (
     FileSystemSupportKnowledgeArtifactStore,
 )
-from app.infrastructure.json_file_current_support_knowledge_corpus import (
+from app.infrastructure.persistence.json_file_current_support_knowledge_corpus import (
     JsonFileCurrentSupportKnowledgeCorpus,
 )
-from app.infrastructure.json_file_dense_support_knowledge_index_store import (
+from app.infrastructure.persistence.json_file_dense_support_knowledge_index_store import (
     JsonFileDenseSupportKnowledgeIndexStore,
 )
 from app.domain.support_knowledge import CurrentSupportKnowledgeCorpus
@@ -562,7 +562,7 @@ def build_dense_index_store(settings: Settings):
     if settings.dense_index_backend == "pgvector":
         if not settings.dense_postgres_dsn:
             raise ValueError("SERVICEFLOW_DENSE_POSTGRES_DSN is required for pgvector")
-        from app.infrastructure.pgvector_support_knowledge_index_store import PgvectorSupportKnowledgeIndexStore
+        from app.infrastructure.persistence.pgvector_support_knowledge_index_store import PgvectorSupportKnowledgeIndexStore
 
         return PgvectorSupportKnowledgeIndexStore(settings.dense_postgres_dsn)
     raise ValueError("unsupported SERVICEFLOW_DENSE_INDEX_BACKEND")

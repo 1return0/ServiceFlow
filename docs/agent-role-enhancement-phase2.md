@@ -18,8 +18,8 @@
 
 - `agent-service/app/api/public_knowledge_report_api.py`：身份和公共生成边界。
 - `agent-service/app/api/report_workspace_api.py`、`app/application/document_workspace.py`：HTTP 生命周期和内容规则。
-- `agent-service/app/infrastructure/postgres_report_store.py`：独立报告表、版本、提案事务。
-- `agent-service/app/infrastructure/report_exporter.py`、`report_export_policy.py`、`report_export_worker.py`：受控导出。
+- `agent-service/app/infrastructure/persistence/postgres_report_store.py`：独立报告表、版本、提案事务。
+- `agent-service/app/infrastructure/reports/report_exporter.py`、`report_export_policy.py`、`report_export_worker.py`：受控导出。
 - `frontend/src/components/ReportWorkspace.vue`、`views/ReportsView.vue`：报告页面。
 - 显式测试库配置下 Agent 非 MCP 全量：**247 passed、2 skipped**。MCP stdio 在获准的非沙箱环境单独重跑：**1 passed**；不把分开测试写成一次全量结果。
 - 文档选定测试 **5 passed**：真实 PostgreSQL/HTTP/本地 worker，Java 身份和生成内容有 Stub；新适配器测试验证 JWT 不传给公共生成器、工单 sentinel 不落入报告。

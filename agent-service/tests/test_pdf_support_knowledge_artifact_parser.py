@@ -15,7 +15,7 @@ from app.domain.parsed_support_knowledge_document import (
     SupportKnowledgeArtifactParseError,
 )
 from app.domain.support_knowledge_artifact import SupportKnowledgeArtifact
-from app.infrastructure.pdf_support_knowledge_artifact_parser import (
+from app.infrastructure.parsers.pdf_support_knowledge_artifact_parser import (
     PdfSupportKnowledgeArtifactParser,
     PdfTextLayerMissingError,
 )

@@ -3,7 +3,7 @@ from __future__ import annotations
 from unittest import TestCase
 
 from app.domain.support_knowledge import SupportKnowledgeArticle
-from app.infrastructure.in_memory_support_knowledge_corpus import (
+from app.infrastructure.persistence.in_memory_support_knowledge_corpus import (
     InMemoryCurrentSupportKnowledgeCorpus,
     SupportKnowledgeCorpusConflictError,
 )

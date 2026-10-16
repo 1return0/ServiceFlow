@@ -4,8 +4,8 @@ from unittest.mock import patch
 
 import pytest
 
-from app.application.document_workspace import ReportUnavailableError
-from app.infrastructure.ssh_report_exporter import export_over_ssh
+from app.application.reports.document_workspace import ReportUnavailableError
+from app.infrastructure.reports.ssh_report_exporter import export_over_ssh
 
 
 def test_missing_credentials_stop_before_connecting(tmp_path):

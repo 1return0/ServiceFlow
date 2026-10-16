@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from unittest import TestCase
 
-from app.application.knowledge_specialist_agent import (
+from app.application.agent.knowledge_specialist_agent import (
     KnowledgeSpecialistAgent,
     TicketKnowledgeContext,
 )
-from app.application.support_knowledge_answering import SupportKnowledgeAnswer
+from app.application.retrieval.support_knowledge_answering import SupportKnowledgeAnswer
 
 
 class KnowledgeSpecialistAgentTest(TestCase):

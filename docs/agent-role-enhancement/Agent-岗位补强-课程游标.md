@@ -15,7 +15,7 @@
 | 位置 | 核心代码（app/scripts 等以该项注明的项目或 agent-service 根为准） |
 | --- | --- |
 | Day 1 第 1 课 | JobScope/app/api/jobs/job_agent_api.py；app/runtime_composition.py；app/application/jobs/job_agent_graph.py、job_agent_planner_prompting.py、job_search_tool.py、job_rag_tools.py；app/infrastructure/persistence/structured_job_record_query.py |
-| Day 1 第 2 课 | 两项目的 pgvector_index.py；JobScope/app/infrastructure/retrieval/pgvector_dense_retriever.py；ServiceFlow/agent-service/app/infrastructure/pgvector_support_knowledge_index_store.py |
+| Day 1 第 2 课 | 两项目的 pgvector_index.py；JobScope/app/infrastructure/retrieval/pgvector_dense_retriever.py；ServiceFlow/agent-service/app/infrastructure/persistence/pgvector_support_knowledge_index_store.py |
 | Day 1 第 3 课 | JobScope/app/bootstrap.py、config.py；ServiceFlow/agent-service/app/bootstrap.py、config.py、application/support_knowledge_dense_index_runtime.py、mcp/campus_support_knowledge_stdio.py |
 | Day 2 第 1 课 | JobScope/app/api/jobs/job_report_api.py、application/document_workspace.py；ServiceFlow/agent-service/app/api/public_knowledge_report_api.py；两项目 app/api/report_workspace_api.py |
 | Day 2 第 2 课 | 两项目 app/infrastructure/postgres_report_store.py、application/document_workspace.py |

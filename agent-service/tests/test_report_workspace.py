@@ -4,14 +4,14 @@ import subprocess
 
 import pytest
 
-from app.application.document_workspace import ReportConflictError
-from app.infrastructure.report_exporter import ReportExporter
+from app.application.reports.document_workspace import ReportConflictError
+from app.infrastructure.reports.report_exporter import ReportExporter
 
 
 def test_docker_worker_has_no_network_mounts_credentials_or_shell():
     from tests.test_report_workspace_live_smoke import content
     exporter=ReportExporter(backend="docker")
-    with patch("app.infrastructure.report_exporter.subprocess.run") as run:
+    with patch("app.infrastructure.reports.report_exporter.subprocess.run") as run:
         run.return_value=SimpleNamespace(returncode=0,stdout=b"PKtest")
         exporter.export({"revision":1,"content":content().model_dump(mode="json")})
         command=run.call_args.args[0]

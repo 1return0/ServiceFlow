@@ -11,7 +11,7 @@ from app.api.routes import (
     HandoffGuidanceResponse,
     SupportKnowledgeAnswerResponse,
 )
-from app.infrastructure.business_client import BusinessTicket
+from app.infrastructure.clients.business_client import BusinessTicket
 
 
 class CampusSupportTriageResponseContractTest(TestCase):

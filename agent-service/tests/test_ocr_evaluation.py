@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from app.application.ocr_evaluation import (
+from app.application.evaluation.ocr_evaluation import (
     character_error_rate,
     evaluate_key_field,
     word_error_rate,

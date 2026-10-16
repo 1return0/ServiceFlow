@@ -1,6 +1,6 @@
 package com.serviceflow.business.ticket.exception;
 
-import com.serviceflow.business.ticket.enums.TicketStatus;
+import com.serviceflow.business.ticket.domain.TicketStatus;
 
 public class TicketStatusTransitionNotAllowedException extends RuntimeException {
 

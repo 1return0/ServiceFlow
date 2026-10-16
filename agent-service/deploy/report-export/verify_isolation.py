@@ -12,7 +12,7 @@ except ImportError:
     from pathlib import Path
     import sys
     sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
-    from app.infrastructure.report_export_policy import docker_worker_command
+    from app.infrastructure.reports.report_export_policy import docker_worker_command
 
 
 def main():

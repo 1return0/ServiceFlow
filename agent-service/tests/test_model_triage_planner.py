@@ -1,7 +1,7 @@
 import unittest
 import json
 
-from app.application.model_triage_planner import (
+from app.application.agent.model_triage_planner import (
     ModelTriagePlanner,
     TriagePlannerOutputError,
 )

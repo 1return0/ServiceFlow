@@ -2,12 +2,12 @@ from __future__ import annotations
 
 from unittest import TestCase
 
-from app.application.refreshable_support_knowledge_chunk_retriever import (
+from app.application.retrieval.refreshable_support_knowledge_chunk_retriever import (
     RefreshableSupportKnowledgeChunkRetriever,
 )
 from app.domain.support_knowledge import SupportKnowledgeArticle
 from app.domain.support_knowledge_chunk import SupportKnowledgeChunk
-from app.infrastructure.in_memory_support_knowledge_corpus import (
+from app.infrastructure.persistence.in_memory_support_knowledge_corpus import (
     InMemoryCurrentSupportKnowledgeCorpus,
 )
 

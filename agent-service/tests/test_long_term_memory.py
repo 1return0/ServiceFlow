@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from unittest import TestCase
 
-from app.application.long_term_memory import (
+from app.application.memory.long_term_memory import (
     LongTermMemoryEntry,
     LongTermMemoryService,
     LongTermMemoryWrite,

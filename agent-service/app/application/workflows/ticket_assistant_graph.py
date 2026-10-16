@@ -5,12 +5,12 @@ from typing import Literal
 from langgraph.graph import END, START, StateGraph
 from typing_extensions import NotRequired, TypedDict
 
-from app.infrastructure.business_client import BusinessTicket
+from app.infrastructure.clients.business_client import BusinessTicket
 from app.domain.ticket_lookup_plan import (
     TicketLookupPlan,
     TicketLookupPlanner,
 )
-from app.application.ticket_lookup_tool import TicketLookupTool
+from app.application.tools.ticket_lookup_tool import TicketLookupTool
 
 
 class TicketAssistantState(TypedDict):

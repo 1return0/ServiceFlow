@@ -9,22 +9,22 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from app.application.fragment_aware_support_knowledge_chunker import (
+from app.application.knowledge.fragment_aware_support_knowledge_chunker import (
     FragmentAwareSupportKnowledgeChunker,
 )
-from app.application.support_knowledge_article_assembler import (
+from app.application.knowledge.support_knowledge_article_assembler import (
     SupportKnowledgeArticleAssembler,
 )
-from app.application.support_knowledge_ingestion_service import (
+from app.application.knowledge.support_knowledge_ingestion_service import (
     SupportKnowledgeIngestionService,
 )
 from app.bootstrap import build_support_knowledge_document_parsing_service
 from app.config import load_settings
 from app.domain.support_knowledge import SupportKnowledgeArticleMetadata
-from app.infrastructure.file_system_support_knowledge_artifact_store import (
+from app.infrastructure.persistence.file_system_support_knowledge_artifact_store import (
     FileSystemSupportKnowledgeArtifactStore,
 )
-from app.infrastructure.in_memory_support_knowledge_corpus import (
+from app.infrastructure.persistence.in_memory_support_knowledge_corpus import (
     InMemoryCurrentSupportKnowledgeCorpus,
 )
 

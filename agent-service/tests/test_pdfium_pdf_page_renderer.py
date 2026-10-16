@@ -7,12 +7,12 @@ from unittest import TestCase
 from pypdf import PdfWriter
 
 from app.domain.support_knowledge_artifact import SupportKnowledgeArtifact
-from app.infrastructure.pdf_page_rendering import (
+from app.infrastructure.parsers.pdf_page_rendering import (
     PdfPagePixelLimitExceededError,
     PdfPageRasterizationPlanner,
     PdfPageRasterizationSettings,
 )
-from app.infrastructure.pdfium_pdf_page_renderer import PdfiumPdfPageRenderer
+from app.infrastructure.parsers.pdfium_pdf_page_renderer import PdfiumPdfPageRenderer
 
 
 class PdfiumPdfPageRendererTest(TestCase):

@@ -5,8 +5,8 @@ from uuid import UUID
 from langgraph.graph import END, START, StateGraph
 from typing_extensions import NotRequired, TypedDict
 
-from app.infrastructure.business_client import BusinessTicket
-from app.application.ticket_lookup_tool import TicketLookupTool
+from app.infrastructure.clients.business_client import BusinessTicket
+from app.application.tools.ticket_lookup_tool import TicketLookupTool
 
 
 class TicketLookupState(TypedDict):

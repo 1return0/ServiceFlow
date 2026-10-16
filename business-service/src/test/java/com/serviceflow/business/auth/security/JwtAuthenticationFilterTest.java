@@ -24,16 +24,16 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.serviceflow.business.auth.service.JwtTokenService;
 import com.serviceflow.business.auth.service.IssuedJwt;
-import com.serviceflow.business.auth.mapper.AccountUserMapper;
-import com.serviceflow.business.ticket.entity.TicketEntity;
-import com.serviceflow.business.ticket.entity.TicketOutboxEventEntity;
-import com.serviceflow.business.ticket.enums.ServiceRequestCategory;
-import com.serviceflow.business.ticket.enums.TicketStatus;
-import com.serviceflow.business.ticket.mapper.HumanHandoffTaskMapper;
-import com.serviceflow.business.ticket.mapper.TicketMapper;
-import com.serviceflow.business.ticket.mapper.TicketEventInboxMapper;
-import com.serviceflow.business.ticket.mapper.TicketNotificationMapper;
-import com.serviceflow.business.ticket.mapper.TicketOutboxEventMapper;
+import com.serviceflow.business.auth.dao.mapper.AccountUserMapper;
+import com.serviceflow.business.ticket.dao.entity.TicketEntity;
+import com.serviceflow.business.ticket.dao.entity.TicketOutboxEventEntity;
+import com.serviceflow.business.ticket.domain.ServiceRequestCategory;
+import com.serviceflow.business.ticket.domain.TicketStatus;
+import com.serviceflow.business.ticket.dao.mapper.HumanHandoffTaskMapper;
+import com.serviceflow.business.ticket.dao.mapper.TicketMapper;
+import com.serviceflow.business.ticket.dao.mapper.TicketEventInboxMapper;
+import com.serviceflow.business.ticket.dao.mapper.TicketNotificationMapper;
+import com.serviceflow.business.ticket.dao.mapper.TicketOutboxEventMapper;
 
 @SpringBootTest
 @AutoConfigureMockMvc

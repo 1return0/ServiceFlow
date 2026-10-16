@@ -9,46 +9,46 @@ from uuid import UUID
 from fastapi import APIRouter, Header, HTTPException, Request
 from pydantic import BaseModel, Field, field_validator, model_validator
 
-from app.application.support_knowledge_answering import (
+from app.application.retrieval.support_knowledge_answering import (
     SupportKnowledgeAnswer,
     SupportKnowledgeAnswerProvider,
 )
-from app.application.support_knowledge_ingestion_service import (
+from app.application.knowledge.support_knowledge_ingestion_service import (
     SupportKnowledgeIngestionService,
     SupportKnowledgeIngestionResult,
 )
-from app.application.support_knowledge_dense_index_preparation import (
+from app.application.retrieval.support_knowledge_dense_index_preparation import (
     DenseSupportKnowledgeIndexBuildError,
 )
-from app.application.support_knowledge_dense_index_runtime import (
+from app.application.retrieval.support_knowledge_dense_index_runtime import (
     DenseSupportKnowledgeIndexNotPreparedError,
 )
-from app.application.dense_support_knowledge_chunk_retrieval import (
+from app.application.retrieval.dense_support_knowledge_chunk_retrieval import (
     DenseSupportKnowledgeIndexUnavailableError,
 )
-from app.application.knowledge_import_access_policy import (
+from app.application.knowledge.knowledge_import_access_policy import (
     KnowledgeImportAccessPolicy,
     KnowledgeImportAuthorizationError,
     KnowledgeImportDisabledError,
 )
-from app.application.support_knowledge_article_assembler import (
+from app.application.knowledge.support_knowledge_article_assembler import (
     SupportKnowledgeArticleAssemblyError,
 )
-from app.application.ocr_page_reading_order import OcrPageSequenceError
-from app.application.handoff_guidance import get_handoff_guidance
-from app.application.coordinator_trace import CoordinatorTrace
-from app.application.agent_harness import (
+from app.application.knowledge.ocr_page_reading_order import OcrPageSequenceError
+from app.application.agent.handoff_guidance import get_handoff_guidance
+from app.application.agent.coordinator_trace import CoordinatorTrace
+from app.application.agent.agent_harness import (
     AgentHarnessLimitExceededError,
     AgentHarnessSnapshot,
 )
-from app.application.ticket_lookup_tool import TicketLookupTool
+from app.application.tools.ticket_lookup_tool import TicketLookupTool
 from app.application.workflows.ticket_assistant_graph import TicketAssistantGraph
 from app.application.workflows.ticket_lookup_graph import TicketLookupGraph
-from app.application.ticket_specialist_agent import (
+from app.application.agent.ticket_specialist_agent import (
     TicketAuthorizationRequiredError,
 )
-from app.application.trusted_subject import TrustedSubjectAuthenticationError
-from app.application.long_term_memory import LongTermMemoryEntry
+from app.application.agent.trusted_subject import TrustedSubjectAuthenticationError
+from app.application.memory.long_term_memory import LongTermMemoryEntry
 from app.bootstrap import CampusSupportTriageRuntime
 from app.config import Settings
 from app.domain.ticket_lookup_plan import TicketLookupPlanner
@@ -56,21 +56,21 @@ from app.domain.parsed_support_knowledge_document import (
     SupportKnowledgeArtifactParseError,
 )
 from app.domain.support_knowledge import SupportKnowledgeArticleMetadata
-from app.infrastructure.file_system_support_knowledge_artifact_store import (
+from app.infrastructure.persistence.file_system_support_knowledge_artifact_store import (
     SupportKnowledgeArtifactStoreError,
 )
-from app.infrastructure.pdf_ocr_fallback_support_knowledge_artifact_parser import (
+from app.infrastructure.parsers.pdf_ocr_fallback_support_knowledge_artifact_parser import (
     OcrTextExtractionEmptyError,
 )
-from app.infrastructure.pdf_page_rendering import PdfPagePixelLimitExceededError
-from app.infrastructure.pdf_support_knowledge_artifact_parser import (
+from app.infrastructure.parsers.pdf_page_rendering import PdfPagePixelLimitExceededError
+from app.infrastructure.parsers.pdf_support_knowledge_artifact_parser import (
     PdfTextLayerMissingError,
 )
-from app.infrastructure.pdfium_pdf_page_renderer import PdfPageRenderError
-from app.infrastructure.openai_compatible_vision_ocr_text_extractor import (
+from app.infrastructure.parsers.pdfium_pdf_page_renderer import PdfPageRenderError
+from app.infrastructure.models.openai_compatible_vision_ocr_text_extractor import (
     OcrTextExtractorUnavailableError,
 )
-from app.infrastructure.business_client import (
+from app.infrastructure.clients.business_client import (
     BusinessServiceClient,
     BusinessServiceHealth,
     BusinessServiceResponseError,
@@ -78,7 +78,7 @@ from app.infrastructure.business_client import (
     BusinessTicket,
     BusinessNotificationSummary,
 )
-from app.infrastructure.qwen_openai_compatible_text_embedder import (
+from app.infrastructure.models.qwen_openai_compatible_text_embedder import (
     DenseEmbeddingUnavailableError,
 )
 

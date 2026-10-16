@@ -2,7 +2,7 @@ package com.serviceflow.business.ticket.service;
 
 import org.springframework.stereotype.Component;
 
-import com.serviceflow.business.ticket.enums.OperatorRole;
+import com.serviceflow.business.ticket.domain.OperatorRole;
 
 /** Minimal RBAC policy for the synthetic EduOps service. */
 @Component

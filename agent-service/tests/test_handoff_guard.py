@@ -1,6 +1,6 @@
 import unittest
 
-from app.application.handoff_guard import CampusRiskHandoffGuard
+from app.application.agent.handoff_guard import CampusRiskHandoffGuard
 
 
 class CampusRiskHandoffGuardTest(unittest.TestCase):

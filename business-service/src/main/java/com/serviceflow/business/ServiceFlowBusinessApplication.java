@@ -6,8 +6,8 @@ import org.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
 @MapperScan({
-        "com.serviceflow.business.auth.mapper",
-        "com.serviceflow.business.ticket.mapper"
+        "com.serviceflow.business.auth.dao.mapper",
+        "com.serviceflow.business.ticket.dao.mapper"
 })
 public class ServiceFlowBusinessApplication {
 

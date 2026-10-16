@@ -1,10 +1,10 @@
 from unittest import TestCase
 
-from app.application.trusted_subject import (
+from app.application.agent.trusted_subject import (
     JavaTrustedSubjectResolver,
     TrustedSubjectAuthenticationError,
 )
-from app.infrastructure.business_client import BusinessAuthenticatedSubject
+from app.infrastructure.clients.business_client import BusinessAuthenticatedSubject
 
 
 class _Reader:

@@ -14,8 +14,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.serviceflow.business.auth.entity.AccountUserEntity;
-import com.serviceflow.business.auth.mapper.AccountUserMapper;
+import com.serviceflow.business.auth.dao.entity.AccountUserEntity;
+import com.serviceflow.business.auth.dao.mapper.AccountUserMapper;
 
 @ExtendWith(MockitoExtension.class)
 class DatabaseUserDetailsServiceTest {

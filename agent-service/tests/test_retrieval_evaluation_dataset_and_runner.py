@@ -5,14 +5,14 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
 
-from app.application.retrieval_evaluation_dataset import (
+from app.application.evaluation.retrieval_evaluation_dataset import (
     load_retrieval_evaluation_dataset,
 )
-from app.application.retrieval_evaluation_runner import (
+from app.application.evaluation.retrieval_evaluation_runner import (
     run_retrieval_evaluation,
     write_retrieval_evaluation_report,
 )
-from app.application.support_knowledge_chunk_retrieval import SupportKnowledgeChunkSearchHit
+from app.application.retrieval.support_knowledge_chunk_retrieval import SupportKnowledgeChunkSearchHit
 from app.domain.support_knowledge_chunk import SupportKnowledgeChunk
 
 

@@ -2,18 +2,18 @@ from __future__ import annotations
 
 from unittest import TestCase
 
-from app.application.refreshable_hybrid_support_knowledge_searcher import (
+from app.application.retrieval.refreshable_hybrid_support_knowledge_searcher import (
     RefreshableHybridSupportKnowledgeSearcher,
 )
-from app.application.support_knowledge_answering import (
+from app.application.retrieval.support_knowledge_answering import (
     ExtractiveSupportKnowledgeAnswerService,
 )
-from app.application.support_knowledge_chunk_retrieval import (
+from app.application.retrieval.support_knowledge_chunk_retrieval import (
     SupportKnowledgeChunkSearchHit,
 )
 from app.domain.support_knowledge import SupportKnowledgeArticle
 from app.domain.support_knowledge_chunk import SupportKnowledgeChunk
-from app.infrastructure.in_memory_support_knowledge_corpus import (
+from app.infrastructure.persistence.in_memory_support_knowledge_corpus import (
     InMemoryCurrentSupportKnowledgeCorpus,
 )
 

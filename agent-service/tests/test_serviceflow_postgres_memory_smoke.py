@@ -3,13 +3,13 @@ from __future__ import annotations
 import os
 import unittest
 
-from app.application.trusted_subject import build_serviceflow_thread_id
+from app.application.agent.trusted_subject import build_serviceflow_thread_id
 from app.application.workflows.campus_support_triage_graph import (
     CampusSupportTriageGraph,
 )
 from app.config import load_settings
 from app.domain.triage_plan import TriagePlan
-from app.infrastructure.postgres_checkpointer import open_postgres_checkpointer
+from app.infrastructure.persistence.postgres_checkpointer import open_postgres_checkpointer
 
 
 class _RefusePlanner:

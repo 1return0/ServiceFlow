@@ -8,11 +8,11 @@ import pytest
 
 from tests.test_pgvector_live_smoke import vector_dsn
 from app.api.report_workspace_api import build_report_router
-from app.application.document_workspace import (
+from app.application.reports.document_workspace import (
     ReportContent,ReportSection,ReportCitation,ReportEdit,ReportConflictError,ReportNotFoundError,
 )
-from app.infrastructure.postgres_report_store import PostgresReportStore
-from app.infrastructure.report_exporter import ReportExporter
+from app.infrastructure.persistence.postgres_report_store import PostgresReportStore
+from app.infrastructure.reports.report_exporter import ReportExporter
 
 
 def content():
@@ -78,7 +78,7 @@ def test_forbidden_credentials_and_fact_rewrites(vector_dsn):
     store.setup()
     doc=store.create("owner-a",content())
     from pydantic import ValidationError
-    from app.application.document_workspace import preview_edit
+    from app.application.reports.document_workspace import preview_edit
     with pytest.raises(ValidationError):
         ReportEdit(base_revision=1,body="伪造学历要求")
     with pytest.raises(ValidationError):
@@ -90,8 +90,8 @@ def test_forbidden_credentials_and_fact_rewrites(vector_dsn):
 
 def test_public_report_never_passes_jwt_into_generator_or_saves_ticket(vector_dsn):
     from app.api.public_knowledge_report_api import build_public_knowledge_report_router
-    from app.application.trusted_subject import TrustedSubjectAuthenticationError
-    from app.application.support_knowledge_answering import SupportKnowledgeAnswer,SupportKnowledgeCitation
+    from app.application.agent.trusted_subject import TrustedSubjectAuthenticationError
+    from app.application.retrieval.support_knowledge_answering import SupportKnowledgeAnswer,SupportKnowledgeCitation
     from app.config import Settings
     class Runtime:
         calls=0

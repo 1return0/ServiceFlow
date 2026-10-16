@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from unittest import TestCase
 
-from app.application.agent_harness import (
+from app.application.agent.agent_harness import (
     AgentHarness,
     AgentHarnessLimitExceededError,
     AgentHarnessLimits,

@@ -9,6 +9,7 @@ target/
 dist/
 node_modules/
 *.egg-info/
+agent-service/build/
 .env
 **/.env
 **/.env.*

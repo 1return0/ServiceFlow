@@ -9,22 +9,22 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.serviceflow.business.ticket.dto.CreateTicketRequest;
-import com.serviceflow.business.ticket.dto.UpdateTicketStatusRequest;
-import com.serviceflow.business.ticket.entity.TicketEntity;
-import com.serviceflow.business.ticket.enums.TicketStatus;
-import com.serviceflow.business.ticket.enums.OperatorRole;
+import com.serviceflow.business.ticket.dto.req.CreateTicketRequest;
+import com.serviceflow.business.ticket.dto.req.UpdateTicketStatusRequest;
+import com.serviceflow.business.ticket.dao.entity.TicketEntity;
+import com.serviceflow.business.ticket.domain.TicketStatus;
+import com.serviceflow.business.ticket.domain.OperatorRole;
 import com.serviceflow.business.ticket.exception.TicketAuthorizationException;
 import com.serviceflow.business.ticket.exception.TicketNotFoundException;
 import com.serviceflow.business.ticket.exception.TicketStatusTransitionNotAllowedException;
 import com.serviceflow.business.ticket.exception.TicketUpdateConflictException;
-import com.serviceflow.business.ticket.mapper.TicketMapper;
-import com.serviceflow.business.ticket.mapper.TicketOutboxEventMapper;
+import com.serviceflow.business.ticket.dao.mapper.TicketMapper;
+import com.serviceflow.business.ticket.dao.mapper.TicketOutboxEventMapper;
 import com.serviceflow.business.ticket.service.TicketService;
 import com.serviceflow.business.ticket.service.TicketStatusTransitionPolicy;
 import com.serviceflow.business.ticket.service.TicketAuthorizationService;
 import com.serviceflow.business.ticket.service.TicketOutboxEventFactory;
-import com.serviceflow.business.ticket.vo.TicketResponse;
+import com.serviceflow.business.ticket.dto.resp.TicketResponse;
 import com.serviceflow.business.common.PageResponse;
 
 @Service

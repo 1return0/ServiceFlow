@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from unittest import TestCase
 
-from app.application.model_support_knowledge_query_rewriter import (
+from app.application.retrieval.model_support_knowledge_query_rewriter import (
     ModelSupportKnowledgeQueryRewriter,
     SupportKnowledgeQueryRewriteUnavailableError,
 )
-from app.infrastructure.qwen_openai_planner_model import PlannerModelUnavailableError
+from app.infrastructure.models.qwen_openai_planner_model import PlannerModelUnavailableError
 
 
 class ModelSupportKnowledgeQueryRewriterTest(TestCase):

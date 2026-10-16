@@ -5,7 +5,7 @@ from tempfile import TemporaryDirectory
 from unittest import TestCase
 
 from app.domain.support_knowledge import SupportKnowledgeArticle
-from app.infrastructure.json_file_current_support_knowledge_corpus import (
+from app.infrastructure.persistence.json_file_current_support_knowledge_corpus import (
     JsonFileCurrentSupportKnowledgeCorpus,
 )
 from app.domain.support_knowledge_chunk import SupportKnowledgeChunk

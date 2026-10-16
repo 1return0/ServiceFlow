@@ -13,9 +13,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serviceflow.business.ServiceFlowBusinessApplication;
-import com.serviceflow.business.ticket.entity.TicketNotificationEntity;
-import com.serviceflow.business.ticket.mapper.TicketNotificationMapper;
-import com.serviceflow.business.ticket.notification.TicketNotificationQueryService;
+import com.serviceflow.business.ticket.dao.entity.TicketNotificationEntity;
+import com.serviceflow.business.ticket.dao.mapper.TicketNotificationMapper;
+import com.serviceflow.business.ticket.service.notification.TicketNotificationQueryService;
 
 /**
  * Opt-in PostgreSQL smoke for notification ownership, unread counting and

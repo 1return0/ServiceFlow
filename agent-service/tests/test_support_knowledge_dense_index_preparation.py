@@ -5,17 +5,17 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
 
-from app.application.support_knowledge_dense_index_preparation import (
+from app.application.retrieval.support_knowledge_dense_index_preparation import (
     DenseSupportKnowledgeIndexBuildError,
     SupportKnowledgeDenseIndexPreparationService,
 )
 from app.domain.dense_support_knowledge_index import DenseEmbeddingIdentity
 from app.domain.support_knowledge import SupportKnowledgeArticle
 from app.domain.support_knowledge_chunk import SupportKnowledgeChunk
-from app.infrastructure.in_memory_support_knowledge_corpus import (
+from app.infrastructure.persistence.in_memory_support_knowledge_corpus import (
     InMemoryCurrentSupportKnowledgeCorpus,
 )
-from app.infrastructure.json_file_dense_support_knowledge_index_store import (
+from app.infrastructure.persistence.json_file_dense_support_knowledge_index_store import (
     JsonFileDenseSupportKnowledgeIndexStore,
 )
 

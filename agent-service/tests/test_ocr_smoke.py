@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from unittest import TestCase
 
-from app.application.ocr_smoke import run_ocr_smoke
+from app.application.evaluation.ocr_smoke import run_ocr_smoke
 from app.domain.parsed_support_knowledge_document import (
     ParsedSupportKnowledgeDocument,
     ParsedSupportKnowledgeFragment,

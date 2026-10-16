@@ -8,7 +8,7 @@ import pytest
 from psycopg import sql
 from psycopg.conninfo import make_conninfo
 
-from app.infrastructure.pgvector_index import PgvectorIndex, PgvectorIndexUnavailableError
+from app.infrastructure.persistence.pgvector_index import PgvectorIndex, PgvectorIndexUnavailableError
 
 
 class SecretDsn(str):
@@ -73,9 +73,9 @@ def test_old_reader_rejects_replaced_snapshot(vector_dsn):
 
 
 def test_real_runtime_adapter_reuses_index_and_rejects_changed_corpus(vector_dsn):
-    from app.application.support_knowledge_dense_index_runtime import SupportKnowledgeDenseIndexRuntime
-    from app.application.dense_support_knowledge_chunk_retrieval import DenseSupportKnowledgeIndexUnavailableError
-    from app.infrastructure.pgvector_support_knowledge_index_store import PgvectorSupportKnowledgeIndexStore
+    from app.application.retrieval.support_knowledge_dense_index_runtime import SupportKnowledgeDenseIndexRuntime
+    from app.application.retrieval.dense_support_knowledge_chunk_retrieval import DenseSupportKnowledgeIndexUnavailableError
+    from app.infrastructure.persistence.pgvector_support_knowledge_index_store import PgvectorSupportKnowledgeIndexStore
     from tests import test_support_knowledge_dense_index_runtime as fixtures
 
     corpus, embedder = fixtures._corpus(), fixtures._Embedder()

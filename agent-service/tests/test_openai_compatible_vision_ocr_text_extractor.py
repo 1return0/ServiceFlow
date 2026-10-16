@@ -7,7 +7,7 @@ import httpx
 
 from app.domain.ocr_text_extraction import RenderedPdfPage
 from app.domain.support_knowledge_artifact import SupportKnowledgeArtifact
-from app.infrastructure.openai_compatible_vision_ocr_text_extractor import (
+from app.infrastructure.models.openai_compatible_vision_ocr_text_extractor import (
     OpenAiCompatibleVisionOcrTextExtractor,
     OcrTextExtractorUnavailableError,
 )

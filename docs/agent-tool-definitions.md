@@ -43,9 +43,9 @@ bootstrap 创建工具实例
 
 ## 核心文件
 
-- `agent-service/app/application/agent_tool_planning.py`：注册、Schema、提示载荷及模型选择校验。
-- `agent-service/app/application/model_triage_planner.py`：主 Planner，提示版本 `campus-support-triage-prompt-v6`。
-- `agent-service/app/application/model_ticket_lookup_planner.py`：单工单 Planner 复用同一注册逻辑，版本 `ticket-lookup-planner-prompt-v2`。
+- `agent-service/app/application/agent/agent_tool_planning.py`：注册、Schema、提示载荷及模型选择校验。
+- `agent-service/app/application/agent/model_triage_planner.py`：主 Planner，提示版本 `campus-support-triage-prompt-v6`。
+- `agent-service/app/application/agent/model_ticket_lookup_planner.py`：单工单 Planner 复用同一注册逻辑，版本 `ticket-lookup-planner-prompt-v2`。
 - `agent-service/app/application/*_tool.py`：各工具的参数模型、元信息与 invoke/execute。
 - `agent-service/app/bootstrap.py`：同一组工具实例用于生成契约并注入执行节点。
 - `agent-service/app/application/workflows/campus_support_triage_graph.py`：保留受控 Graph 路由。

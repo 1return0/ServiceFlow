@@ -16,14 +16,14 @@ from urllib.parse import urlparse
 
 import httpx
 
-from app.application.retrieval_comparison_evaluation import run_retrieval_comparison_evaluation
-from app.application.support_knowledge_chunk_retrieval import (
+from app.application.evaluation.retrieval_comparison_evaluation import run_retrieval_comparison_evaluation
+from app.application.retrieval.support_knowledge_chunk_retrieval import (
     LexicalSupportKnowledgeChunkRetriever, SupportKnowledgeChunkSearchHit,
 )
 from app.domain.support_knowledge import SupportKnowledgeArticle
 from app.domain.support_knowledge_chunk import SupportKnowledgeChunk
-from app.infrastructure.html_support_knowledge_artifact_parser import _HtmlTextCollector
-from app.infrastructure.in_memory_support_knowledge_corpus import InMemoryCurrentSupportKnowledgeCorpus
+from app.infrastructure.parsers.html_support_knowledge_artifact_parser import _HtmlTextCollector
+from app.infrastructure.persistence.in_memory_support_knowledge_corpus import InMemoryCurrentSupportKnowledgeCorpus
 
 ROOT = Path("data/retrieval-evaluation/public-campus-v1")
 QUERY_TYPES = ("direct", "colloquial", "constraint")
@@ -249,11 +249,11 @@ def main() -> None:
     # Real configuration is loaded only for a requested model run, never source collection.
     from app.config import load_settings
     from app.bootstrap import build_support_knowledge_text_embedder
-    from app.application.support_knowledge_dense_index_runtime import SupportKnowledgeDenseIndexRuntime
-    from app.application.hybrid_support_knowledge_chunk_retriever import HybridSupportKnowledgeChunkRetriever
-    from app.application.reranking_support_knowledge_chunk_retriever import RerankingSupportKnowledgeChunkRetriever
-    from app.infrastructure.json_file_dense_support_knowledge_index_store import JsonFileDenseSupportKnowledgeIndexStore
-    from app.infrastructure.qwen_openai_compatible_support_knowledge_reranker import QwenOpenAICompatibleSupportKnowledgeReranker
+    from app.application.retrieval.support_knowledge_dense_index_runtime import SupportKnowledgeDenseIndexRuntime
+    from app.application.retrieval.hybrid_support_knowledge_chunk_retriever import HybridSupportKnowledgeChunkRetriever
+    from app.application.retrieval.reranking_support_knowledge_chunk_retriever import RerankingSupportKnowledgeChunkRetriever
+    from app.infrastructure.persistence.json_file_dense_support_knowledge_index_store import JsonFileDenseSupportKnowledgeIndexStore
+    from app.infrastructure.models.qwen_openai_compatible_support_knowledge_reranker import QwenOpenAICompatibleSupportKnowledgeReranker
     settings = load_settings()
     if not settings.embedding_model_api_key or not settings.reranker_model_api_key:
         raise ValueError("real embedding and reranker credentials are required")

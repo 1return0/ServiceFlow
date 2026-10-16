@@ -3,7 +3,7 @@ import unittest
 
 import httpx
 
-from app.infrastructure.qwen_openai_planner_model import (
+from app.infrastructure.models.qwen_openai_planner_model import (
     PlannerModelUnavailableError,
     QwenOpenAICompatiblePlannerModel,
 )

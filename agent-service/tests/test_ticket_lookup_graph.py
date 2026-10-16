@@ -1,8 +1,8 @@
 import unittest
 from uuid import UUID
 
-from app.infrastructure.business_client import BusinessTicket
-from app.application.ticket_lookup_tool import TicketLookupTool
+from app.infrastructure.clients.business_client import BusinessTicket
+from app.application.tools.ticket_lookup_tool import TicketLookupTool
 from app.application.workflows.ticket_lookup_graph import TicketLookupGraph
 
 

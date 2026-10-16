@@ -4,7 +4,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
 
-from app.infrastructure.json_support_knowledge_catalog import (
+from app.infrastructure.persistence.json_support_knowledge_catalog import (
     JsonSupportKnowledgeCatalog,
     SupportKnowledgeCatalogLoadError,
 )

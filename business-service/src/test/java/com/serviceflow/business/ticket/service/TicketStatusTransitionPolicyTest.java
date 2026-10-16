@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-import com.serviceflow.business.ticket.enums.TicketStatus;
+import com.serviceflow.business.ticket.domain.TicketStatus;
 
 class TicketStatusTransitionPolicyTest {
 

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import argparse
 
-from app.application.support_knowledge_answering import (
+from app.application.retrieval.support_knowledge_answering import (
     SupportKnowledgeAnswer,
     SupportKnowledgeCitation,
 )
@@ -38,7 +38,7 @@ def _run_production_server() -> None:
         build_dense_index_store,
     )
     from app.config import load_settings
-    from app.application.support_knowledge_dense_index_runtime import (
+    from app.application.retrieval.support_knowledge_dense_index_runtime import (
         SupportKnowledgeDenseIndexRuntime,
     )
     import httpx

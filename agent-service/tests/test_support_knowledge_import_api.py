@@ -7,37 +7,37 @@ from unittest import TestCase
 
 from fastapi.testclient import TestClient
 
-from app.application.support_knowledge_article_assembler import (
+from app.application.knowledge.support_knowledge_article_assembler import (
     SupportKnowledgeArticleAssembler,
 )
-from app.application.support_knowledge_document_parsing_service import (
+from app.application.knowledge.support_knowledge_document_parsing_service import (
     SupportKnowledgeDocumentParsingService,
 )
-from app.application.support_knowledge_ingestion_service import (
+from app.application.knowledge.support_knowledge_ingestion_service import (
     SupportKnowledgeIngestionService,
 )
-from app.application.knowledge_import_access_policy import (
+from app.application.knowledge.knowledge_import_access_policy import (
     KnowledgeImportAccessPolicy,
 )
-from app.application.support_knowledge_answering import (
+from app.application.retrieval.support_knowledge_answering import (
     ExtractiveSupportKnowledgeAnswerService,
 )
-from app.application.refreshable_support_knowledge_chunk_retriever import (
+from app.application.retrieval.refreshable_support_knowledge_chunk_retriever import (
     RefreshableSupportKnowledgeChunkRetriever,
 )
-from app.application.fragment_aware_support_knowledge_chunker import (
+from app.application.knowledge.fragment_aware_support_knowledge_chunker import (
     FragmentAwareSupportKnowledgeChunker,
 )
-from app.application.support_knowledge_parser_registry import (
+from app.application.knowledge.support_knowledge_parser_registry import (
     SupportKnowledgeParserRegistry,
 )
-from app.infrastructure.file_system_support_knowledge_artifact_store import (
+from app.infrastructure.persistence.file_system_support_knowledge_artifact_store import (
     FileSystemSupportKnowledgeArtifactStore,
 )
-from app.infrastructure.html_support_knowledge_artifact_parser import (
+from app.infrastructure.parsers.html_support_knowledge_artifact_parser import (
     HtmlSupportKnowledgeArtifactParser,
 )
-from app.infrastructure.in_memory_support_knowledge_corpus import (
+from app.infrastructure.persistence.in_memory_support_knowledge_corpus import (
     InMemoryCurrentSupportKnowledgeCorpus,
 )
 from app.main import app

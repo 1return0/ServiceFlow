@@ -3,7 +3,7 @@ from __future__ import annotations
 import unittest
 from unittest.mock import ANY, MagicMock, patch
 
-from app.infrastructure.postgres_checkpointer import open_postgres_checkpointer
+from app.infrastructure.persistence.postgres_checkpointer import open_postgres_checkpointer
 
 
 class PostgresCheckpointerTest(unittest.TestCase):
@@ -12,8 +12,8 @@ class PostgresCheckpointerTest(unittest.TestCase):
             with open_postgres_checkpointer("   "):
                 pass
 
-    @patch("app.infrastructure.postgres_checkpointer.PostgresSaver")
-    @patch("app.infrastructure.postgres_checkpointer.psycopg.connect")
+    @patch("app.infrastructure.persistence.postgres_checkpointer.PostgresSaver")
+    @patch("app.infrastructure.persistence.postgres_checkpointer.psycopg.connect")
     def test_prepares_saver_with_safe_connection_options(
         self,
         connect: MagicMock,

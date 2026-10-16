@@ -14,13 +14,13 @@ import org.junit.jupiter.api.Test;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.serviceflow.business.common.PageResponse;
-import com.serviceflow.business.ticket.entity.TicketEntity;
-import com.serviceflow.business.ticket.enums.ServiceRequestCategory;
-import com.serviceflow.business.ticket.enums.TicketStatus;
-import com.serviceflow.business.ticket.mapper.TicketMapper;
-import com.serviceflow.business.ticket.mapper.TicketOutboxEventMapper;
+import com.serviceflow.business.ticket.dao.entity.TicketEntity;
+import com.serviceflow.business.ticket.domain.ServiceRequestCategory;
+import com.serviceflow.business.ticket.domain.TicketStatus;
+import com.serviceflow.business.ticket.dao.mapper.TicketMapper;
+import com.serviceflow.business.ticket.dao.mapper.TicketOutboxEventMapper;
 import com.serviceflow.business.ticket.service.impl.TicketServiceImpl;
-import com.serviceflow.business.ticket.vo.TicketResponse;
+import com.serviceflow.business.ticket.dto.resp.TicketResponse;
 
 class TicketServiceImplTest {
 

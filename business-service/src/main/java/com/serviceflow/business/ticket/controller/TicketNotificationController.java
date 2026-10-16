@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.serviceflow.business.common.Result;
-import com.serviceflow.business.ticket.notification.TicketNotificationQueryService;
-import com.serviceflow.business.ticket.vo.TicketNotificationResponse;
-import com.serviceflow.business.ticket.vo.TicketNotificationSummaryResponse;
+import com.serviceflow.business.ticket.service.notification.TicketNotificationQueryService;
+import com.serviceflow.business.ticket.dto.resp.TicketNotificationResponse;
+import com.serviceflow.business.ticket.dto.resp.TicketNotificationSummaryResponse;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;

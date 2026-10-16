@@ -1,9 +1,9 @@
 from unittest import TestCase
 
-from app.application.fallback_triage_planner import FallbackTriagePlanner
-from app.application.model_triage_planner import TriagePlannerOutputError
+from app.application.agent.fallback_triage_planner import FallbackTriagePlanner
+from app.application.agent.model_triage_planner import TriagePlannerOutputError
 from app.domain.triage_plan import RuleBasedTriagePlanner, TriagePlan
-from app.infrastructure.qwen_openai_planner_model import PlannerModelUnavailableError
+from app.infrastructure.models.qwen_openai_planner_model import PlannerModelUnavailableError
 
 
 class FailingPrimaryPlanner:

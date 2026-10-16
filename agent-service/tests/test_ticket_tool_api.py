@@ -4,7 +4,7 @@ from uuid import UUID
 
 from fastapi.testclient import TestClient
 
-from app.infrastructure.business_client import BusinessTicket
+from app.infrastructure.clients.business_client import BusinessTicket
 from app.main import app
 
 

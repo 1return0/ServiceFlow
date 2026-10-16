@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import patch, MagicMock
 
-from app.infrastructure.pgvector_index import PgvectorIndex, vector_literal
-from app.infrastructure.pgvector_support_knowledge_index_store import PgvectorSupportKnowledgeIndexStore
+from app.infrastructure.persistence.pgvector_index import PgvectorIndex, vector_literal
+from app.infrastructure.persistence.pgvector_support_knowledge_index_store import PgvectorSupportKnowledgeIndexStore
 from app.domain.dense_support_knowledge_index import (
     DenseEmbeddingIdentity, DenseSupportKnowledgeIndexSnapshot, DenseSupportKnowledgeVector,
 )
@@ -26,7 +26,7 @@ class PgvectorContractTest(unittest.TestCase):
         snapshot = DenseSupportKnowledgeIndexSnapshot(1, "fingerprint",
             DenseEmbeddingIdentity("test", "fake", "v1", 2),
             (DenseSupportKnowledgeVector("chunk-a", (1, 0)),))
-        with patch("app.infrastructure.pgvector_support_knowledge_index_store.PgvectorIndex") as factory:
+        with patch("app.infrastructure.persistence.pgvector_support_knowledge_index_store.PgvectorIndex") as factory:
             backend = factory.return_value
             backend.snapshot_id.return_value = "snapshot-key"
             backend.search.return_value = (("chunk-a", 1.0),)

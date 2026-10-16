@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from app.application.handoff_guidance import get_handoff_guidance
+from app.application.agent.handoff_guidance import get_handoff_guidance
 
 
 class HandoffGuidanceTest(TestCase):

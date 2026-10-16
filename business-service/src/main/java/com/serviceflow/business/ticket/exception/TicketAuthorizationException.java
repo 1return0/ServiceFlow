@@ -1,6 +1,6 @@
 package com.serviceflow.business.ticket.exception;
 
-import com.serviceflow.business.ticket.enums.OperatorRole;
+import com.serviceflow.business.ticket.domain.OperatorRole;
 
 public class TicketAuthorizationException extends RuntimeException {
 

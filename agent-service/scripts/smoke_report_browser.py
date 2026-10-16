@@ -31,9 +31,9 @@ from psycopg.conninfo import make_conninfo
 import uvicorn
 
 from app.api.report_workspace_api import build_report_router
-from app.application.document_workspace import ReportContent,ReportSection,ReportCitation
-from app.infrastructure.postgres_report_store import PostgresReportStore
-from app.infrastructure.report_exporter import ReportExporter
+from app.application.reports.document_workspace import ReportContent,ReportSection,ReportCitation
+from app.infrastructure.persistence.postgres_report_store import PostgresReportStore
+from app.infrastructure.reports.report_exporter import ReportExporter
 
 
 def main():

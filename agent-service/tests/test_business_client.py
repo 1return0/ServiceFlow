@@ -3,13 +3,13 @@ from uuid import UUID
 
 import httpx
 
-from app.infrastructure.business_client import (
+from app.infrastructure.clients.business_client import (
     BusinessAuthenticatedSubject,
     BusinessServiceClient,
     BusinessServiceResponseError,
     BusinessServiceUnavailableError,
 )
-from app.infrastructure.retry_policy import BoundedRetryPolicy
+from app.infrastructure.models.retry_policy import BoundedRetryPolicy
 
 
 def _ticket_payload(ticket_id: UUID) -> dict[str, object]:

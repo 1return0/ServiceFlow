@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from unittest import TestCase
 
-from app.application.support_knowledge_parser_registry import (
+from app.application.knowledge.support_knowledge_parser_registry import (
     DuplicateSupportKnowledgeParserError,
     SupportKnowledgeParserNotRegisteredError,
     SupportKnowledgeParserRegistry,

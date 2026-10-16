@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import com.serviceflow.business.ticket.mapper.TicketOutboxEventMapper;
-import com.serviceflow.business.ticket.outbox.TicketOutboxDeliveryScheduler;
-import com.serviceflow.business.ticket.outbox.TicketOutboxDeliveryService;
-import com.serviceflow.business.ticket.outbox.TicketOutboxEventPublisher;
+import com.serviceflow.business.ticket.dao.mapper.TicketOutboxEventMapper;
+import com.serviceflow.business.ticket.manager.mq.outbox.TicketOutboxDeliveryScheduler;
+import com.serviceflow.business.ticket.manager.mq.outbox.TicketOutboxDeliveryService;
+import com.serviceflow.business.ticket.manager.mq.outbox.TicketOutboxEventPublisher;
 
 @Configuration
 @EnableScheduling

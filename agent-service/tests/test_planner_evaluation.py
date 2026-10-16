@@ -3,7 +3,7 @@ from __future__ import annotations
 from unittest import TestCase
 from uuid import UUID
 
-from app.application.planner_evaluation import (
+from app.application.evaluation.planner_evaluation import (
     PlannerEvaluationCase,
     PlannerEvaluator,
 )

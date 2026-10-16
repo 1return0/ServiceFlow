@@ -7,15 +7,15 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
 
-from app.application.retrieval_comparison_evaluation import (
+from app.application.evaluation.retrieval_comparison_evaluation import (
     RetrievalComparisonEvaluationError,
     run_retrieval_comparison_evaluation,
     write_retrieval_comparison_report,
 )
-from app.application.support_knowledge_chunk_retrieval import SupportKnowledgeChunkSearchHit
+from app.application.retrieval.support_knowledge_chunk_retrieval import SupportKnowledgeChunkSearchHit
 from app.domain.support_knowledge import SupportKnowledgeArticle
 from app.domain.support_knowledge_chunk import SupportKnowledgeChunk
-from app.infrastructure.in_memory_support_knowledge_corpus import (
+from app.infrastructure.persistence.in_memory_support_knowledge_corpus import (
     InMemoryCurrentSupportKnowledgeCorpus,
 )
 

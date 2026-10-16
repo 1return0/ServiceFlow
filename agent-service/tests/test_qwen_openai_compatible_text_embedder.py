@@ -5,7 +5,7 @@ import unittest
 
 import httpx
 
-from app.infrastructure.qwen_openai_compatible_text_embedder import (
+from app.infrastructure.models.qwen_openai_compatible_text_embedder import (
     DenseEmbeddingUnavailableError,
     QwenOpenAICompatibleTextEmbedder,
 )

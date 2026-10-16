@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.serviceflow.business.ticket.mapper.HumanHandoffTaskMapper">
+<mapper namespace="com.serviceflow.business.ticket.dao.mapper.HumanHandoffTaskMapper">
     <update id="claimPending">
         UPDATE human_handoff_task
         SET status = 'CLAIMED', assigned_to = #{assignee}, claimed_at = #{claimedAt}, version = version + 1

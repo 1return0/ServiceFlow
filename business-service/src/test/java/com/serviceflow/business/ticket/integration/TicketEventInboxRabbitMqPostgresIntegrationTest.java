@@ -19,10 +19,10 @@ import org.springframework.test.context.ActiveProfiles;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.serviceflow.business.ServiceFlowBusinessApplication;
-import com.serviceflow.business.ticket.entity.TicketEventInboxEntity;
-import com.serviceflow.business.ticket.entity.TicketNotificationEntity;
-import com.serviceflow.business.ticket.mapper.TicketEventInboxMapper;
-import com.serviceflow.business.ticket.mapper.TicketNotificationMapper;
+import com.serviceflow.business.ticket.dao.entity.TicketEventInboxEntity;
+import com.serviceflow.business.ticket.dao.entity.TicketNotificationEntity;
+import com.serviceflow.business.ticket.dao.mapper.TicketEventInboxMapper;
+import com.serviceflow.business.ticket.dao.mapper.TicketNotificationMapper;
 
 /**
  * Opt-in end-to-end smoke: RabbitMQ routes an event to @RabbitListener and the

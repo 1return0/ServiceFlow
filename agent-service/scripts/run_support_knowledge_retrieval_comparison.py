@@ -6,20 +6,20 @@ from pathlib import Path
 
 import httpx
 
-from app.application.hybrid_support_knowledge_chunk_retriever import (
+from app.application.retrieval.hybrid_support_knowledge_chunk_retriever import (
     HybridSupportKnowledgeChunkRetriever,
 )
-from app.application.retrieval_comparison_evaluation import (
+from app.application.evaluation.retrieval_comparison_evaluation import (
     run_retrieval_comparison_evaluation,
     write_retrieval_comparison_report,
 )
-from app.application.reranking_support_knowledge_chunk_retriever import (
+from app.application.retrieval.reranking_support_knowledge_chunk_retriever import (
     RerankingSupportKnowledgeChunkRetriever,
 )
-from app.application.support_knowledge_chunk_retrieval import (
+from app.application.retrieval.support_knowledge_chunk_retrieval import (
     LexicalSupportKnowledgeChunkRetriever,
 )
-from app.application.support_knowledge_dense_index_runtime import (
+from app.application.retrieval.support_knowledge_dense_index_runtime import (
     SupportKnowledgeDenseIndexRuntime,
 )
 from app.bootstrap import (
@@ -28,7 +28,7 @@ from app.bootstrap import (
     build_support_knowledge_text_embedder,
 )
 from app.config import load_settings
-from app.infrastructure.json_file_dense_support_knowledge_index_store import (
+from app.infrastructure.persistence.json_file_dense_support_knowledge_index_store import (
     JsonFileDenseSupportKnowledgeIndexStore,
 )
 

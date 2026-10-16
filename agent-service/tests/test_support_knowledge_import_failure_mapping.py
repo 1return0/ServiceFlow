@@ -3,12 +3,12 @@ from __future__ import annotations
 from unittest import TestCase
 
 from app.api.routes import _to_support_knowledge_import_http_exception
-from app.application.ocr_page_reading_order import OcrPageSequenceError
-from app.infrastructure.openai_compatible_vision_ocr_text_extractor import (
+from app.application.knowledge.ocr_page_reading_order import OcrPageSequenceError
+from app.infrastructure.models.openai_compatible_vision_ocr_text_extractor import (
     OcrTextExtractorUnavailableError,
 )
-from app.infrastructure.pdf_page_rendering import PdfPagePixelLimitExceededError
-from app.infrastructure.pdf_support_knowledge_artifact_parser import (
+from app.infrastructure.parsers.pdf_page_rendering import PdfPagePixelLimitExceededError
+from app.infrastructure.parsers.pdf_support_knowledge_artifact_parser import (
     PdfTextLayerMissingError,
 )
 

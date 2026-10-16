@@ -5,9 +5,9 @@ from datetime import datetime, timezone
 from unittest import TestCase, skipUnless
 from uuid import uuid4
 
-from app.application.long_term_memory import LongTermMemoryWrite
+from app.application.memory.long_term_memory import LongTermMemoryWrite
 from app.config import load_settings
-from app.infrastructure.postgres_long_term_memory_store import (
+from app.infrastructure.persistence.postgres_long_term_memory_store import (
     open_postgres_long_term_memory_store,
 )
 

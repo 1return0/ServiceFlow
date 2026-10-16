@@ -18,11 +18,11 @@ import org.springframework.security.core.GrantedAuthority;
 
 import com.serviceflow.business.common.Result;
 import com.serviceflow.business.common.PageResponse;
-import com.serviceflow.business.ticket.dto.CreateTicketRequest;
-import com.serviceflow.business.ticket.dto.UpdateTicketStatusRequest;
-import com.serviceflow.business.ticket.enums.OperatorRole;
+import com.serviceflow.business.ticket.dto.req.CreateTicketRequest;
+import com.serviceflow.business.ticket.dto.req.UpdateTicketStatusRequest;
+import com.serviceflow.business.ticket.domain.OperatorRole;
 import com.serviceflow.business.ticket.service.TicketService;
-import com.serviceflow.business.ticket.vo.TicketResponse;
+import com.serviceflow.business.ticket.dto.resp.TicketResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -64,7 +64,7 @@ public class TicketController {
     @PreAuthorize("hasAnyRole('SUPPORT_AGENT', 'ADMIN')")
     public Result<PageResponse<TicketResponse>> listWorkQueue(
             Authentication authentication,
-            @RequestParam(required = false) com.serviceflow.business.ticket.enums.TicketStatus status,
+            @RequestParam(required = false) com.serviceflow.business.ticket.domain.TicketStatus status,
             @RequestParam(defaultValue = "1") @Min(1) long page,
             @RequestParam(defaultValue = "20") @Min(1) @Max(50) long size
     ) {

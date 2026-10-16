@@ -4,11 +4,11 @@ from dataclasses import dataclass
 from pathlib import Path
 from unittest import TestCase
 
-from app.application.multi_agent_evaluation import (
+from app.application.evaluation.multi_agent_evaluation import (
     MultiAgentEvaluationCase,
     MultiAgentEvaluator,
 )
-from app.application.multi_agent_evaluation_dataset import (
+from app.application.evaluation.multi_agent_evaluation_dataset import (
     load_multi_agent_evaluation_dataset,
 )
 
